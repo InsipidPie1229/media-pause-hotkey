@@ -17,7 +17,7 @@ The extension UI and listing assets are prepared for 17 Chrome locales. Add each
 - Data use: The extension processes page titles, standard audio/video source URLs and playback states, plus temporary tab/document/frame/media identifiers. This state is used only for media control and stored locally in `chrome.storage.session` for the current session; no extension data is sent to a server.
 - Analytics or advertising: None.
 - Permission justification: `MediaPauseHotkey/listing/single-purpose.txt`
-- Privacy policy page: `privacy.html`; after GitHub Pages publishes the repository, enter its public HTTPS URL in the Developer Dashboard.
+- Privacy policy page: https://insipidpie1229.github.io/media-pause-hotkey/privacy.html
 
 ## Upload and review
 
