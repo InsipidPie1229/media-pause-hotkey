@@ -1,0 +1,114 @@
+{
+  "extName": {
+    "message": "اختصار الوسائط",
+    "description": "Localized extName text"
+  },
+  "extDescription": {
+    "message": "أوقف الوسائط أو استأنفها في أحدث علامة تبويب تشغيلًا في Chrome.",
+    "description": "Localized extDescription text"
+  },
+  "actionTitle": {
+    "message": "اختصار الوسائط",
+    "description": "Localized actionTitle text"
+  },
+  "commandDescription": {
+    "message": "إيقاف الوسائط أو استئنافها في أحدث علامة تبويب تشغيلًا",
+    "description": "Localized commandDescription text"
+  },
+  "popupEyebrow": {
+    "message": "وسائط CHROME",
+    "description": "Localized popupEyebrow text"
+  },
+  "recentTab": {
+    "message": "أحدث علامة تبويب تشغيلًا",
+    "description": "Localized recentTab text"
+  },
+  "targetEmpty": {
+    "message": "لا توجد علامة تبويب وسائط بعد",
+    "description": "Localized targetEmpty text"
+  },
+  "stateChecking": {
+    "message": "جارٍ التحقق من حالة الوسائط…",
+    "description": "Localized stateChecking text"
+  },
+  "statePlaying": {
+    "message": "يتم تشغيل $1 من الوسائط",
+    "description": "Localized statePlaying text"
+  },
+  "statePaused": {
+    "message": "أوقف هذا الامتداد $1 من الوسائط",
+    "description": "Localized statePaused text"
+  },
+  "stateIdle": {
+    "message": "شغّل الوسائط للتحكم بها هنا.",
+    "description": "Localized stateIdle text"
+  },
+  "buttonToggle": {
+    "message": "إيقاف مؤقت / استئناف",
+    "description": "Localized buttonToggle text"
+  },
+  "buttonPause": {
+    "message": "إيقاف مؤقت",
+    "description": "Localized buttonPause text"
+  },
+  "buttonResume": {
+    "message": "استئناف",
+    "description": "Localized buttonResume text"
+  },
+  "errorPauseNothing": {
+    "message": "لا توجد وسائط قيد التشغيل في أحدث علامة تبويب.",
+    "description": "Localized errorPauseNothing text"
+  },
+  "errorResumeNothing": {
+    "message": "لم يوقف هذا الامتداد وسائط في أحدث علامة تبويب.",
+    "description": "Localized errorResumeNothing text"
+  },
+  "errorNoTarget": {
+    "message": "لا توجد وسائط للتحكم بها. شغّل الوسائط أولًا.",
+    "description": "Localized errorNoTarget text"
+  },
+  "errorPageConnection": {
+    "message": "تعذّر الاتصال بالصفحة. حدّث علامة التبويب ثم حاول مجددًا.",
+    "description": "Localized errorPageConnection text"
+  },
+  "errorResumeSome": {
+    "message": "تعذّر استئناف بعض الوسائط. تحقّق من النافذة المنبثقة.",
+    "description": "Localized errorResumeSome text"
+  },
+  "errorResumeNone": {
+    "message": "تعذّر العثور على وسائط لاستئنافها. حدّث علامة التبويب.",
+    "description": "Localized errorResumeNone text"
+  },
+  "errorStateRead": {
+    "message": "تعذّرت قراءة حالة الإضافة.",
+    "description": "Localized errorStateRead text"
+  },
+  "errorControl": {
+    "message": "تعذّر التحكم في الوسائط.",
+    "description": "Localized errorControl text"
+  },
+  "shortcutHeading": {
+    "message": "اختصار عام",
+    "description": "Localized shortcutHeading text"
+  },
+  "shortcutNotSet": {
+    "message": "غير مضبوط",
+    "description": "Localized shortcutNotSet text"
+  },
+  "shortcutSettings": {
+    "message": "فتح إعدادات الاختصار",
+    "description": "Localized shortcutSettings text"
+  },
+  "shortcutHint": {
+    "message": "النطاق الافتراضي عام. يمكنك تغييره ليقتصر على Chrome.",
+    "description": "Localized shortcutHint text"
+  },
+  "footer": {
+    "message": "يتحكم في الفيديو والصوت على صفحات HTTP وHTTPS.",
+    "description": "Localized footer text"
+  },
+  "statusLabel": {
+    "message": "حالة الوسائط",
+    "description": "Localized statusLabel text"
+  }
+}

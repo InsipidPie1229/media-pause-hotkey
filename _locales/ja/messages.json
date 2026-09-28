@@ -1,0 +1,114 @@
+{
+  "extName": {
+    "message": "メディアショートカット",
+    "description": "Localized extName text"
+  },
+  "extDescription": {
+    "message": "Chromeで最後に再生したタブのウェブメディアを一時停止・再開します。",
+    "description": "Localized extDescription text"
+  },
+  "actionTitle": {
+    "message": "メディアショートカット",
+    "description": "Localized actionTitle text"
+  },
+  "commandDescription": {
+    "message": "最後に再生したタブのウェブメディアを一時停止または再開",
+    "description": "Localized commandDescription text"
+  },
+  "popupEyebrow": {
+    "message": "CHROME メディア",
+    "description": "Localized popupEyebrow text"
+  },
+  "recentTab": {
+    "message": "最後に再生したタブ",
+    "description": "Localized recentTab text"
+  },
+  "targetEmpty": {
+    "message": "メディアタブはまだありません",
+    "description": "Localized targetEmpty text"
+  },
+  "stateChecking": {
+    "message": "メディアの状態を確認中…",
+    "description": "Localized stateChecking text"
+  },
+  "statePlaying": {
+    "message": "$1 件を再生中",
+    "description": "Localized statePlaying text"
+  },
+  "statePaused": {
+    "message": "この拡張機能が $1 件を一時停止しました",
+    "description": "Localized statePaused text"
+  },
+  "stateIdle": {
+    "message": "メディアを再生するとここで操作できます。",
+    "description": "Localized stateIdle text"
+  },
+  "buttonToggle": {
+    "message": "一時停止 / 再開",
+    "description": "Localized buttonToggle text"
+  },
+  "buttonPause": {
+    "message": "一時停止",
+    "description": "Localized buttonPause text"
+  },
+  "buttonResume": {
+    "message": "再開",
+    "description": "Localized buttonResume text"
+  },
+  "errorPauseNothing": {
+    "message": "最近のタブでメディアは再生されていません。",
+    "description": "Localized errorPauseNothing text"
+  },
+  "errorResumeNothing": {
+    "message": "最近のタブでこの拡張機能が一時停止したメディアはありません。",
+    "description": "Localized errorResumeNothing text"
+  },
+  "errorNoTarget": {
+    "message": "操作できるメディアがありません。まず再生してください。",
+    "description": "Localized errorNoTarget text"
+  },
+  "errorPageConnection": {
+    "message": "ページに接続できません。タブを再読み込みして再試行してください。",
+    "description": "Localized errorPageConnection text"
+  },
+  "errorResumeSome": {
+    "message": "一部のメディアを再開できませんでした。ポップアップを確認してください。",
+    "description": "Localized errorResumeSome text"
+  },
+  "errorResumeNone": {
+    "message": "再開するメディアが見つかりません。タブを再読み込みしてください。",
+    "description": "Localized errorResumeNone text"
+  },
+  "errorStateRead": {
+    "message": "拡張機能の状態を読み込めませんでした。",
+    "description": "Localized errorStateRead text"
+  },
+  "errorControl": {
+    "message": "メディアを操作できませんでした。",
+    "description": "Localized errorControl text"
+  },
+  "shortcutHeading": {
+    "message": "グローバルショートカット",
+    "description": "Localized shortcutHeading text"
+  },
+  "shortcutNotSet": {
+    "message": "未設定",
+    "description": "Localized shortcutNotSet text"
+  },
+  "shortcutSettings": {
+    "message": "ショートカット設定を開く",
+    "description": "Localized shortcutSettings text"
+  },
+  "shortcutHint": {
+    "message": "既定の範囲はグローバルです。必要に応じて Chrome 内に変更できます。",
+    "description": "Localized shortcutHint text"
+  },
+  "footer": {
+    "message": "HTTP と HTTPS のページの動画と音声を操作します。",
+    "description": "Localized footer text"
+  },
+  "statusLabel": {
+    "message": "メディアの状態",
+    "description": "Localized statusLabel text"
+  }
+}

@@ -1,0 +1,114 @@
+{
+  "extName": {
+    "message": "Phím tắt nội dung đa phương tiện",
+    "description": "Localized extName text"
+  },
+  "extDescription": {
+    "message": "Tạm dừng và tiếp tục nội dung web trong thẻ Chrome phát gần đây nhất.",
+    "description": "Localized extDescription text"
+  },
+  "actionTitle": {
+    "message": "Phím tắt nội dung đa phương tiện",
+    "description": "Localized actionTitle text"
+  },
+  "commandDescription": {
+    "message": "Tạm dừng hoặc tiếp tục nội dung web trong thẻ phát gần đây nhất",
+    "description": "Localized commandDescription text"
+  },
+  "popupEyebrow": {
+    "message": "NỘI DUNG CHROME",
+    "description": "Localized popupEyebrow text"
+  },
+  "recentTab": {
+    "message": "Thẻ phát gần đây nhất",
+    "description": "Localized recentTab text"
+  },
+  "targetEmpty": {
+    "message": "Chưa có thẻ đa phương tiện",
+    "description": "Localized targetEmpty text"
+  },
+  "stateChecking": {
+    "message": "Đang kiểm tra trạng thái nội dung…",
+    "description": "Localized stateChecking text"
+  },
+  "statePlaying": {
+    "message": "Đang phát $1 nội dung",
+    "description": "Localized statePlaying text"
+  },
+  "statePaused": {
+    "message": "Tiện ích này đã tạm dừng $1 nội dung",
+    "description": "Localized statePaused text"
+  },
+  "stateIdle": {
+    "message": "Hãy phát nội dung để điều khiển tại đây.",
+    "description": "Localized stateIdle text"
+  },
+  "buttonToggle": {
+    "message": "Tạm dừng / Tiếp tục",
+    "description": "Localized buttonToggle text"
+  },
+  "buttonPause": {
+    "message": "Tạm dừng",
+    "description": "Localized buttonPause text"
+  },
+  "buttonResume": {
+    "message": "Tiếp tục",
+    "description": "Localized buttonResume text"
+  },
+  "errorPauseNothing": {
+    "message": "Không có nội dung nào đang phát trong thẻ gần đây nhất.",
+    "description": "Localized errorPauseNothing text"
+  },
+  "errorResumeNothing": {
+    "message": "Tiện ích này chưa tạm dừng nội dung nào trong thẻ gần đây nhất.",
+    "description": "Localized errorResumeNothing text"
+  },
+  "errorNoTarget": {
+    "message": "Không có nội dung để điều khiển. Hãy phát thử trước.",
+    "description": "Localized errorNoTarget text"
+  },
+  "errorPageConnection": {
+    "message": "Không thể kết nối với trang. Hãy tải lại thẻ rồi thử lại.",
+    "description": "Localized errorPageConnection text"
+  },
+  "errorResumeSome": {
+    "message": "Không thể tiếp tục một số nội dung. Hãy kiểm tra cửa sổ bật lên.",
+    "description": "Localized errorResumeSome text"
+  },
+  "errorResumeNone": {
+    "message": "Không tìm thấy nội dung để tiếp tục. Hãy tải lại thẻ.",
+    "description": "Localized errorResumeNone text"
+  },
+  "errorStateRead": {
+    "message": "Không thể đọc trạng thái tiện ích.",
+    "description": "Localized errorStateRead text"
+  },
+  "errorControl": {
+    "message": "Không thể điều khiển nội dung.",
+    "description": "Localized errorControl text"
+  },
+  "shortcutHeading": {
+    "message": "Phím tắt toàn cục",
+    "description": "Localized shortcutHeading text"
+  },
+  "shortcutNotSet": {
+    "message": "Chưa đặt",
+    "description": "Localized shortcutNotSet text"
+  },
+  "shortcutSettings": {
+    "message": "Mở cài đặt phím tắt",
+    "description": "Localized shortcutSettings text"
+  },
+  "shortcutHint": {
+    "message": "Phạm vi mặc định là toàn cục. Bạn có thể đổi thành chỉ trong Chrome.",
+    "description": "Localized shortcutHint text"
+  },
+  "footer": {
+    "message": "Điều khiển video và âm thanh trên các trang HTTP và HTTPS.",
+    "description": "Localized footer text"
+  },
+  "statusLabel": {
+    "message": "Trạng thái phương tiện",
+    "description": "Localized statusLabel text"
+  }
+}

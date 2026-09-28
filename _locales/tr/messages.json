@@ -1,0 +1,114 @@
+{
+  "extName": {
+    "message": "Medya Kısayolu",
+    "description": "Localized extName text"
+  },
+  "extDescription": {
+    "message": "Chrome'da en son oynatılan sekmedeki web medyasını duraklatıp sürdürün.",
+    "description": "Localized extDescription text"
+  },
+  "actionTitle": {
+    "message": "Medya Kısayolu",
+    "description": "Localized actionTitle text"
+  },
+  "commandDescription": {
+    "message": "En son oynatılan sekmedeki web medyasını duraklat veya sürdür",
+    "description": "Localized commandDescription text"
+  },
+  "popupEyebrow": {
+    "message": "CHROME MEDYA",
+    "description": "Localized popupEyebrow text"
+  },
+  "recentTab": {
+    "message": "En son oynatılan sekme",
+    "description": "Localized recentTab text"
+  },
+  "targetEmpty": {
+    "message": "Henüz medya sekmesi yok",
+    "description": "Localized targetEmpty text"
+  },
+  "stateChecking": {
+    "message": "Medya durumu kontrol ediliyor…",
+    "description": "Localized stateChecking text"
+  },
+  "statePlaying": {
+    "message": "$1 medya oynatılıyor",
+    "description": "Localized statePlaying text"
+  },
+  "statePaused": {
+    "message": "$1 medya bu uzantı tarafından duraklatıldı",
+    "description": "Localized statePaused text"
+  },
+  "stateIdle": {
+    "message": "Buradan kontrol etmek için medya oynatın.",
+    "description": "Localized stateIdle text"
+  },
+  "buttonToggle": {
+    "message": "Duraklat / Sürdür",
+    "description": "Localized buttonToggle text"
+  },
+  "buttonPause": {
+    "message": "Duraklat",
+    "description": "Localized buttonPause text"
+  },
+  "buttonResume": {
+    "message": "Sürdür",
+    "description": "Localized buttonResume text"
+  },
+  "errorPauseNothing": {
+    "message": "En son sekmede oynatılan medya yok.",
+    "description": "Localized errorPauseNothing text"
+  },
+  "errorResumeNothing": {
+    "message": "Bu uzantı en son sekmede medya duraklatmadı.",
+    "description": "Localized errorResumeNothing text"
+  },
+  "errorNoTarget": {
+    "message": "Kontrol edilecek medya yok. Önce oynatmayı başlatın.",
+    "description": "Localized errorNoTarget text"
+  },
+  "errorPageConnection": {
+    "message": "Sayfaya bağlanılamadı. Sekmeyi yenileyip tekrar deneyin.",
+    "description": "Localized errorPageConnection text"
+  },
+  "errorResumeSome": {
+    "message": "Bazı medya öğeleri sürdürülemedi. Açılır pencereyi kontrol edin.",
+    "description": "Localized errorResumeSome text"
+  },
+  "errorResumeNone": {
+    "message": "Sürdürülecek medya bulunamadı. Sekmeyi yenileyin.",
+    "description": "Localized errorResumeNone text"
+  },
+  "errorStateRead": {
+    "message": "Uzantı durumu okunamadı.",
+    "description": "Localized errorStateRead text"
+  },
+  "errorControl": {
+    "message": "Medya kontrol edilemedi.",
+    "description": "Localized errorControl text"
+  },
+  "shortcutHeading": {
+    "message": "Genel kısayol",
+    "description": "Localized shortcutHeading text"
+  },
+  "shortcutNotSet": {
+    "message": "Ayarlanmadı",
+    "description": "Localized shortcutNotSet text"
+  },
+  "shortcutSettings": {
+    "message": "Kısayol ayarlarını aç",
+    "description": "Localized shortcutSettings text"
+  },
+  "shortcutHint": {
+    "message": "Varsayılan kapsam geneldir. İsterseniz Chrome olarak değiştirin.",
+    "description": "Localized shortcutHint text"
+  },
+  "footer": {
+    "message": "HTTP ve HTTPS sayfalarındaki video ve sesi kontrol eder.",
+    "description": "Localized footer text"
+  },
+  "statusLabel": {
+    "message": "Medya durumu",
+    "description": "Localized statusLabel text"
+  }
+}

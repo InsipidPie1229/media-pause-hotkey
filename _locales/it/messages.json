@@ -1,0 +1,114 @@
+{
+  "extName": {
+    "message": "Scorciatoia multimediale",
+    "description": "Localized extName text"
+  },
+  "extDescription": {
+    "message": "Metti in pausa e riprendi i contenuti web nell'ultima scheda Chrome riprodotta.",
+    "description": "Localized extDescription text"
+  },
+  "actionTitle": {
+    "message": "Scorciatoia multimediale",
+    "description": "Localized actionTitle text"
+  },
+  "commandDescription": {
+    "message": "Metti in pausa o riprendi i contenuti web nell'ultima scheda riprodotta",
+    "description": "Localized commandDescription text"
+  },
+  "popupEyebrow": {
+    "message": "MEDIA CHROME",
+    "description": "Localized popupEyebrow text"
+  },
+  "recentTab": {
+    "message": "Ultima scheda riprodotta",
+    "description": "Localized recentTab text"
+  },
+  "targetEmpty": {
+    "message": "Nessuna scheda multimediale",
+    "description": "Localized targetEmpty text"
+  },
+  "stateChecking": {
+    "message": "Controllo dello stato dei contenuti…",
+    "description": "Localized stateChecking text"
+  },
+  "statePlaying": {
+    "message": "$1 contenuti in riproduzione",
+    "description": "Localized statePlaying text"
+  },
+  "statePaused": {
+    "message": "$1 contenuti in pausa con questa estensione",
+    "description": "Localized statePaused text"
+  },
+  "stateIdle": {
+    "message": "Avvia un contenuto per controllarlo qui.",
+    "description": "Localized stateIdle text"
+  },
+  "buttonToggle": {
+    "message": "Pausa / Riprendi",
+    "description": "Localized buttonToggle text"
+  },
+  "buttonPause": {
+    "message": "Pausa",
+    "description": "Localized buttonPause text"
+  },
+  "buttonResume": {
+    "message": "Riprendi",
+    "description": "Localized buttonResume text"
+  },
+  "errorPauseNothing": {
+    "message": "Nessun contenuto è in riproduzione nell'ultima scheda.",
+    "description": "Localized errorPauseNothing text"
+  },
+  "errorResumeNothing": {
+    "message": "Questa estensione non ha messo in pausa contenuti nell'ultima scheda.",
+    "description": "Localized errorResumeNothing text"
+  },
+  "errorNoTarget": {
+    "message": "Nessun contenuto da controllare. Avvia prima la riproduzione.",
+    "description": "Localized errorNoTarget text"
+  },
+  "errorPageConnection": {
+    "message": "Impossibile raggiungere la pagina. Ricarica la scheda e riprova.",
+    "description": "Localized errorPageConnection text"
+  },
+  "errorResumeSome": {
+    "message": "Impossibile riprendere alcuni contenuti. Controlla il popup.",
+    "description": "Localized errorResumeSome text"
+  },
+  "errorResumeNone": {
+    "message": "Impossibile trovare contenuti da riprendere. Ricarica la scheda.",
+    "description": "Localized errorResumeNone text"
+  },
+  "errorStateRead": {
+    "message": "Impossibile leggere lo stato dell'estensione.",
+    "description": "Localized errorStateRead text"
+  },
+  "errorControl": {
+    "message": "Impossibile controllare i contenuti.",
+    "description": "Localized errorControl text"
+  },
+  "shortcutHeading": {
+    "message": "Scorciatoia globale",
+    "description": "Localized shortcutHeading text"
+  },
+  "shortcutNotSet": {
+    "message": "Non impostata",
+    "description": "Localized shortcutNotSet text"
+  },
+  "shortcutSettings": {
+    "message": "Apri impostazioni scorciatoie",
+    "description": "Localized shortcutSettings text"
+  },
+  "shortcutHint": {
+    "message": "L'ambito predefinito è globale. Se vuoi, impostalo su solo Chrome.",
+    "description": "Localized shortcutHint text"
+  },
+  "footer": {
+    "message": "Controlla video e audio nelle pagine HTTP e HTTPS.",
+    "description": "Localized footer text"
+  },
+  "statusLabel": {
+    "message": "Stato dei contenuti",
+    "description": "Localized statusLabel text"
+  }
+}

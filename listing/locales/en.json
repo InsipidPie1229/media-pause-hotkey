@@ -1,0 +1,9 @@
+{
+  "language": "en",
+  "name": "Media Shortcut",
+  "shortDescription": "Pause and resume web media in the most recently playing Chrome tab.",
+  "fullDescription": "Media Shortcut\n\nPause and resume web media in the most recently playing Chrome tab.\n\n• Pause or resume web media in the most recently playing tab.\n\n• Global by default. Change the scope to Chrome if you prefer.\n\n• Controls video and audio on HTTP and HTTPS pages.",
+  "category": "Productivity",
+  "distribution": "Public, all regions",
+  "screenshot": "media-shortcuts-en-1280x800.png"
+}

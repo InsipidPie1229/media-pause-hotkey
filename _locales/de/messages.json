@@ -1,0 +1,114 @@
+{
+  "extName": {
+    "message": "Medien-Tastenkürzel",
+    "description": "Localized extName text"
+  },
+  "extDescription": {
+    "message": "Pausiere und setze Webmedien im zuletzt abgespielten Chrome-Tab fort.",
+    "description": "Localized extDescription text"
+  },
+  "actionTitle": {
+    "message": "Medien-Tastenkürzel",
+    "description": "Localized actionTitle text"
+  },
+  "commandDescription": {
+    "message": "Webmedien im zuletzt abgespielten Tab pausieren oder fortsetzen",
+    "description": "Localized commandDescription text"
+  },
+  "popupEyebrow": {
+    "message": "CHROME-MEDIEN",
+    "description": "Localized popupEyebrow text"
+  },
+  "recentTab": {
+    "message": "Zuletzt abgespielter Tab",
+    "description": "Localized recentTab text"
+  },
+  "targetEmpty": {
+    "message": "Noch kein Medien-Tab",
+    "description": "Localized targetEmpty text"
+  },
+  "stateChecking": {
+    "message": "Medienstatus wird geprüft…",
+    "description": "Localized stateChecking text"
+  },
+  "statePlaying": {
+    "message": "$1 Medien werden wiedergegeben",
+    "description": "Localized statePlaying text"
+  },
+  "statePaused": {
+    "message": "$1 Medien wurden von dieser Erweiterung pausiert",
+    "description": "Localized statePaused text"
+  },
+  "stateIdle": {
+    "message": "Starte ein Medium, um es hier zu steuern.",
+    "description": "Localized stateIdle text"
+  },
+  "buttonToggle": {
+    "message": "Pause / Fortsetzen",
+    "description": "Localized buttonToggle text"
+  },
+  "buttonPause": {
+    "message": "Pause",
+    "description": "Localized buttonPause text"
+  },
+  "buttonResume": {
+    "message": "Fortsetzen",
+    "description": "Localized buttonResume text"
+  },
+  "errorPauseNothing": {
+    "message": "Im zuletzt abgespielten Tab läuft kein Medium.",
+    "description": "Localized errorPauseNothing text"
+  },
+  "errorResumeNothing": {
+    "message": "Diese Erweiterung hat im zuletzt abgespielten Tab keine Medien pausiert.",
+    "description": "Localized errorResumeNothing text"
+  },
+  "errorNoTarget": {
+    "message": "Keine Medien zum Steuern. Starte zuerst die Wiedergabe.",
+    "description": "Localized errorNoTarget text"
+  },
+  "errorPageConnection": {
+    "message": "Die Seite ist nicht erreichbar. Lade den Tab neu und versuche es erneut.",
+    "description": "Localized errorPageConnection text"
+  },
+  "errorResumeSome": {
+    "message": "Einige Medien konnten nicht fortgesetzt werden. Prüfe das Pop-up.",
+    "description": "Localized errorResumeSome text"
+  },
+  "errorResumeNone": {
+    "message": "Keine Medien zum Fortsetzen gefunden. Lade den Tab neu.",
+    "description": "Localized errorResumeNone text"
+  },
+  "errorStateRead": {
+    "message": "Erweiterungsstatus konnte nicht gelesen werden.",
+    "description": "Localized errorStateRead text"
+  },
+  "errorControl": {
+    "message": "Medien konnten nicht gesteuert werden.",
+    "description": "Localized errorControl text"
+  },
+  "shortcutHeading": {
+    "message": "Globales Tastenkürzel",
+    "description": "Localized shortcutHeading text"
+  },
+  "shortcutNotSet": {
+    "message": "Nicht festgelegt",
+    "description": "Localized shortcutNotSet text"
+  },
+  "shortcutSettings": {
+    "message": "Tastenkürzel-Einstellungen öffnen",
+    "description": "Localized shortcutSettings text"
+  },
+  "shortcutHint": {
+    "message": "Der Geltungsbereich ist standardmäßig global. Bei Bedarf auf Chrome ändern.",
+    "description": "Localized shortcutHint text"
+  },
+  "footer": {
+    "message": "Steuert Video und Audio auf HTTP- und HTTPS-Seiten.",
+    "description": "Localized footer text"
+  },
+  "statusLabel": {
+    "message": "Medienstatus",
+    "description": "Localized statusLabel text"
+  }
+}

@@ -1,0 +1,114 @@
+{
+  "extName": {
+    "message": "Raccourci multimédia",
+    "description": "Localized extName text"
+  },
+  "extDescription": {
+    "message": "Mettez en pause et reprenez les contenus Web dans l'onglet Chrome lu le plus récemment.",
+    "description": "Localized extDescription text"
+  },
+  "actionTitle": {
+    "message": "Raccourci multimédia",
+    "description": "Localized actionTitle text"
+  },
+  "commandDescription": {
+    "message": "Mettre en pause ou reprendre les contenus Web dans l'onglet lu le plus récemment",
+    "description": "Localized commandDescription text"
+  },
+  "popupEyebrow": {
+    "message": "MÉDIAS CHROME",
+    "description": "Localized popupEyebrow text"
+  },
+  "recentTab": {
+    "message": "Onglet lu le plus récemment",
+    "description": "Localized recentTab text"
+  },
+  "targetEmpty": {
+    "message": "Aucun onglet multimédia pour le moment",
+    "description": "Localized targetEmpty text"
+  },
+  "stateChecking": {
+    "message": "Vérification de l'état des médias…",
+    "description": "Localized stateChecking text"
+  },
+  "statePlaying": {
+    "message": "$1 contenus multimédias en cours",
+    "description": "Localized statePlaying text"
+  },
+  "statePaused": {
+    "message": "$1 contenus mis en pause par cette extension",
+    "description": "Localized statePaused text"
+  },
+  "stateIdle": {
+    "message": "Lancez un contenu pour le contrôler ici.",
+    "description": "Localized stateIdle text"
+  },
+  "buttonToggle": {
+    "message": "Pause / Reprise",
+    "description": "Localized buttonToggle text"
+  },
+  "buttonPause": {
+    "message": "Pause",
+    "description": "Localized buttonPause text"
+  },
+  "buttonResume": {
+    "message": "Reprendre",
+    "description": "Localized buttonResume text"
+  },
+  "errorPauseNothing": {
+    "message": "Aucun contenu n'est en cours de lecture dans l'onglet récent.",
+    "description": "Localized errorPauseNothing text"
+  },
+  "errorResumeNothing": {
+    "message": "Cette extension n'a mis aucun contenu en pause dans l'onglet récent.",
+    "description": "Localized errorResumeNothing text"
+  },
+  "errorNoTarget": {
+    "message": "Aucun contenu à contrôler. Lancez-en un d'abord.",
+    "description": "Localized errorNoTarget text"
+  },
+  "errorPageConnection": {
+    "message": "Impossible d'accéder à la page. Actualisez l'onglet et réessayez.",
+    "description": "Localized errorPageConnection text"
+  },
+  "errorResumeSome": {
+    "message": "Certains contenus n'ont pas repris. Vérifiez la fenêtre pop-up.",
+    "description": "Localized errorResumeSome text"
+  },
+  "errorResumeNone": {
+    "message": "Contenu à reprendre introuvable. Actualisez l'onglet.",
+    "description": "Localized errorResumeNone text"
+  },
+  "errorStateRead": {
+    "message": "Impossible de lire l'état de l'extension.",
+    "description": "Localized errorStateRead text"
+  },
+  "errorControl": {
+    "message": "Impossible de contrôler le média.",
+    "description": "Localized errorControl text"
+  },
+  "shortcutHeading": {
+    "message": "Raccourci global",
+    "description": "Localized shortcutHeading text"
+  },
+  "shortcutNotSet": {
+    "message": "Non défini",
+    "description": "Localized shortcutNotSet text"
+  },
+  "shortcutSettings": {
+    "message": "Ouvrir les paramètres des raccourcis",
+    "description": "Localized shortcutSettings text"
+  },
+  "shortcutHint": {
+    "message": "La portée est globale par défaut. Vous pouvez choisir Chrome uniquement.",
+    "description": "Localized shortcutHint text"
+  },
+  "footer": {
+    "message": "Contrôle la vidéo et l'audio des pages HTTP et HTTPS.",
+    "description": "Localized footer text"
+  },
+  "statusLabel": {
+    "message": "État du média",
+    "description": "Localized statusLabel text"
+  }
+}

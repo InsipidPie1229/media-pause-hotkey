@@ -1,0 +1,114 @@
+{
+  "extName": {
+    "message": "媒體快捷鍵",
+    "description": "Localized extName text"
+  },
+  "extDescription": {
+    "message": "暫停或繼續 Chrome 中最近播放分頁的網頁媒體。",
+    "description": "Localized extDescription text"
+  },
+  "actionTitle": {
+    "message": "媒體快捷鍵",
+    "description": "Localized actionTitle text"
+  },
+  "commandDescription": {
+    "message": "暫停或繼續最近播放分頁中的網頁媒體",
+    "description": "Localized commandDescription text"
+  },
+  "popupEyebrow": {
+    "message": "CHROME 媒體",
+    "description": "Localized popupEyebrow text"
+  },
+  "recentTab": {
+    "message": "最近播放的分頁",
+    "description": "Localized recentTab text"
+  },
+  "targetEmpty": {
+    "message": "尚無媒體分頁",
+    "description": "Localized targetEmpty text"
+  },
+  "stateChecking": {
+    "message": "正在檢查媒體狀態…",
+    "description": "Localized stateChecking text"
+  },
+  "statePlaying": {
+    "message": "正在播放 $1 個媒體",
+    "description": "Localized statePlaying text"
+  },
+  "statePaused": {
+    "message": "此擴充功能已暫停 $1 個媒體",
+    "description": "Localized statePaused text"
+  },
+  "stateIdle": {
+    "message": "播放媒體後即可在此控制。",
+    "description": "Localized stateIdle text"
+  },
+  "buttonToggle": {
+    "message": "暫停 / 繼續",
+    "description": "Localized buttonToggle text"
+  },
+  "buttonPause": {
+    "message": "暫停",
+    "description": "Localized buttonPause text"
+  },
+  "buttonResume": {
+    "message": "繼續",
+    "description": "Localized buttonResume text"
+  },
+  "errorPauseNothing": {
+    "message": "最近播放的分頁中沒有正在播放的媒體。",
+    "description": "Localized errorPauseNothing text"
+  },
+  "errorResumeNothing": {
+    "message": "此擴充功能沒有暫停最近播放分頁中的媒體。",
+    "description": "Localized errorResumeNothing text"
+  },
+  "errorNoTarget": {
+    "message": "沒有可控制的媒體。請先播放一次媒體。",
+    "description": "Localized errorNoTarget text"
+  },
+  "errorPageConnection": {
+    "message": "無法連線到頁面。請重新整理分頁後再試。",
+    "description": "Localized errorPageConnection text"
+  },
+  "errorResumeSome": {
+    "message": "部分媒體無法恢復，請查看彈出視窗。",
+    "description": "Localized errorResumeSome text"
+  },
+  "errorResumeNone": {
+    "message": "找不到可恢復的媒體。請重新整理分頁。",
+    "description": "Localized errorResumeNone text"
+  },
+  "errorStateRead": {
+    "message": "無法讀取擴充功能狀態。",
+    "description": "Localized errorStateRead text"
+  },
+  "errorControl": {
+    "message": "無法控制媒體。",
+    "description": "Localized errorControl text"
+  },
+  "shortcutHeading": {
+    "message": "全域快捷鍵",
+    "description": "Localized shortcutHeading text"
+  },
+  "shortcutNotSet": {
+    "message": "未設定",
+    "description": "Localized shortcutNotSet text"
+  },
+  "shortcutSettings": {
+    "message": "開啟快捷鍵設定",
+    "description": "Localized shortcutSettings text"
+  },
+  "shortcutHint": {
+    "message": "預設範圍為全域；如有需要，可改為僅在 Chrome 中生效。",
+    "description": "Localized shortcutHint text"
+  },
+  "footer": {
+    "message": "控制 HTTP 和 HTTPS 網頁中的影片與音訊。",
+    "description": "Localized footer text"
+  },
+  "statusLabel": {
+    "message": "媒體狀態",
+    "description": "Localized statusLabel text"
+  }
+}

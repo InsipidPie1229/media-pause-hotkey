@@ -1,0 +1,9 @@
+{
+  "language": "pt_BR",
+  "name": "Atalho de mídia",
+  "shortDescription": "Pause e retome mídias da Web na guia do Chrome reproduzida mais recentemente.",
+  "fullDescription": "Atalho de mídia\n\nPause e retome mídias da Web na guia do Chrome reproduzida mais recentemente.\n\n• Pausar ou retomar mídias da Web na guia reproduzida mais recentemente.\n\n• O escopo padrão é global. Se preferir, mude para somente Chrome.\n\n• Controla vídeo e áudio em páginas HTTP e HTTPS.",
+  "category": "Productivity",
+  "distribution": "Public, all regions",
+  "screenshot": "media-shortcuts-pt_BR-1280x800.png"
+}

@@ -1,0 +1,9 @@
+{
+  "language": "zh_CN",
+  "name": "媒体快捷键",
+  "shortDescription": "暂停或恢复 Chrome 中最近播放标签页的网页媒体。",
+  "fullDescription": "媒体快捷键\n\n暂停或恢复 Chrome 中最近播放标签页的网页媒体。\n\n• 暂停或恢复最近播放标签页中的网页媒体.\n\n• 默认范围为全局；如有需要，可改为仅在 Chrome 中生效。\n\n• 控制 HTTP 和 HTTPS 网页中的视频与音频。",
+  "category": "Productivity",
+  "distribution": "Public, all regions",
+  "screenshot": "media-shortcuts-zh_CN-1280x800.png"
+}

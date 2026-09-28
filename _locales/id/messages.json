@@ -1,0 +1,114 @@
+{
+  "extName": {
+    "message": "Pintasan Media",
+    "description": "Localized extName text"
+  },
+  "extDescription": {
+    "message": "Jeda dan lanjutkan media web di tab Chrome yang terakhir diputar.",
+    "description": "Localized extDescription text"
+  },
+  "actionTitle": {
+    "message": "Pintasan Media",
+    "description": "Localized actionTitle text"
+  },
+  "commandDescription": {
+    "message": "Jeda atau lanjutkan media web di tab yang terakhir diputar",
+    "description": "Localized commandDescription text"
+  },
+  "popupEyebrow": {
+    "message": "MEDIA CHROME",
+    "description": "Localized popupEyebrow text"
+  },
+  "recentTab": {
+    "message": "Tab yang terakhir diputar",
+    "description": "Localized recentTab text"
+  },
+  "targetEmpty": {
+    "message": "Belum ada tab media",
+    "description": "Localized targetEmpty text"
+  },
+  "stateChecking": {
+    "message": "Memeriksa status media…",
+    "description": "Localized stateChecking text"
+  },
+  "statePlaying": {
+    "message": "$1 media sedang diputar",
+    "description": "Localized statePlaying text"
+  },
+  "statePaused": {
+    "message": "$1 media dijeda oleh ekstensi ini",
+    "description": "Localized statePaused text"
+  },
+  "stateIdle": {
+    "message": "Putar media untuk mengontrolnya di sini.",
+    "description": "Localized stateIdle text"
+  },
+  "buttonToggle": {
+    "message": "Jeda / Lanjutkan",
+    "description": "Localized buttonToggle text"
+  },
+  "buttonPause": {
+    "message": "Jeda",
+    "description": "Localized buttonPause text"
+  },
+  "buttonResume": {
+    "message": "Lanjutkan",
+    "description": "Localized buttonResume text"
+  },
+  "errorPauseNothing": {
+    "message": "Tidak ada media yang diputar di tab terbaru.",
+    "description": "Localized errorPauseNothing text"
+  },
+  "errorResumeNothing": {
+    "message": "Ekstensi ini tidak menjeda media di tab terbaru.",
+    "description": "Localized errorResumeNothing text"
+  },
+  "errorNoTarget": {
+    "message": "Tidak ada media untuk dikontrol. Putar media terlebih dahulu.",
+    "description": "Localized errorNoTarget text"
+  },
+  "errorPageConnection": {
+    "message": "Tidak dapat terhubung ke halaman. Muat ulang tab lalu coba lagi.",
+    "description": "Localized errorPageConnection text"
+  },
+  "errorResumeSome": {
+    "message": "Beberapa media tidak dapat dilanjutkan. Periksa pop-up.",
+    "description": "Localized errorResumeSome text"
+  },
+  "errorResumeNone": {
+    "message": "Media untuk dilanjutkan tidak ditemukan. Muat ulang tab.",
+    "description": "Localized errorResumeNone text"
+  },
+  "errorStateRead": {
+    "message": "Status ekstensi tidak dapat dibaca.",
+    "description": "Localized errorStateRead text"
+  },
+  "errorControl": {
+    "message": "Media tidak dapat dikontrol.",
+    "description": "Localized errorControl text"
+  },
+  "shortcutHeading": {
+    "message": "Pintasan global",
+    "description": "Localized shortcutHeading text"
+  },
+  "shortcutNotSet": {
+    "message": "Belum diatur",
+    "description": "Localized shortcutNotSet text"
+  },
+  "shortcutSettings": {
+    "message": "Buka setelan pintasan",
+    "description": "Localized shortcutSettings text"
+  },
+  "shortcutHint": {
+    "message": "Cakupan default bersifat global. Ubah ke Chrome saja jika diinginkan.",
+    "description": "Localized shortcutHint text"
+  },
+  "footer": {
+    "message": "Mengontrol video dan audio di halaman HTTP dan HTTPS.",
+    "description": "Localized footer text"
+  },
+  "statusLabel": {
+    "message": "Status media",
+    "description": "Localized statusLabel text"
+  }
+}

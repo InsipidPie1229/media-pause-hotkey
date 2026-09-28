@@ -1,0 +1,114 @@
+{
+  "extName": {
+    "message": "Atalho de mídia",
+    "description": "Localized extName text"
+  },
+  "extDescription": {
+    "message": "Pause e retome mídias da Web na guia do Chrome reproduzida mais recentemente.",
+    "description": "Localized extDescription text"
+  },
+  "actionTitle": {
+    "message": "Atalho de mídia",
+    "description": "Localized actionTitle text"
+  },
+  "commandDescription": {
+    "message": "Pausar ou retomar mídias da Web na guia reproduzida mais recentemente",
+    "description": "Localized commandDescription text"
+  },
+  "popupEyebrow": {
+    "message": "MÍDIA DO CHROME",
+    "description": "Localized popupEyebrow text"
+  },
+  "recentTab": {
+    "message": "Guia reproduzida mais recentemente",
+    "description": "Localized recentTab text"
+  },
+  "targetEmpty": {
+    "message": "Nenhuma guia de mídia ainda",
+    "description": "Localized targetEmpty text"
+  },
+  "stateChecking": {
+    "message": "Verificando o estado da mídia…",
+    "description": "Localized stateChecking text"
+  },
+  "statePlaying": {
+    "message": "$1 mídias em reprodução",
+    "description": "Localized statePlaying text"
+  },
+  "statePaused": {
+    "message": "$1 mídias pausadas por esta extensão",
+    "description": "Localized statePaused text"
+  },
+  "stateIdle": {
+    "message": "Reproduza uma mídia para controlá-la aqui.",
+    "description": "Localized stateIdle text"
+  },
+  "buttonToggle": {
+    "message": "Pausar / Retomar",
+    "description": "Localized buttonToggle text"
+  },
+  "buttonPause": {
+    "message": "Pausar",
+    "description": "Localized buttonPause text"
+  },
+  "buttonResume": {
+    "message": "Retomar",
+    "description": "Localized buttonResume text"
+  },
+  "errorPauseNothing": {
+    "message": "Não há mídia em reprodução na guia mais recente.",
+    "description": "Localized errorPauseNothing text"
+  },
+  "errorResumeNothing": {
+    "message": "Esta extensão não pausou mídias na guia mais recente.",
+    "description": "Localized errorResumeNothing text"
+  },
+  "errorNoTarget": {
+    "message": "Não há mídia para controlar. Reproduza algo primeiro.",
+    "description": "Localized errorNoTarget text"
+  },
+  "errorPageConnection": {
+    "message": "Não foi possível acessar a página. Atualize a guia e tente novamente.",
+    "description": "Localized errorPageConnection text"
+  },
+  "errorResumeSome": {
+    "message": "Não foi possível retomar algumas mídias. Confira o pop-up.",
+    "description": "Localized errorResumeSome text"
+  },
+  "errorResumeNone": {
+    "message": "Não foi possível encontrar mídias para retomar. Atualize a guia.",
+    "description": "Localized errorResumeNone text"
+  },
+  "errorStateRead": {
+    "message": "Não foi possível ler o estado da extensão.",
+    "description": "Localized errorStateRead text"
+  },
+  "errorControl": {
+    "message": "Não foi possível controlar a mídia.",
+    "description": "Localized errorControl text"
+  },
+  "shortcutHeading": {
+    "message": "Atalho global",
+    "description": "Localized shortcutHeading text"
+  },
+  "shortcutNotSet": {
+    "message": "Não definido",
+    "description": "Localized shortcutNotSet text"
+  },
+  "shortcutSettings": {
+    "message": "Abrir configurações de atalhos",
+    "description": "Localized shortcutSettings text"
+  },
+  "shortcutHint": {
+    "message": "O escopo padrão é global. Se preferir, mude para somente Chrome.",
+    "description": "Localized shortcutHint text"
+  },
+  "footer": {
+    "message": "Controla vídeo e áudio em páginas HTTP e HTTPS.",
+    "description": "Localized footer text"
+  },
+  "statusLabel": {
+    "message": "Estado da mídia",
+    "description": "Localized statusLabel text"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "language": "vi",
+  "name": "Phím tắt nội dung đa phương tiện",
+  "shortDescription": "Tạm dừng và tiếp tục nội dung web trong thẻ Chrome phát gần đây nhất.",
+  "fullDescription": "Phím tắt nội dung đa phương tiện\n\nTạm dừng và tiếp tục nội dung web trong thẻ Chrome phát gần đây nhất.\n\n• Tạm dừng hoặc tiếp tục nội dung web trong thẻ phát gần đây nhất.\n\n• Phạm vi mặc định là toàn cục. Bạn có thể đổi thành chỉ trong Chrome.\n\n• Điều khiển video và âm thanh trên các trang HTTP và HTTPS.",
+  "category": "Productivity",
+  "distribution": "Public, all regions",
+  "screenshot": "media-shortcuts-vi-1280x800.png"
+}

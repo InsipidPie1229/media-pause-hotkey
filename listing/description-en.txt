@@ -1,0 +1,9 @@
+Media Shortcut
+
+Pause and resume web media in the most recently playing Chrome tab.
+
+• Pause or resume media in the most recently playing tab.
+
+• Global shortcut by default, with Chrome-only scope available.
+
+• Controls standard video and audio on HTTP and HTTPS pages.

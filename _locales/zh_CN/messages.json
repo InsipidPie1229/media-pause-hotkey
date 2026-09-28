@@ -1,0 +1,114 @@
+{
+  "extName": {
+    "message": "媒体快捷键",
+    "description": "Localized extName text"
+  },
+  "extDescription": {
+    "message": "暂停或恢复 Chrome 中最近播放标签页的网页媒体。",
+    "description": "Localized extDescription text"
+  },
+  "actionTitle": {
+    "message": "媒体快捷键",
+    "description": "Localized actionTitle text"
+  },
+  "commandDescription": {
+    "message": "暂停或恢复最近播放标签页中的网页媒体",
+    "description": "Localized commandDescription text"
+  },
+  "popupEyebrow": {
+    "message": "CHROME 媒体",
+    "description": "Localized popupEyebrow text"
+  },
+  "recentTab": {
+    "message": "最近播放的标签页",
+    "description": "Localized recentTab text"
+  },
+  "targetEmpty": {
+    "message": "尚无媒体标签页",
+    "description": "Localized targetEmpty text"
+  },
+  "stateChecking": {
+    "message": "正在检查媒体状态…",
+    "description": "Localized stateChecking text"
+  },
+  "statePlaying": {
+    "message": "正在播放 $1 个媒体",
+    "description": "Localized statePlaying text"
+  },
+  "statePaused": {
+    "message": "此扩展程序已暂停 $1 个媒体",
+    "description": "Localized statePaused text"
+  },
+  "stateIdle": {
+    "message": "播放媒体后即可在此控制。",
+    "description": "Localized stateIdle text"
+  },
+  "buttonToggle": {
+    "message": "暂停 / 恢复",
+    "description": "Localized buttonToggle text"
+  },
+  "buttonPause": {
+    "message": "暂停",
+    "description": "Localized buttonPause text"
+  },
+  "buttonResume": {
+    "message": "恢复",
+    "description": "Localized buttonResume text"
+  },
+  "errorPauseNothing": {
+    "message": "最近播放的标签页中没有正在播放的媒体。",
+    "description": "Localized errorPauseNothing text"
+  },
+  "errorResumeNothing": {
+    "message": "此扩展程序没有暂停最近播放标签页中的媒体。",
+    "description": "Localized errorResumeNothing text"
+  },
+  "errorNoTarget": {
+    "message": "没有可控制的媒体。请先播放一次媒体。",
+    "description": "Localized errorNoTarget text"
+  },
+  "errorPageConnection": {
+    "message": "无法连接到页面。请刷新标签页后重试。",
+    "description": "Localized errorPageConnection text"
+  },
+  "errorResumeSome": {
+    "message": "部分媒体无法恢复，请查看弹出窗口。",
+    "description": "Localized errorResumeSome text"
+  },
+  "errorResumeNone": {
+    "message": "找不到可恢复的媒体。请刷新标签页。",
+    "description": "Localized errorResumeNone text"
+  },
+  "errorStateRead": {
+    "message": "无法读取扩展程序状态。",
+    "description": "Localized errorStateRead text"
+  },
+  "errorControl": {
+    "message": "无法控制媒体。",
+    "description": "Localized errorControl text"
+  },
+  "shortcutHeading": {
+    "message": "全局快捷键",
+    "description": "Localized shortcutHeading text"
+  },
+  "shortcutNotSet": {
+    "message": "未设置",
+    "description": "Localized shortcutNotSet text"
+  },
+  "shortcutSettings": {
+    "message": "打开快捷键设置",
+    "description": "Localized shortcutSettings text"
+  },
+  "shortcutHint": {
+    "message": "默认范围为全局；如有需要，可改为仅在 Chrome 中生效。",
+    "description": "Localized shortcutHint text"
+  },
+  "footer": {
+    "message": "控制 HTTP 和 HTTPS 网页中的视频与音频。",
+    "description": "Localized footer text"
+  },
+  "statusLabel": {
+    "message": "媒体状态",
+    "description": "Localized statusLabel text"
+  }
+}

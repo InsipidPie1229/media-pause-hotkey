@@ -1,0 +1,9 @@
+{
+  "language": "tr",
+  "name": "Medya Kısayolu",
+  "shortDescription": "Chrome'da en son oynatılan sekmedeki web medyasını duraklatıp sürdürün.",
+  "fullDescription": "Medya Kısayolu\n\nChrome'da en son oynatılan sekmedeki web medyasını duraklatıp sürdürün.\n\n• En son oynatılan sekmedeki web medyasını duraklat veya sürdür.\n\n• Varsayılan kapsam geneldir. İsterseniz Chrome olarak değiştirin.\n\n• HTTP ve HTTPS sayfalarındaki video ve sesi kontrol eder.",
+  "category": "Productivity",
+  "distribution": "Public, all regions",
+  "screenshot": "media-shortcuts-tr-1280x800.png"
+}

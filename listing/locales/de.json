@@ -1,0 +1,9 @@
+{
+  "language": "de",
+  "name": "Medien-Tastenkürzel",
+  "shortDescription": "Pausiere und setze Webmedien im zuletzt abgespielten Chrome-Tab fort.",
+  "fullDescription": "Medien-Tastenkürzel\n\nPausiere und setze Webmedien im zuletzt abgespielten Chrome-Tab fort.\n\n• Webmedien im zuletzt abgespielten Tab pausieren oder fortsetzen.\n\n• Der Geltungsbereich ist standardmäßig global. Bei Bedarf auf Chrome ändern.\n\n• Steuert Video und Audio auf HTTP- und HTTPS-Seiten.",
+  "category": "Productivity",
+  "distribution": "Public, all regions",
+  "screenshot": "media-shortcuts-de-1280x800.png"
+}

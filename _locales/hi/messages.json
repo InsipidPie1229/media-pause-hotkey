@@ -1,0 +1,114 @@
+{
+  "extName": {
+    "message": "मीडिया शॉर्टकट",
+    "description": "Localized extName text"
+  },
+  "extDescription": {
+    "message": "Chrome के सबसे हाल में चलाए गए टैब में वेब मीडिया रोकें और फिर चलाएँ।",
+    "description": "Localized extDescription text"
+  },
+  "actionTitle": {
+    "message": "मीडिया शॉर्टकट",
+    "description": "Localized actionTitle text"
+  },
+  "commandDescription": {
+    "message": "सबसे हाल में चलाए गए टैब में वेब मीडिया रोकें या फिर चलाएँ",
+    "description": "Localized commandDescription text"
+  },
+  "popupEyebrow": {
+    "message": "CHROME मीडिया",
+    "description": "Localized popupEyebrow text"
+  },
+  "recentTab": {
+    "message": "सबसे हाल में चलाया गया टैब",
+    "description": "Localized recentTab text"
+  },
+  "targetEmpty": {
+    "message": "अभी कोई मीडिया टैब नहीं",
+    "description": "Localized targetEmpty text"
+  },
+  "stateChecking": {
+    "message": "मीडिया स्थिति जाँची जा रही है…",
+    "description": "Localized stateChecking text"
+  },
+  "statePlaying": {
+    "message": "$1 मीडिया चल रहा है",
+    "description": "Localized statePlaying text"
+  },
+  "statePaused": {
+    "message": "इस एक्सटेंशन ने $1 मीडिया रोका",
+    "description": "Localized statePaused text"
+  },
+  "stateIdle": {
+    "message": "यहाँ नियंत्रित करने के लिए मीडिया चलाएँ।",
+    "description": "Localized stateIdle text"
+  },
+  "buttonToggle": {
+    "message": "रोकें / फिर चलाएँ",
+    "description": "Localized buttonToggle text"
+  },
+  "buttonPause": {
+    "message": "रोकें",
+    "description": "Localized buttonPause text"
+  },
+  "buttonResume": {
+    "message": "फिर चलाएँ",
+    "description": "Localized buttonResume text"
+  },
+  "errorPauseNothing": {
+    "message": "सबसे हाल के टैब में कोई मीडिया नहीं चल रहा है।",
+    "description": "Localized errorPauseNothing text"
+  },
+  "errorResumeNothing": {
+    "message": "इस एक्सटेंशन ने सबसे हाल के टैब का मीडिया नहीं रोका।",
+    "description": "Localized errorResumeNothing text"
+  },
+  "errorNoTarget": {
+    "message": "नियंत्रित करने के लिए मीडिया नहीं है। पहले मीडिया चलाएँ।",
+    "description": "Localized errorNoTarget text"
+  },
+  "errorPageConnection": {
+    "message": "पेज से कनेक्ट नहीं हो सका। टैब रीफ़्रेश करके फिर प्रयास करें।",
+    "description": "Localized errorPageConnection text"
+  },
+  "errorResumeSome": {
+    "message": "कुछ मीडिया फिर से नहीं चला। पॉपअप में स्थिति देखें।",
+    "description": "Localized errorResumeSome text"
+  },
+  "errorResumeNone": {
+    "message": "फिर चलाने के लिए मीडिया नहीं मिला। टैब रीफ़्रेश करें।",
+    "description": "Localized errorResumeNone text"
+  },
+  "errorStateRead": {
+    "message": "एक्सटेंशन की स्थिति नहीं पढ़ी जा सकी।",
+    "description": "Localized errorStateRead text"
+  },
+  "errorControl": {
+    "message": "मीडिया नियंत्रित नहीं हो सका।",
+    "description": "Localized errorControl text"
+  },
+  "shortcutHeading": {
+    "message": "वैश्विक शॉर्टकट",
+    "description": "Localized shortcutHeading text"
+  },
+  "shortcutNotSet": {
+    "message": "सेट नहीं है",
+    "description": "Localized shortcutNotSet text"
+  },
+  "shortcutSettings": {
+    "message": "शॉर्टकट सेटिंग खोलें",
+    "description": "Localized shortcutSettings text"
+  },
+  "shortcutHint": {
+    "message": "डिफ़ॉल्ट दायरा वैश्विक है। चाहें तो इसे केवल Chrome पर सेट करें।",
+    "description": "Localized shortcutHint text"
+  },
+  "footer": {
+    "message": "HTTP और HTTPS पेजों पर वीडियो और ऑडियो नियंत्रित करता है।",
+    "description": "Localized footer text"
+  },
+  "statusLabel": {
+    "message": "मीडिया स्थिति",
+    "description": "Localized statusLabel text"
+  }
+}

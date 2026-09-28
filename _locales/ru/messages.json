@@ -1,0 +1,114 @@
+{
+  "extName": {
+    "message": "Медиасочетание клавиш",
+    "description": "Localized extName text"
+  },
+  "extDescription": {
+    "message": "Приостанавливайте и возобновляйте медиа в последней активной вкладке Chrome.",
+    "description": "Localized extDescription text"
+  },
+  "actionTitle": {
+    "message": "Медиасочетание клавиш",
+    "description": "Localized actionTitle text"
+  },
+  "commandDescription": {
+    "message": "Приостановить или возобновить медиа в последней активной вкладке",
+    "description": "Localized commandDescription text"
+  },
+  "popupEyebrow": {
+    "message": "МЕДИА CHROME",
+    "description": "Localized popupEyebrow text"
+  },
+  "recentTab": {
+    "message": "Последняя активная вкладка",
+    "description": "Localized recentTab text"
+  },
+  "targetEmpty": {
+    "message": "Вкладок с медиа пока нет",
+    "description": "Localized targetEmpty text"
+  },
+  "stateChecking": {
+    "message": "Проверка состояния медиа…",
+    "description": "Localized stateChecking text"
+  },
+  "statePlaying": {
+    "message": "Воспроизводится: $1",
+    "description": "Localized statePlaying text"
+  },
+  "statePaused": {
+    "message": "Расширение приостановило медиа: $1",
+    "description": "Localized statePaused text"
+  },
+  "stateIdle": {
+    "message": "Запустите медиа, чтобы управлять им здесь.",
+    "description": "Localized stateIdle text"
+  },
+  "buttonToggle": {
+    "message": "Пауза / Продолжить",
+    "description": "Localized buttonToggle text"
+  },
+  "buttonPause": {
+    "message": "Пауза",
+    "description": "Localized buttonPause text"
+  },
+  "buttonResume": {
+    "message": "Продолжить",
+    "description": "Localized buttonResume text"
+  },
+  "errorPauseNothing": {
+    "message": "В последней вкладке нет воспроизводимого медиа.",
+    "description": "Localized errorPauseNothing text"
+  },
+  "errorResumeNothing": {
+    "message": "Это расширение не приостанавливало медиа в последней вкладке.",
+    "description": "Localized errorResumeNothing text"
+  },
+  "errorNoTarget": {
+    "message": "Нет медиа для управления. Сначала запустите воспроизведение.",
+    "description": "Localized errorNoTarget text"
+  },
+  "errorPageConnection": {
+    "message": "Не удалось подключиться к странице. Обновите вкладку и попробуйте снова.",
+    "description": "Localized errorPageConnection text"
+  },
+  "errorResumeSome": {
+    "message": "Не удалось возобновить часть медиа. Проверьте всплывающее окно.",
+    "description": "Localized errorResumeSome text"
+  },
+  "errorResumeNone": {
+    "message": "Не удалось найти медиа для возобновления. Обновите вкладку.",
+    "description": "Localized errorResumeNone text"
+  },
+  "errorStateRead": {
+    "message": "Не удалось прочитать состояние расширения.",
+    "description": "Localized errorStateRead text"
+  },
+  "errorControl": {
+    "message": "Не удалось управлять медиа.",
+    "description": "Localized errorControl text"
+  },
+  "shortcutHeading": {
+    "message": "Глобальное сочетание клавиш",
+    "description": "Localized shortcutHeading text"
+  },
+  "shortcutNotSet": {
+    "message": "Не задано",
+    "description": "Localized shortcutNotSet text"
+  },
+  "shortcutSettings": {
+    "message": "Открыть настройки сочетаний",
+    "description": "Localized shortcutSettings text"
+  },
+  "shortcutHint": {
+    "message": "По умолчанию сочетание действует глобально. При желании ограничьте его Chrome.",
+    "description": "Localized shortcutHint text"
+  },
+  "footer": {
+    "message": "Управляет видео и аудио на страницах HTTP и HTTPS.",
+    "description": "Localized footer text"
+  },
+  "statusLabel": {
+    "message": "Состояние медиа",
+    "description": "Localized statusLabel text"
+  }
+}

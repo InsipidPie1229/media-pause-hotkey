@@ -1,0 +1,9 @@
+{
+  "language": "es",
+  "name": "Atajo de medios",
+  "shortDescription": "Pausa y reanuda contenido web en la pestaña de Chrome reproducida más recientemente.",
+  "fullDescription": "Atajo de medios\n\nPausa y reanuda contenido web en la pestaña de Chrome reproducida más recientemente.\n\n• Pausar o reanudar contenido web en la pestaña reproducida más recientemente.\n\n• El alcance predeterminado es global. Puedes cambiarlo a solo Chrome.\n\n• Controla vídeo y audio en páginas HTTP y HTTPS.",
+  "category": "Productivity",
+  "distribution": "Public, all regions",
+  "screenshot": "media-shortcuts-es-1280x800.png"
+}

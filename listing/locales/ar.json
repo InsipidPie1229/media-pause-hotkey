@@ -1,0 +1,9 @@
+{
+  "language": "ar",
+  "name": "اختصار الوسائط",
+  "shortDescription": "أوقف الوسائط أو استأنفها في أحدث علامة تبويب تشغيلًا في Chrome.",
+  "fullDescription": "اختصار الوسائط\n\nأوقف الوسائط أو استأنفها في أحدث علامة تبويب تشغيلًا في Chrome.\n\n• إيقاف الوسائط أو استئنافها في أحدث علامة تبويب تشغيلًا.\n\n• النطاق الافتراضي عام. يمكنك تغييره ليقتصر على Chrome.\n\n• يتحكم في الفيديو والصوت على صفحات HTTP وHTTPS.",
+  "category": "Productivity",
+  "distribution": "Public, all regions",
+  "screenshot": "media-shortcuts-ar-1280x800.png"
+}

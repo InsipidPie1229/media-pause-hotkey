@@ -1,0 +1,9 @@
+{
+  "language": "ja",
+  "name": "メディアショートカット",
+  "shortDescription": "Chromeで最後に再生したタブのウェブメディアを一時停止・再開します。",
+  "fullDescription": "メディアショートカット\n\nChromeで最後に再生したタブのウェブメディアを一時停止・再開します。\n\n• 最後に再生したタブのウェブメディアを一時停止または再開.\n\n• 既定の範囲はグローバルです。必要に応じて Chrome 内に変更できます。\n\n• HTTP と HTTPS のページの動画と音声を操作します。",
+  "category": "Productivity",
+  "distribution": "Public, all regions",
+  "screenshot": "media-shortcuts-ja-1280x800.png"
+}

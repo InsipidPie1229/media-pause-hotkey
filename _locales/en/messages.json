@@ -1,0 +1,114 @@
+{
+  "extName": {
+    "message": "Media Shortcut",
+    "description": "Localized extName text"
+  },
+  "extDescription": {
+    "message": "Pause and resume web media in the most recently playing Chrome tab.",
+    "description": "Localized extDescription text"
+  },
+  "actionTitle": {
+    "message": "Media Shortcut",
+    "description": "Localized actionTitle text"
+  },
+  "commandDescription": {
+    "message": "Pause or resume web media in the most recently playing tab",
+    "description": "Localized commandDescription text"
+  },
+  "popupEyebrow": {
+    "message": "CHROME MEDIA",
+    "description": "Localized popupEyebrow text"
+  },
+  "recentTab": {
+    "message": "Most recently playing tab",
+    "description": "Localized recentTab text"
+  },
+  "targetEmpty": {
+    "message": "No media tab yet",
+    "description": "Localized targetEmpty text"
+  },
+  "stateChecking": {
+    "message": "Checking media status…",
+    "description": "Localized stateChecking text"
+  },
+  "statePlaying": {
+    "message": "$1 media playing",
+    "description": "Localized statePlaying text"
+  },
+  "statePaused": {
+    "message": "$1 media paused by this extension",
+    "description": "Localized statePaused text"
+  },
+  "stateIdle": {
+    "message": "Play media to control it here.",
+    "description": "Localized stateIdle text"
+  },
+  "buttonToggle": {
+    "message": "Pause / Resume",
+    "description": "Localized buttonToggle text"
+  },
+  "buttonPause": {
+    "message": "Pause",
+    "description": "Localized buttonPause text"
+  },
+  "buttonResume": {
+    "message": "Resume",
+    "description": "Localized buttonResume text"
+  },
+  "errorPauseNothing": {
+    "message": "No media is playing in the latest tab.",
+    "description": "Localized errorPauseNothing text"
+  },
+  "errorResumeNothing": {
+    "message": "No media in the latest tab was paused by this extension.",
+    "description": "Localized errorResumeNothing text"
+  },
+  "errorNoTarget": {
+    "message": "No media to control. Start playback once, then try again.",
+    "description": "Localized errorNoTarget text"
+  },
+  "errorPageConnection": {
+    "message": "Could not reach the page. Refresh the tab and try again.",
+    "description": "Localized errorPageConnection text"
+  },
+  "errorResumeSome": {
+    "message": "Some media could not resume. Check the popup.",
+    "description": "Localized errorResumeSome text"
+  },
+  "errorResumeNone": {
+    "message": "Could not find media to resume. Refresh the tab and try again.",
+    "description": "Localized errorResumeNone text"
+  },
+  "errorStateRead": {
+    "message": "Could not read extension status.",
+    "description": "Localized errorStateRead text"
+  },
+  "errorControl": {
+    "message": "Could not control media.",
+    "description": "Localized errorControl text"
+  },
+  "shortcutHeading": {
+    "message": "Global shortcut",
+    "description": "Localized shortcutHeading text"
+  },
+  "shortcutNotSet": {
+    "message": "Not set",
+    "description": "Localized shortcutNotSet text"
+  },
+  "shortcutSettings": {
+    "message": "Open shortcut settings",
+    "description": "Localized shortcutSettings text"
+  },
+  "shortcutHint": {
+    "message": "Global by default. Change the scope to Chrome if you prefer.",
+    "description": "Localized shortcutHint text"
+  },
+  "footer": {
+    "message": "Controls video and audio on HTTP and HTTPS pages.",
+    "description": "Localized footer text"
+  },
+  "statusLabel": {
+    "message": "Media status",
+    "description": "Localized statusLabel text"
+  }
+}

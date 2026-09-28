@@ -1,0 +1,114 @@
+{
+  "extName": {
+    "message": "Atajo de medios",
+    "description": "Localized extName text"
+  },
+  "extDescription": {
+    "message": "Pausa y reanuda contenido web en la pestaña de Chrome reproducida más recientemente.",
+    "description": "Localized extDescription text"
+  },
+  "actionTitle": {
+    "message": "Atajo de medios",
+    "description": "Localized actionTitle text"
+  },
+  "commandDescription": {
+    "message": "Pausar o reanudar contenido web en la pestaña reproducida más recientemente",
+    "description": "Localized commandDescription text"
+  },
+  "popupEyebrow": {
+    "message": "MEDIOS DE CHROME",
+    "description": "Localized popupEyebrow text"
+  },
+  "recentTab": {
+    "message": "Pestaña reproducida más recientemente",
+    "description": "Localized recentTab text"
+  },
+  "targetEmpty": {
+    "message": "Aún no hay ninguna pestaña multimedia",
+    "description": "Localized targetEmpty text"
+  },
+  "stateChecking": {
+    "message": "Comprobando el estado del contenido…",
+    "description": "Localized stateChecking text"
+  },
+  "statePlaying": {
+    "message": "$1 elementos multimedia en reproducción",
+    "description": "Localized statePlaying text"
+  },
+  "statePaused": {
+    "message": "$1 elementos pausados por esta extensión",
+    "description": "Localized statePaused text"
+  },
+  "stateIdle": {
+    "message": "Reproduce contenido para controlarlo aquí.",
+    "description": "Localized stateIdle text"
+  },
+  "buttonToggle": {
+    "message": "Pausar / Reanudar",
+    "description": "Localized buttonToggle text"
+  },
+  "buttonPause": {
+    "message": "Pausar",
+    "description": "Localized buttonPause text"
+  },
+  "buttonResume": {
+    "message": "Reanudar",
+    "description": "Localized buttonResume text"
+  },
+  "errorPauseNothing": {
+    "message": "No se está reproduciendo contenido en la pestaña más reciente.",
+    "description": "Localized errorPauseNothing text"
+  },
+  "errorResumeNothing": {
+    "message": "Esta extensión no pausó contenido en la pestaña más reciente.",
+    "description": "Localized errorResumeNothing text"
+  },
+  "errorNoTarget": {
+    "message": "No hay contenido que controlar. Reproduce algo primero.",
+    "description": "Localized errorNoTarget text"
+  },
+  "errorPageConnection": {
+    "message": "No se pudo acceder a la página. Actualiza la pestaña e inténtalo de nuevo.",
+    "description": "Localized errorPageConnection text"
+  },
+  "errorResumeSome": {
+    "message": "No se pudo reanudar parte del contenido. Compruébalo en la ventana emergente.",
+    "description": "Localized errorResumeSome text"
+  },
+  "errorResumeNone": {
+    "message": "No se encontró contenido para reanudar. Actualiza la pestaña.",
+    "description": "Localized errorResumeNone text"
+  },
+  "errorStateRead": {
+    "message": "No se pudo leer el estado de la extensión.",
+    "description": "Localized errorStateRead text"
+  },
+  "errorControl": {
+    "message": "No se pudo controlar el contenido.",
+    "description": "Localized errorControl text"
+  },
+  "shortcutHeading": {
+    "message": "Atajo global",
+    "description": "Localized shortcutHeading text"
+  },
+  "shortcutNotSet": {
+    "message": "Sin configurar",
+    "description": "Localized shortcutNotSet text"
+  },
+  "shortcutSettings": {
+    "message": "Abrir configuración de atajos",
+    "description": "Localized shortcutSettings text"
+  },
+  "shortcutHint": {
+    "message": "El alcance predeterminado es global. Puedes cambiarlo a solo Chrome.",
+    "description": "Localized shortcutHint text"
+  },
+  "footer": {
+    "message": "Controla vídeo y audio en páginas HTTP y HTTPS.",
+    "description": "Localized footer text"
+  },
+  "statusLabel": {
+    "message": "Estado del contenido",
+    "description": "Localized statusLabel text"
+  }
+}

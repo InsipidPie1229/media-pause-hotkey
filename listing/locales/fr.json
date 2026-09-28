@@ -1,0 +1,9 @@
+{
+  "language": "fr",
+  "name": "Raccourci multimédia",
+  "shortDescription": "Mettez en pause et reprenez les contenus Web dans l'onglet Chrome lu le plus récemment.",
+  "fullDescription": "Raccourci multimédia\n\nMettez en pause et reprenez les contenus Web dans l'onglet Chrome lu le plus récemment.\n\n• Mettre en pause ou reprendre les contenus Web dans l'onglet lu le plus récemment.\n\n• La portée est globale par défaut. Vous pouvez choisir Chrome uniquement.\n\n• Contrôle la vidéo et l'audio des pages HTTP et HTTPS.",
+  "category": "Productivity",
+  "distribution": "Public, all regions",
+  "screenshot": "media-shortcuts-fr-1280x800.png"
+}

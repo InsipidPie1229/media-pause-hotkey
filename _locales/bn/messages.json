@@ -1,0 +1,114 @@
+{
+  "extName": {
+    "message": "মিডিয়া শর্টকাট",
+    "description": "Localized extName text"
+  },
+  "extDescription": {
+    "message": "Chrome-এর সর্বশেষ চালানো ট্যাবে ওয়েব মিডিয়া থামান ও আবার চালান।",
+    "description": "Localized extDescription text"
+  },
+  "actionTitle": {
+    "message": "মিডিয়া শর্টকাট",
+    "description": "Localized actionTitle text"
+  },
+  "commandDescription": {
+    "message": "সর্বশেষ চালানো ট্যাবে ওয়েব মিডিয়া থামান বা আবার চালান",
+    "description": "Localized commandDescription text"
+  },
+  "popupEyebrow": {
+    "message": "CHROME মিডিয়া",
+    "description": "Localized popupEyebrow text"
+  },
+  "recentTab": {
+    "message": "সর্বশেষ চালানো ট্যাব",
+    "description": "Localized recentTab text"
+  },
+  "targetEmpty": {
+    "message": "এখনও কোনো মিডিয়া ট্যাব নেই",
+    "description": "Localized targetEmpty text"
+  },
+  "stateChecking": {
+    "message": "মিডিয়ার অবস্থা দেখা হচ্ছে…",
+    "description": "Localized stateChecking text"
+  },
+  "statePlaying": {
+    "message": "$1টি মিডিয়া চলছে",
+    "description": "Localized statePlaying text"
+  },
+  "statePaused": {
+    "message": "এই এক্সটেনশন $1টি মিডিয়া থামিয়েছে",
+    "description": "Localized statePaused text"
+  },
+  "stateIdle": {
+    "message": "এখানে নিয়ন্ত্রণ করতে মিডিয়া চালান।",
+    "description": "Localized stateIdle text"
+  },
+  "buttonToggle": {
+    "message": "থামান / আবার চালান",
+    "description": "Localized buttonToggle text"
+  },
+  "buttonPause": {
+    "message": "থামান",
+    "description": "Localized buttonPause text"
+  },
+  "buttonResume": {
+    "message": "আবার চালান",
+    "description": "Localized buttonResume text"
+  },
+  "errorPauseNothing": {
+    "message": "সর্বশেষ ট্যাবে কোনো মিডিয়া চলছে না।",
+    "description": "Localized errorPauseNothing text"
+  },
+  "errorResumeNothing": {
+    "message": "এই এক্সটেনশন সর্বশেষ ট্যাবে কোনো মিডিয়া থামায়নি।",
+    "description": "Localized errorResumeNothing text"
+  },
+  "errorNoTarget": {
+    "message": "নিয়ন্ত্রণ করার মতো মিডিয়া নেই। আগে মিডিয়া চালান।",
+    "description": "Localized errorNoTarget text"
+  },
+  "errorPageConnection": {
+    "message": "পেজে সংযোগ করা যায়নি। ট্যাব রিফ্রেশ করে আবার চেষ্টা করুন।",
+    "description": "Localized errorPageConnection text"
+  },
+  "errorResumeSome": {
+    "message": "কিছু মিডিয়া আবার চালানো যায়নি। পপ-আপ দেখুন।",
+    "description": "Localized errorResumeSome text"
+  },
+  "errorResumeNone": {
+    "message": "আবার চালানোর মিডিয়া পাওয়া যায়নি। ট্যাব রিফ্রেশ করুন।",
+    "description": "Localized errorResumeNone text"
+  },
+  "errorStateRead": {
+    "message": "এক্সটেনশনের অবস্থা পড়া যায়নি।",
+    "description": "Localized errorStateRead text"
+  },
+  "errorControl": {
+    "message": "মিডিয়া নিয়ন্ত্রণ করা যায়নি।",
+    "description": "Localized errorControl text"
+  },
+  "shortcutHeading": {
+    "message": "গ্লোবাল শর্টকাট",
+    "description": "Localized shortcutHeading text"
+  },
+  "shortcutNotSet": {
+    "message": "সেট করা নেই",
+    "description": "Localized shortcutNotSet text"
+  },
+  "shortcutSettings": {
+    "message": "শর্টকাট সেটিংস খুলুন",
+    "description": "Localized shortcutSettings text"
+  },
+  "shortcutHint": {
+    "message": "ডিফল্ট পরিসর গ্লোবাল। চাইলে শুধু Chrome-এ পরিবর্তন করুন।",
+    "description": "Localized shortcutHint text"
+  },
+  "footer": {
+    "message": "HTTP ও HTTPS পেজের ভিডিও এবং অডিও নিয়ন্ত্রণ করে.",
+    "description": "Localized footer text"
+  },
+  "statusLabel": {
+    "message": "মিডিয়ার অবস্থা",
+    "description": "Localized statusLabel text"
+  }
+}

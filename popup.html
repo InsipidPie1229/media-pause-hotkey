@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="__MSG_@@ui_locale__" dir="__MSG_@@bidi_dir__">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>__MSG_extName__</title>
+    <link rel="stylesheet" href="popup.css">
+    <script src="popup.js" defer></script>
+  </head>
+  <body>
+    <main class="panel">
+      <header class="heading">
+        <div class="mark" aria-hidden="true">Ⅱ</div>
+        <div>
+          <p class="eyebrow">__MSG_popupEyebrow__</p>
+          <h1>__MSG_extName__</h1>
+        </div>
+        <span class="status-dot" id="statusDot" aria-label="__MSG_statusLabel__"></span>
+      </header>
+
+      <section class="target-card" aria-live="polite">
+        <p class="label">__MSG_recentTab__</p>
+        <p class="target-title" id="targetTitle">__MSG_stateChecking__</p>
+        <p class="target-state" id="targetState">__MSG_stateChecking__</p>
+      </section>
+
+      <div class="actions">
+        <button class="primary" id="toggleButton" type="button">__MSG_buttonToggle__</button>
+        <div class="secondary-actions">
+          <button id="pauseButton" type="button">__MSG_buttonPause__</button>
+          <button id="resumeButton" type="button">__MSG_buttonResume__</button>
+        </div>
+      </div>
+
+      <p class="error" id="errorMessage" role="status" hidden></p>
+
+      <section class="shortcut-card">
+        <p class="label">__MSG_shortcutHeading__</p>
+        <p class="shortcut-value" id="shortcutValue">__MSG_shortcutNotSet__</p>
+        <a href="chrome://extensions/shortcuts" id="shortcutLink">__MSG_shortcutSettings__ <span aria-hidden="true">↗</span></a>
+        <p class="hint">__MSG_shortcutHint__</p>
+      </section>
+
+      <footer>__MSG_footer__</footer>
+    </main>
+  </body>
+</html>

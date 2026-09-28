@@ -1,0 +1,9 @@
+{
+  "language": "hi",
+  "name": "मीडिया शॉर्टकट",
+  "shortDescription": "Chrome के सबसे हाल में चलाए गए टैब में वेब मीडिया रोकें और फिर चलाएँ।",
+  "fullDescription": "मीडिया शॉर्टकट\n\nChrome के सबसे हाल में चलाए गए टैब में वेब मीडिया रोकें और फिर चलाएँ।\n\n• सबसे हाल में चलाए गए टैब में वेब मीडिया रोकें या फिर चलाएँ.\n\n• डिफ़ॉल्ट दायरा वैश्विक है। चाहें तो इसे केवल Chrome पर सेट करें।\n\n• HTTP और HTTPS पेजों पर वीडियो और ऑडियो नियंत्रित करता है।",
+  "category": "Productivity",
+  "distribution": "Public, all regions",
+  "screenshot": "media-shortcuts-hi-1280x800.png"
+}
