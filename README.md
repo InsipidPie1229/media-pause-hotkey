@@ -42,12 +42,12 @@ The same page also lists five optional volume and speed shortcuts (volume up/dow
 
 ## Volume above 100% (experimental, 1.2.0)
 
-- Off by default. Turn on **Allow volume above 100% (experimental)** in the popup to use 0–300%. While it is off, volume stays within 0–100% and no Web Audio processing is used.
+- Off by default. Turn on **Allow volume above 100% (experimental)** in the popup to use 0–300%. While it is off, volume stays within 0–100%. Web Audio processing is not used until a media item is boosted for the first time; media boosted earlier keeps its audio path until the page is reloaded, even after the option is turned off.
 - Turning it on connects nothing by itself. Only a request above 100% connects that media item to a Web Audio gain node (gain only, no compressor). Other tabs and new media are never boosted automatically.
 - Once connected, that media item uses the browser's audio processing until the page is reloaded, also when you later go back to 100% or below.
 - Boost is refused, and the current volume is kept, when the media comes from another site without CORS permission, when the page has not been interacted with yet, when the page or an earlier extension instance already uses Web Audio for it, or when audio processing cannot start. The popup reports how many items were adjusted.
 - If a boosted item later switches to a source from another site, its output may be limited (often silent). The popup shows this as an estimate; reload the page if you hear nothing. The extension never changes the source or starts playback to recover.
-- Turning the option off sets every boost back to 100% gain and blocks new boosts; the audio path stays until reload.
+- Turning the option off sets every boost back to 100% gain and blocks new boosts, including requests still in progress; the audio path stays until reload. If a page frame does not respond, the popup says the reset could not be confirmed there. It is retried when that page responds again, and reloading the page also removes the boost.
 - After an extension update or reload, an older instance drops its own boost on a best-effort basis (a timer plus media events; timers can be delayed in hidden tabs).
 - Loud boosted sound can distort.
 

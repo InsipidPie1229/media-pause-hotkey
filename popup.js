@@ -38,6 +38,9 @@ function localizePopup() {
   for (const element of document.querySelectorAll("[data-i18n]")) {
     element.textContent = t(element.dataset.i18n);
   }
+  for (const element of document.querySelectorAll("[data-i18n-title]")) {
+    element.title = t(element.dataset.i18nTitle);
+  }
   for (const element of document.querySelectorAll("[data-i18n-aria-label]")) {
     element.setAttribute("aria-label", t(element.dataset.i18nAriaLabel));
   }
@@ -64,6 +67,7 @@ function paintFader() {
 function setBoostRange(enabled) {
   boostEnabled = enabled;
   elements.boostToggle.checked = enabled;
+  document.getElementById("boostSection").classList.toggle("is-on", enabled);
   elements.volumeSlider.max = enabled ? "300" : "100";
   elements.volumeSlider.setAttribute("aria-valuetext", Math.round(elements.volumeSlider.valueAsNumber) + "%");
   paintFader();

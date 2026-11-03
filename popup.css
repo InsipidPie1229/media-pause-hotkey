@@ -43,6 +43,9 @@
 
 * { box-sizing: border-box; }
 
+/* The popup window can be wider than the body (scrollbar space); keep one background. */
+html { background: var(--bg); }
+
 body {
   width: 340px;
   margin: 0;
@@ -50,7 +53,7 @@ body {
   color: var(--ink);
 }
 
-.panel { padding: 18px 18px 14px; }
+.panel { padding: 14px 16px 12px; }
 
 p { margin: 0; }
 
@@ -58,13 +61,13 @@ p { margin: 0; }
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 }
 
 .mark {
   display: grid;
-  width: 30px;
-  height: 30px;
+  width: 26px;
+  height: 26px;
   place-items: center;
   border-radius: 9px;
   background: var(--navy);
@@ -73,12 +76,13 @@ p { margin: 0; }
   font-weight: 800;
 }
 
-h1 { margin: 0; font-size: 16px; font-weight: 700; letter-spacing: -.01em; }
+/* h1 takes the free space so the status dot sits at the end in every popup size. */
+h1 { flex: 1 1 auto; min-width: 0; margin: 0; font-size: 16px; font-weight: 700; letter-spacing: -.01em; }
 
 .status-dot {
   width: 9px;
+  flex: none;
   height: 9px;
-  margin-inline-start: auto;
   border-radius: 50%;
   background: var(--muted);
   opacity: .55;
@@ -111,7 +115,7 @@ h1 { margin: 0; font-size: 16px; font-weight: 700; letter-spacing: -.01em; }
   line-height: 1.45;
 }
 
-.actions { margin: 14px 0; }
+.actions { margin: 12px 0; }
 
 button {
   min-height: 36px;
@@ -135,7 +139,7 @@ button:focus-visible, a:focus-visible, .fader input:focus-visible, .switch input
 
 .primary {
   width: 100%;
-  min-height: 42px;
+  min-height: 40px;
   border-color: var(--navy);
   background: var(--navy);
   color: var(--on-navy);
@@ -143,11 +147,12 @@ button:focus-visible, a:focus-visible, .fader input:focus-visible, .switch input
 
 .primary:hover:not(:disabled) { border-color: var(--navy-hover); background: var(--navy-hover); }
 
-.secondary-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; }
+.secondary-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 6px; }
+.secondary-actions button { min-height: 32px; }
 
 /* The mixer is the one emphasised surface: a volume fader with a 100% detent. */
 .mixer {
-  padding: 14px 14px 12px;
+  padding: 12px 12px 10px;
   border: 1px solid var(--line);
   border-radius: 14px;
   background: var(--surface);
@@ -161,7 +166,7 @@ button:focus-visible, a:focus-visible, .fader input:focus-visible, .switch input
 }
 
 .readout {
-  font-size: 26px;
+  font-size: 24px;
   font-weight: 650;
   font-variant-numeric: tabular-nums;
   letter-spacing: -.02em;
@@ -175,7 +180,7 @@ button:focus-visible, a:focus-visible, .fader input:focus-visible, .switch input
   --fill: 100%;
   --detent: 100%;
   position: relative;
-  margin: 10px 0 2px;
+  margin: 6px 0 0;
 }
 
 .fader input {
@@ -246,17 +251,17 @@ button:focus-visible, a:focus-visible, .fader input:focus-visible, .switch input
 .scale span:last-child { right: 0; }
 .scale .scale-mid { left: calc(9px + (100% - 18px) / 3); transform: translateX(-50%); }
 
-.speed-head { margin-top: 14px; }
+.speed-head { margin-top: 10px; }
 
 .speed {
   display: grid;
   grid-template-columns: 30px repeat(5, 1fr) 30px;
   gap: 5px;
-  margin-top: 8px;
+  margin-top: 6px;
 }
 
 .speed button {
-  min-height: 32px;
+  min-height: 30px;
   padding: 0;
   font-size: 12px;
   font-variant-numeric: tabular-nums;
@@ -271,7 +276,7 @@ button:focus-visible, a:focus-visible, .fader input:focus-visible, .switch input
 }
 
 .note {
-  margin-top: 10px;
+  margin-top: 8px;
   color: var(--muted);
   font-size: 12px;
   line-height: 1.45;
@@ -285,8 +290,8 @@ button:focus-visible, a:focus-visible, .fader input:focus-visible, .switch input
 }
 
 .boost {
-  margin-top: 12px;
-  padding-top: 11px;
+  margin-top: 10px;
+  padding-top: 9px;
   border-top: 1px solid var(--line);
 }
 
@@ -334,7 +339,9 @@ button:focus-visible, a:focus-visible, .fader input:focus-visible, .switch input
 .switch input:checked + .switch-track { background: var(--boost-fill); }
 .switch input:checked + .switch-track::after { inset-inline-start: 16px; }
 .switch input:disabled + .switch-track { opacity: .45; }
-.boost-hint { margin-top: 5px; margin-inline-start: 41px; }
+.boost-hint { margin-top: 4px; margin-inline-start: 41px; font-size: 11px; }
+/* The hint explains what turning boost on does; once on, the boost note takes over. */
+.boost.is-on .boost-hint { display: none; }
 
 .error {
   margin: 10px 2px 0;
@@ -344,11 +351,12 @@ button:focus-visible, a:focus-visible, .fader input:focus-visible, .switch input
 }
 
 .shortcuts {
-  margin-top: 16px;
+  margin-top: 12px;
   padding: 0 2px;
 }
 
-.shortcut-value { margin: 4px 0 3px; font-size: 14px; font-weight: 700; }
+.shortcut-value { margin: 2px 0; font-size: 14px; font-weight: 700; }
+.shortcuts .hint { font-size: 11px; }
 .shortcuts .hint + .hint { margin-top: 2px; }
 
 a { color: var(--paused); font-size: 12px; font-weight: 600; text-decoration: none; }
@@ -358,8 +366,8 @@ a:hover { text-decoration: underline; }
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 14px;
-  padding-top: 10px;
+  margin-top: 10px;
+  padding-top: 6px;
   border-top: 1px solid var(--line);
 }
 
@@ -376,7 +384,6 @@ a:hover { text-decoration: underline; }
 
 #diagnosticsStatus:empty { display: none; }
 #diagnosticsText { width: 100%; height: 120px; margin-top: 8px; font-size: 11px; }
-.fine { margin-top: 6px; font-size: 11px; }
 
 @media (prefers-reduced-motion: reduce) {
   .ready .switch-track, .ready .switch-track::after { transition: none; }
