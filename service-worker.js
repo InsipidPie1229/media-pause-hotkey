@@ -241,8 +241,11 @@ function adjustSelection(state, tabId) {
     reason: resume.items.length ? "resume-target" : resume.reason };
 }
 
+// Pins tab, document, frame, media element and source generation, so a popup
+// cannot adjust a replacement element or a new source it never displayed.
 function selectionKey(tabId, items) {
-  return tabId + "|" + [...new Set(items.map(item => item.documentId))].sort().join(",");
+  return tabId + "|" + items.map(item => [item.documentId, item.frameId, item.mediaId, item.sourceVersion || 0].join(":"))
+    .sort().join(",");
 }
 
 function levelsFor(items) {
