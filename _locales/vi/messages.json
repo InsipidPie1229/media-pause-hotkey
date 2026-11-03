@@ -36,7 +36,7 @@
     "description": "Localized statePlaying text"
   },
   "statePaused": {
-    "message": "Tiện ích này đã tạm dừng $1 nội dung",
+    "message": "Có thể tiếp tục $1 nội dung",
     "description": "Localized statePaused text"
   },
   "stateIdle": {
@@ -60,7 +60,7 @@
     "description": "Localized errorPauseNothing text"
   },
   "errorResumeNothing": {
-    "message": "Tiện ích này chưa tạm dừng nội dung nào trong thẻ gần đây nhất.",
+    "message": "Không có nội dung đã phát nào có thể tiếp tục trong thẻ gần nhất.",
     "description": "Localized errorResumeNothing text"
   },
   "errorNoTarget": {
@@ -68,8 +68,7 @@
     "description": "Localized errorNoTarget text"
   },
   "errorPageConnection": {
-    "message": "Không thể kết nối với trang. Hãy tải lại thẻ rồi thử lại.",
-    "description": "Localized errorPageConnection text"
+    "message": "Không thể kết nối với trang. Hãy thử lại phím tắt khi trang phản hồi."
   },
   "errorResumeSome": {
     "message": "Không thể tiếp tục một số nội dung. Hãy kiểm tra cửa sổ bật lên.",
@@ -110,5 +109,29 @@
   "statusLabel": {
     "message": "Trạng thái phương tiện",
     "description": "Localized statusLabel text"
+  },
+  "stateUnknown": {
+    "message": "Không thể xác nhận trạng thái nội dung."
+  },
+  "errorAmbiguousTarget": {
+    "message": "Nội dung đang phát ở nhiều thẻ. Hãy bắt đầu phát lại trong thẻ bạn muốn điều khiển."
+  },
+  "buttonDiagnostics": {
+    "message": "Sao chép chẩn đoán"
+  },
+  "diagnosticsCopied": {
+    "message": "Đã sao chép chẩn đoán."
+  },
+  "diagnosticsCopyFailed": {
+    "message": "Không thể sao chép. Hãy sao chép văn bản bên dưới."
+  },
+  "errorResumeBlocked": {
+    "message": "Trình duyệt đã chặn phát. Hãy phát nội dung trên trang web rồi thử lại."
+  },
+  "errorResumeTimeout": {
+    "message": "Nội dung không bắt đầu phát trong sáu giây. Hãy nhấn phím tắt để thử lại."
+  },
+  "errorResumeAmbiguous": {
+    "message": "Không thể xác định thứ tự phát của nhiều nội dung. Hãy phát nội dung bạn muốn trên trang web một lần rồi thử lại."
   }
 }

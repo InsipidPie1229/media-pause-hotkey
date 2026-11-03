@@ -36,7 +36,7 @@
     "description": "Localized statePlaying text"
   },
   "statePaused": {
-    "message": "$1 mídias pausadas por esta extensão",
+    "message": "$1 mídias disponíveis para retomar",
     "description": "Localized statePaused text"
   },
   "stateIdle": {
@@ -60,7 +60,7 @@
     "description": "Localized errorPauseNothing text"
   },
   "errorResumeNothing": {
-    "message": "Esta extensão não pausou mídias na guia mais recente.",
+    "message": "Não há mídia reproduzida anteriormente disponível para retomar na última aba.",
     "description": "Localized errorResumeNothing text"
   },
   "errorNoTarget": {
@@ -68,8 +68,7 @@
     "description": "Localized errorNoTarget text"
   },
   "errorPageConnection": {
-    "message": "Não foi possível acessar a página. Atualize a guia e tente novamente.",
-    "description": "Localized errorPageConnection text"
+    "message": "Não foi possível acessar a página. Tente o atalho novamente quando ela responder."
   },
   "errorResumeSome": {
     "message": "Não foi possível retomar algumas mídias. Confira o pop-up.",
@@ -110,5 +109,29 @@
   "statusLabel": {
     "message": "Estado da mídia",
     "description": "Localized statusLabel text"
+  },
+  "stateUnknown": {
+    "message": "Não foi possível confirmar o estado da mídia."
+  },
+  "errorAmbiguousTarget": {
+    "message": "Há mídia em reprodução em várias abas. Reinicie a reprodução na aba que deseja controlar."
+  },
+  "buttonDiagnostics": {
+    "message": "Copiar diagnóstico"
+  },
+  "diagnosticsCopied": {
+    "message": "Diagnóstico copiado."
+  },
+  "diagnosticsCopyFailed": {
+    "message": "Não foi possível copiar. Copie o texto abaixo."
+  },
+  "errorResumeBlocked": {
+    "message": "O navegador bloqueou a reprodução. Reproduza a mídia no site e tente novamente."
+  },
+  "errorResumeTimeout": {
+    "message": "A reprodução não começou em seis segundos. Pressione o atalho novamente."
+  },
+  "errorResumeAmbiguous": {
+    "message": "Não foi possível determinar a ordem de reprodução de várias mídias. Reproduza uma vez a mídia desejada no site e tente novamente."
   }
 }

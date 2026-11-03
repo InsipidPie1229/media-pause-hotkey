@@ -36,7 +36,7 @@
     "description": "Localized statePlaying text"
   },
   "statePaused": {
-    "message": "此扩展程序已暂停 $1 个媒体",
+    "message": "$1 个媒体可恢复播放",
     "description": "Localized statePaused text"
   },
   "stateIdle": {
@@ -60,7 +60,7 @@
     "description": "Localized errorPauseNothing text"
   },
   "errorResumeNothing": {
-    "message": "此扩展程序没有暂停最近播放标签页中的媒体。",
+    "message": "最近播放的标签页中没有可恢复播放的媒体。",
     "description": "Localized errorResumeNothing text"
   },
   "errorNoTarget": {
@@ -68,8 +68,7 @@
     "description": "Localized errorNoTarget text"
   },
   "errorPageConnection": {
-    "message": "无法连接到页面。请刷新标签页后重试。",
-    "description": "Localized errorPageConnection text"
+    "message": "无法连接页面。页面响应后，请重试快捷键。"
   },
   "errorResumeSome": {
     "message": "部分媒体无法恢复，请查看弹出窗口。",
@@ -110,5 +109,29 @@
   "statusLabel": {
     "message": "媒体状态",
     "description": "Localized statusLabel text"
+  },
+  "stateUnknown": {
+    "message": "无法确认媒体状态。"
+  },
+  "errorAmbiguousTarget": {
+    "message": "多个标签页正在播放媒体。请在要控制的标签页中重新开始播放。"
+  },
+  "buttonDiagnostics": {
+    "message": "复制诊断记录"
+  },
+  "diagnosticsCopied": {
+    "message": "已复制诊断记录。"
+  },
+  "diagnosticsCopyFailed": {
+    "message": "无法复制。请复制下方文本。"
+  },
+  "errorResumeBlocked": {
+    "message": "浏览器阻止了播放。请在网站上播放媒体后重试。"
+  },
+  "errorResumeTimeout": {
+    "message": "播放未在六秒内开始。请再次按快捷键重试。"
+  },
+  "errorResumeAmbiguous": {
+    "message": "无法区分多个媒体的播放顺序。请在网站上播放一次要控制的媒体，然后重试。"
   }
 }

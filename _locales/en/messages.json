@@ -36,7 +36,7 @@
     "description": "Localized statePlaying text"
   },
   "statePaused": {
-    "message": "$1 media paused by this extension",
+    "message": "$1 media available to resume",
     "description": "Localized statePaused text"
   },
   "stateIdle": {
@@ -60,7 +60,7 @@
     "description": "Localized errorPauseNothing text"
   },
   "errorResumeNothing": {
-    "message": "No media in the latest tab was paused by this extension.",
+    "message": "No previously played media is available to resume in the latest tab.",
     "description": "Localized errorResumeNothing text"
   },
   "errorNoTarget": {
@@ -68,8 +68,7 @@
     "description": "Localized errorNoTarget text"
   },
   "errorPageConnection": {
-    "message": "Could not reach the page. Refresh the tab and try again.",
-    "description": "Localized errorPageConnection text"
+    "message": "Could not reach the page. Try the shortcut again when the page responds."
   },
   "errorResumeSome": {
     "message": "Some media could not resume. Check the popup.",
@@ -110,5 +109,29 @@
   "statusLabel": {
     "message": "Media status",
     "description": "Localized statusLabel text"
+  },
+  "stateUnknown": {
+    "message": "Unable to confirm media status."
+  },
+  "errorAmbiguousTarget": {
+    "message": "Media is playing in multiple tabs. Start playback in the tab you want to control."
+  },
+  "buttonDiagnostics": {
+    "message": "Copy diagnostics"
+  },
+  "diagnosticsCopied": {
+    "message": "Diagnostics copied."
+  },
+  "diagnosticsCopyFailed": {
+    "message": "Could not copy diagnostics. Copy the text below."
+  },
+  "errorResumeBlocked": {
+    "message": "The browser blocked playback. Start media on the site, then try again."
+  },
+  "errorResumeTimeout": {
+    "message": "Playback did not start within six seconds. Try the shortcut again."
+  },
+  "errorResumeAmbiguous": {
+    "message": "Several media items have the same playback order. Play the item you want on the site once, then try again."
   }
 }

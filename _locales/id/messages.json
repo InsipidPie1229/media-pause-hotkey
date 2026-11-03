@@ -36,7 +36,7 @@
     "description": "Localized statePlaying text"
   },
   "statePaused": {
-    "message": "$1 media dijeda oleh ekstensi ini",
+    "message": "$1 media dapat dilanjutkan",
     "description": "Localized statePaused text"
   },
   "stateIdle": {
@@ -60,7 +60,7 @@
     "description": "Localized errorPauseNothing text"
   },
   "errorResumeNothing": {
-    "message": "Ekstensi ini tidak menjeda media di tab terbaru.",
+    "message": "Tidak ada media yang pernah diputar dan dapat dilanjutkan di tab terakhir.",
     "description": "Localized errorResumeNothing text"
   },
   "errorNoTarget": {
@@ -68,8 +68,7 @@
     "description": "Localized errorNoTarget text"
   },
   "errorPageConnection": {
-    "message": "Tidak dapat terhubung ke halaman. Muat ulang tab lalu coba lagi.",
-    "description": "Localized errorPageConnection text"
+    "message": "Halaman tidak dapat dijangkau. Coba pintasan lagi saat halaman merespons."
   },
   "errorResumeSome": {
     "message": "Beberapa media tidak dapat dilanjutkan. Periksa pop-up.",
@@ -110,5 +109,29 @@
   "statusLabel": {
     "message": "Status media",
     "description": "Localized statusLabel text"
+  },
+  "stateUnknown": {
+    "message": "Status media tidak dapat dipastikan."
+  },
+  "errorAmbiguousTarget": {
+    "message": "Media diputar di beberapa tab. Mulai ulang pemutaran di tab yang ingin dikontrol."
+  },
+  "buttonDiagnostics": {
+    "message": "Salin diagnostik"
+  },
+  "diagnosticsCopied": {
+    "message": "Diagnostik disalin."
+  },
+  "diagnosticsCopyFailed": {
+    "message": "Tidak dapat menyalin. Salin teks di bawah."
+  },
+  "errorResumeBlocked": {
+    "message": "Browser memblokir pemutaran. Putar media di situs, lalu coba lagi."
+  },
+  "errorResumeTimeout": {
+    "message": "Pemutaran tidak dimulai dalam enam detik. Tekan pintasan lagi."
+  },
+  "errorResumeAmbiguous": {
+    "message": "Urutan pemutaran beberapa media tidak dapat ditentukan. Putar media yang diinginkan sekali di situs, lalu coba lagi."
   }
 }

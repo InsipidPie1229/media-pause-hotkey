@@ -36,7 +36,7 @@
     "description": "Localized statePlaying text"
   },
   "statePaused": {
-    "message": "أوقف هذا الامتداد $1 من الوسائط",
+    "message": "يمكن استئناف تشغيل $1 من الوسائط",
     "description": "Localized statePaused text"
   },
   "stateIdle": {
@@ -60,7 +60,7 @@
     "description": "Localized errorPauseNothing text"
   },
   "errorResumeNothing": {
-    "message": "لم يوقف هذا الامتداد وسائط في أحدث علامة تبويب.",
+    "message": "لا توجد وسائط سبق تشغيلها ويمكن استئنافها في آخر علامة تبويب.",
     "description": "Localized errorResumeNothing text"
   },
   "errorNoTarget": {
@@ -68,8 +68,7 @@
     "description": "Localized errorNoTarget text"
   },
   "errorPageConnection": {
-    "message": "تعذّر الاتصال بالصفحة. حدّث علامة التبويب ثم حاول مجددًا.",
-    "description": "Localized errorPageConnection text"
+    "message": "تعذر الوصول إلى الصفحة. جرّب الاختصار مجددًا عندما تستجيب الصفحة."
   },
   "errorResumeSome": {
     "message": "تعذّر استئناف بعض الوسائط. تحقّق من النافذة المنبثقة.",
@@ -110,5 +109,29 @@
   "statusLabel": {
     "message": "حالة الوسائط",
     "description": "Localized statusLabel text"
+  },
+  "stateUnknown": {
+    "message": "تعذر تأكيد حالة الوسائط."
+  },
+  "errorAmbiguousTarget": {
+    "message": "تعمل الوسائط في عدة علامات تبويب. أعد بدء التشغيل في علامة التبويب التي تريد التحكم بها."
+  },
+  "buttonDiagnostics": {
+    "message": "نسخ التشخيص"
+  },
+  "diagnosticsCopied": {
+    "message": "تم نسخ التشخيص."
+  },
+  "diagnosticsCopyFailed": {
+    "message": "تعذر النسخ. انسخ النص أدناه."
+  },
+  "errorResumeBlocked": {
+    "message": "منع المتصفح التشغيل. شغّل الوسائط على الموقع ثم حاول مجددًا."
+  },
+  "errorResumeTimeout": {
+    "message": "لم يبدأ التشغيل خلال ست ثوانٍ. اضغط اختصار لوحة المفاتيح مجددًا."
+  },
+  "errorResumeAmbiguous": {
+    "message": "لا يمكن تحديد ترتيب تشغيل عدة وسائط. شغّل الوسائط المطلوبة مرة واحدة على الموقع ثم حاول مجددًا."
   }
 }

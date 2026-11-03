@@ -36,7 +36,7 @@
     "description": "Localized statePlaying text"
   },
   "statePaused": {
-    "message": "$1 medya bu uzantı tarafından duraklatıldı",
+    "message": "$1 medya sürdürülebilir",
     "description": "Localized statePaused text"
   },
   "stateIdle": {
@@ -60,7 +60,7 @@
     "description": "Localized errorPauseNothing text"
   },
   "errorResumeNothing": {
-    "message": "Bu uzantı en son sekmede medya duraklatmadı.",
+    "message": "Son sekmede daha önce oynatılmış ve sürdürülebilecek medya yok.",
     "description": "Localized errorResumeNothing text"
   },
   "errorNoTarget": {
@@ -68,8 +68,7 @@
     "description": "Localized errorNoTarget text"
   },
   "errorPageConnection": {
-    "message": "Sayfaya bağlanılamadı. Sekmeyi yenileyip tekrar deneyin.",
-    "description": "Localized errorPageConnection text"
+    "message": "Sayfaya ulaşılamıyor. Sayfa yanıt verdiğinde kısayolu tekrar deneyin."
   },
   "errorResumeSome": {
     "message": "Bazı medya öğeleri sürdürülemedi. Açılır pencereyi kontrol edin.",
@@ -110,5 +109,29 @@
   "statusLabel": {
     "message": "Medya durumu",
     "description": "Localized statusLabel text"
+  },
+  "stateUnknown": {
+    "message": "Medya durumu doğrulanamıyor."
+  },
+  "errorAmbiguousTarget": {
+    "message": "Birden fazla sekmede medya oynatılıyor. Kontrol etmek istediğiniz sekmede oynatmayı yeniden başlatın."
+  },
+  "buttonDiagnostics": {
+    "message": "Tanılama kaydını kopyala"
+  },
+  "diagnosticsCopied": {
+    "message": "Tanılama kaydı kopyalandı."
+  },
+  "diagnosticsCopyFailed": {
+    "message": "Kopyalanamadı. Aşağıdaki metni kopyalayın."
+  },
+  "errorResumeBlocked": {
+    "message": "Tarayıcı oynatmayı engelledi. Medyayı sitede başlatıp tekrar deneyin."
+  },
+  "errorResumeTimeout": {
+    "message": "Oynatma altı saniye içinde başlamadı. Kısayola tekrar basın."
+  },
+  "errorResumeAmbiguous": {
+    "message": "Birden fazla medyanın oynatma sırası belirlenemiyor. İstediğiniz medyayı sitede bir kez oynatıp tekrar deneyin."
   }
 }

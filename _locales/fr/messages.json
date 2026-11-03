@@ -36,7 +36,7 @@
     "description": "Localized statePlaying text"
   },
   "statePaused": {
-    "message": "$1 contenus mis en pause par cette extension",
+    "message": "$1 médias peuvent reprendre",
     "description": "Localized statePaused text"
   },
   "stateIdle": {
@@ -60,7 +60,7 @@
     "description": "Localized errorPauseNothing text"
   },
   "errorResumeNothing": {
-    "message": "Cette extension n'a mis aucun contenu en pause dans l'onglet récent.",
+    "message": "Aucun média déjà lu ne peut reprendre dans le dernier onglet.",
     "description": "Localized errorResumeNothing text"
   },
   "errorNoTarget": {
@@ -68,8 +68,7 @@
     "description": "Localized errorNoTarget text"
   },
   "errorPageConnection": {
-    "message": "Impossible d'accéder à la page. Actualisez l'onglet et réessayez.",
-    "description": "Localized errorPageConnection text"
+    "message": "La page est inaccessible. Réessayez le raccourci quand elle répond."
   },
   "errorResumeSome": {
     "message": "Certains contenus n'ont pas repris. Vérifiez la fenêtre pop-up.",
@@ -110,5 +109,29 @@
   "statusLabel": {
     "message": "État du média",
     "description": "Localized statusLabel text"
+  },
+  "stateUnknown": {
+    "message": "Impossible de confirmer l’état du média."
+  },
+  "errorAmbiguousTarget": {
+    "message": "Plusieurs onglets lisent des médias. Relancez la lecture dans l’onglet à contrôler."
+  },
+  "buttonDiagnostics": {
+    "message": "Copier le diagnostic"
+  },
+  "diagnosticsCopied": {
+    "message": "Diagnostic copié."
+  },
+  "diagnosticsCopyFailed": {
+    "message": "Échec de la copie. Copiez le texte ci-dessous."
+  },
+  "errorResumeBlocked": {
+    "message": "Le navigateur a bloqué la lecture. Lancez le média sur le site, puis réessayez."
+  },
+  "errorResumeTimeout": {
+    "message": "La lecture n’a pas démarré dans les six secondes. Appuyez à nouveau sur le raccourci."
+  },
+  "errorResumeAmbiguous": {
+    "message": "L’ordre de lecture de plusieurs médias est indéterminé. Lancez une fois le média souhaité sur le site, puis réessayez."
   }
 }

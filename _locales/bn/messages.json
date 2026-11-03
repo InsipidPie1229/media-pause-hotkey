@@ -36,7 +36,7 @@
     "description": "Localized statePlaying text"
   },
   "statePaused": {
-    "message": "এই এক্সটেনশন $1টি মিডিয়া থামিয়েছে",
+    "message": "$1টি মিডিয়া আবার চালানো যাবে",
     "description": "Localized statePaused text"
   },
   "stateIdle": {
@@ -60,7 +60,7 @@
     "description": "Localized errorPauseNothing text"
   },
   "errorResumeNothing": {
-    "message": "এই এক্সটেনশন সর্বশেষ ট্যাবে কোনো মিডিয়া থামায়নি।",
+    "message": "সর্বশেষ ট্যাবে আগে চালানো কোনো মিডিয়া আবার চালানোর জন্য উপলব্ধ নেই।",
     "description": "Localized errorResumeNothing text"
   },
   "errorNoTarget": {
@@ -68,8 +68,7 @@
     "description": "Localized errorNoTarget text"
   },
   "errorPageConnection": {
-    "message": "পেজে সংযোগ করা যায়নি। ট্যাব রিফ্রেশ করে আবার চেষ্টা করুন।",
-    "description": "Localized errorPageConnection text"
+    "message": "পেজের সঙ্গে সংযোগ করা যায়নি। পেজ সাড়া দিলে শর্টকাট আবার চেষ্টা করুন।"
   },
   "errorResumeSome": {
     "message": "কিছু মিডিয়া আবার চালানো যায়নি। পপ-আপ দেখুন।",
@@ -110,5 +109,29 @@
   "statusLabel": {
     "message": "মিডিয়ার অবস্থা",
     "description": "Localized statusLabel text"
+  },
+  "stateUnknown": {
+    "message": "মিডিয়ার অবস্থা নিশ্চিত করা যাচ্ছে না।"
+  },
+  "errorAmbiguousTarget": {
+    "message": "একাধিক ট্যাবে মিডিয়া চলছে। যে ট্যাব নিয়ন্ত্রণ করতে চান, সেখানে আবার চালানো শুরু করুন।"
+  },
+  "buttonDiagnostics": {
+    "message": "ডায়াগনস্টিক কপি করুন"
+  },
+  "diagnosticsCopied": {
+    "message": "ডায়াগনস্টিক কপি করা হয়েছে।"
+  },
+  "diagnosticsCopyFailed": {
+    "message": "কপি করা যায়নি। নিচের লেখা কপি করুন।"
+  },
+  "errorResumeBlocked": {
+    "message": "ব্রাউজার প্লেব্যাক আটকে দিয়েছে। সাইটে মিডিয়া চালিয়ে আবার চেষ্টা করুন।"
+  },
+  "errorResumeTimeout": {
+    "message": "ছয় সেকেন্ডের মধ্যে প্লেব্যাক শুরু হয়নি। শর্টকাট আবার চাপুন।"
+  },
+  "errorResumeAmbiguous": {
+    "message": "একাধিক মিডিয়ার প্লেব্যাকের ক্রম বোঝা যাচ্ছে না। সাইটে আপনার পছন্দের মিডিয়াটি একবার চালিয়ে আবার চেষ্টা করুন।"
   }
 }

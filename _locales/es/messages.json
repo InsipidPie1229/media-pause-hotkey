@@ -36,7 +36,7 @@
     "description": "Localized statePlaying text"
   },
   "statePaused": {
-    "message": "$1 elementos pausados por esta extensión",
+    "message": "$1 medios disponibles para reanudar",
     "description": "Localized statePaused text"
   },
   "stateIdle": {
@@ -60,7 +60,7 @@
     "description": "Localized errorPauseNothing text"
   },
   "errorResumeNothing": {
-    "message": "Esta extensión no pausó contenido en la pestaña más reciente.",
+    "message": "No hay contenido reproducido anteriormente que se pueda reanudar en la última pestaña.",
     "description": "Localized errorResumeNothing text"
   },
   "errorNoTarget": {
@@ -68,8 +68,7 @@
     "description": "Localized errorNoTarget text"
   },
   "errorPageConnection": {
-    "message": "No se pudo acceder a la página. Actualiza la pestaña e inténtalo de nuevo.",
-    "description": "Localized errorPageConnection text"
+    "message": "No se puede acceder a la página. Prueba el atajo cuando la página responda."
   },
   "errorResumeSome": {
     "message": "No se pudo reanudar parte del contenido. Compruébalo en la ventana emergente.",
@@ -110,5 +109,29 @@
   "statusLabel": {
     "message": "Estado del contenido",
     "description": "Localized statusLabel text"
+  },
+  "stateUnknown": {
+    "message": "No se puede confirmar el estado del contenido."
+  },
+  "errorAmbiguousTarget": {
+    "message": "Hay contenido reproduciéndose en varias pestañas. Reinicia la reproducción en la pestaña que deseas controlar."
+  },
+  "buttonDiagnostics": {
+    "message": "Copiar diagnóstico"
+  },
+  "diagnosticsCopied": {
+    "message": "Diagnóstico copiado."
+  },
+  "diagnosticsCopyFailed": {
+    "message": "No se pudo copiar. Copia el texto de abajo."
+  },
+  "errorResumeBlocked": {
+    "message": "El navegador bloqueó la reproducción. Reproduce el contenido en el sitio y vuelve a intentarlo."
+  },
+  "errorResumeTimeout": {
+    "message": "La reproducción no comenzó en seis segundos. Vuelve a pulsar el atajo."
+  },
+  "errorResumeAmbiguous": {
+    "message": "No se puede determinar el orden de reproducción de varios elementos. Reproduce una vez el contenido que quieras en el sitio y vuelve a intentarlo."
   }
 }

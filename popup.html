@@ -1,10 +1,11 @@
 <!doctype html>
-<html lang="__MSG_@@ui_locale__" dir="__MSG_@@bidi_dir__">
+<html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>__MSG_extName__</title>
+    <title data-i18n="extName">Media Shortcut</title>
     <link rel="stylesheet" href="popup.css">
+    <script src="i18n.js" defer></script>
     <script src="popup.js" defer></script>
   </head>
   <body>
@@ -12,36 +13,40 @@
       <header class="heading">
         <div class="mark" aria-hidden="true">Ⅱ</div>
         <div>
-          <p class="eyebrow">__MSG_popupEyebrow__</p>
-          <h1>__MSG_extName__</h1>
+          <p class="eyebrow" data-i18n="popupEyebrow">CHROME MEDIA</p>
+          <h1 data-i18n="extName">Media Shortcut</h1>
         </div>
-        <span class="status-dot" id="statusDot" aria-label="__MSG_statusLabel__"></span>
+        <span class="status-dot" id="statusDot" data-i18n-aria-label="statusLabel" aria-label="Media status"></span>
       </header>
 
       <section class="target-card" aria-live="polite">
-        <p class="label">__MSG_recentTab__</p>
-        <p class="target-title" id="targetTitle">__MSG_stateChecking__</p>
-        <p class="target-state" id="targetState">__MSG_stateChecking__</p>
+        <p class="label" data-i18n="recentTab">Most recently playing tab</p>
+        <p class="target-title" id="targetTitle" data-i18n="stateChecking">Checking media status…</p>
+        <p class="target-state" id="targetState" data-i18n="stateChecking">Checking media status…</p>
       </section>
 
       <div class="actions">
-        <button class="primary" id="toggleButton" type="button">__MSG_buttonToggle__</button>
+        <button class="primary" id="toggleButton" type="button" data-i18n="buttonToggle">Pause / Resume</button>
         <div class="secondary-actions">
-          <button id="pauseButton" type="button">__MSG_buttonPause__</button>
-          <button id="resumeButton" type="button">__MSG_buttonResume__</button>
+          <button id="pauseButton" type="button" data-i18n="buttonPause">Pause</button>
+          <button id="resumeButton" type="button" data-i18n="buttonResume">Resume</button>
         </div>
       </div>
 
       <p class="error" id="errorMessage" role="status" hidden></p>
 
       <section class="shortcut-card">
-        <p class="label">__MSG_shortcutHeading__</p>
-        <p class="shortcut-value" id="shortcutValue">__MSG_shortcutNotSet__</p>
-        <a href="chrome://extensions/shortcuts" id="shortcutLink">__MSG_shortcutSettings__ <span aria-hidden="true">↗</span></a>
-        <p class="hint">__MSG_shortcutHint__</p>
+        <p class="label" data-i18n="shortcutHeading">Global shortcut</p>
+        <p class="shortcut-value" id="shortcutValue" data-i18n="shortcutNotSet">Not set</p>
+        <a href="chrome://extensions/shortcuts" id="shortcutLink"><span data-i18n="shortcutSettings">Open shortcut settings</span> <span aria-hidden="true">↗</span></a>
+        <p class="hint" data-i18n="shortcutHint">Global by default. Change the scope to Chrome if you prefer.</p>
       </section>
 
-      <footer>__MSG_footer__</footer>
+      <button class="diagnostics-button" id="diagnosticsButton" type="button" data-i18n="buttonDiagnostics">Copy diagnostics</button>
+      <p class="hint" id="extensionVersion"></p>
+      <p id="diagnosticsStatus" role="status" class="hint"></p>
+      <textarea id="diagnosticsText" readonly hidden aria-label="Diagnostics"></textarea>
+      <footer data-i18n="footer">Controls video and audio on HTTP and HTTPS pages.</footer>
     </main>
   </body>
 </html>

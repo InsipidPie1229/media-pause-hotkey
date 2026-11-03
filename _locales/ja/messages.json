@@ -36,7 +36,7 @@
     "description": "Localized statePlaying text"
   },
   "statePaused": {
-    "message": "この拡張機能が $1 件を一時停止しました",
+    "message": "$1 件のメディアを再開できます",
     "description": "Localized statePaused text"
   },
   "stateIdle": {
@@ -60,7 +60,7 @@
     "description": "Localized errorPauseNothing text"
   },
   "errorResumeNothing": {
-    "message": "最近のタブでこの拡張機能が一時停止したメディアはありません。",
+    "message": "最後に再生したタブに再開できるメディアがありません。",
     "description": "Localized errorResumeNothing text"
   },
   "errorNoTarget": {
@@ -68,8 +68,7 @@
     "description": "Localized errorNoTarget text"
   },
   "errorPageConnection": {
-    "message": "ページに接続できません。タブを再読み込みして再試行してください。",
-    "description": "Localized errorPageConnection text"
+    "message": "ページに接続できません。ページが応答したらショートカットを再試行してください。"
   },
   "errorResumeSome": {
     "message": "一部のメディアを再開できませんでした。ポップアップを確認してください。",
@@ -110,5 +109,29 @@
   "statusLabel": {
     "message": "メディアの状態",
     "description": "Localized statusLabel text"
+  },
+  "stateUnknown": {
+    "message": "メディアの状態を確認できません。"
+  },
+  "errorAmbiguousTarget": {
+    "message": "複数のタブで再生中です。操作するタブで再生を開始し直してください。"
+  },
+  "buttonDiagnostics": {
+    "message": "診断記録をコピー"
+  },
+  "diagnosticsCopied": {
+    "message": "診断記録をコピーしました。"
+  },
+  "diagnosticsCopyFailed": {
+    "message": "コピーできませんでした。下のテキストをコピーしてください。"
+  },
+  "errorResumeBlocked": {
+    "message": "ブラウザが再生をブロックしました。サイトでメディアを再生してから再試行してください。"
+  },
+  "errorResumeTimeout": {
+    "message": "6秒以内に再生が始まりませんでした。ショートカットをもう一度押してください。"
+  },
+  "errorResumeAmbiguous": {
+    "message": "複数のメディアの再生順序を判別できません。サイトで操作したいメディアを一度再生してから再試行してください。"
   }
 }

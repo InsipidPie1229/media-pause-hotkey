@@ -8,7 +8,7 @@ Pause and resume standard HTML video and audio in the most recently playing Chro
 2. Open `chrome://extensions` in Chrome.
 3. Turn on **Developer mode**.
 4. Click **Load unpacked** and select the `MediaPauseHotkey` folder.
-5. Reload pages that were already open. Chrome internal pages are not supported.
+5. On install or browser startup, the extension injects its observer into already-open HTTP/HTTPS tabs. Reload a tab only if it still does not appear in the popup. Chrome internal pages are not supported.
 
 ## Set a global shortcut
 
@@ -22,11 +22,21 @@ No key combination is assigned by default. The popup shows the current shortcut,
 ## Behavior and limitations
 
 - A tab becomes the control target when its video or audio actually starts playing. Starting media in another tab changes the target.
-- The shortcut pauses all standard `<audio>` and `<video>` elements playing in that tab, including accessible frames. Resume affects only media this extension paused.
+- The shortcut pauses all standard `<audio>` and `<video>` elements playing in that tab, including accessible frames. Resume restores the media paused by this extension. If no such media remains, it resumes the most recently played eligible element in that tab, even if paused using the site or a media key. Unplayed elements and older manually paused siblings remain stopped.
 - Web Audio-only players, Chrome internal pages, and inaccessible frames are outside the supported scope.
 - A website may reject resuming under its autoplay policy; the popup reports failures.
 - The page title and media state are stored only in Chrome's session storage. No data is sent to an external server.
 - Read the [privacy policy](privacy.html) for details about temporary local processing.
+
+## Updating to 1.0.6
+
+Replace files in the folder Chrome already loads, reload the extension at `chrome://extensions`, and confirm version **1.0.6**. Avoid installing a second copy. Existing page controllers and their history may be replaced during the update; play the intended media once after updating if needed.
+
+Version 1.0.6 allows the most recently played media to resume after a site, mouse, keyboard or media-key pause. It uses confirmed playback history in the same live document and source. It never starts every paused element, guesses a replacement, or restarts ended media. When an extension pause batch remains valid, that batch takes priority. Unknown/tied playback history is not guessed. Pause history and message ordering metadata do not expire just because six hours pass; the bounded cache still removes records for confirmed navigation, source replacement and closed tabs.
+
+Existing event-loss recovery, document reconnection, and control receipts remain in place. Diagnostics now distinguish keyboard and popup commands, record media counts, and explain resume selection. Diagnostics retain up to 100 command/error entries and 100 observation entries, with command IDs, input origin, start/completion, selection and invalidation reasons. Entries stay in session storage without titles or URLs and can be copied from the popup. The installed version is visible in the popup. No data is sent to a server. Resume waits up to six seconds and the worker waits up to eight seconds for its control response. Failed extension resume attempts preserve valid pause ownership for retry. Resume waits up to six seconds and the worker waits up to eight seconds for its control response. Failed extension resume attempts preserve valid pause ownership for retry. Resume waits up to six seconds and the worker waits up to eight seconds for its control response. Failed extension resume attempts preserve valid pause ownership for retry. The popup supports 17 locales; no permissions were added. Automatic loop restarts still count as new playback and may switch the target tab. Automatic loop restarts still count as new playback and may switch the target tab. Automatic loop restarts still count as new playback and may switch the target tab.
+
+See the accompanying `MediaPauseHotkey-1.0.6-검증결과.md` report for measured results. Tests in isolated profiles do not establish OS global-key delivery or resolve every intermittent issue in a normal user profile.
 
 ## Remove
 

@@ -36,7 +36,7 @@
     "description": "Localized statePlaying text"
   },
   "statePaused": {
-    "message": "$1 Medien wurden von dieser Erweiterung pausiert",
+    "message": "$1 Medien können fortgesetzt werden",
     "description": "Localized statePaused text"
   },
   "stateIdle": {
@@ -60,7 +60,7 @@
     "description": "Localized errorPauseNothing text"
   },
   "errorResumeNothing": {
-    "message": "Diese Erweiterung hat im zuletzt abgespielten Tab keine Medien pausiert.",
+    "message": "Im zuletzt verwendeten Medien-Tab kann kein zuvor abgespieltes Medium fortgesetzt werden.",
     "description": "Localized errorResumeNothing text"
   },
   "errorNoTarget": {
@@ -68,8 +68,7 @@
     "description": "Localized errorNoTarget text"
   },
   "errorPageConnection": {
-    "message": "Die Seite ist nicht erreichbar. Lade den Tab neu und versuche es erneut.",
-    "description": "Localized errorPageConnection text"
+    "message": "Die Seite ist nicht erreichbar. Versuchen Sie das Tastenkürzel erneut, sobald die Seite reagiert."
   },
   "errorResumeSome": {
     "message": "Einige Medien konnten nicht fortgesetzt werden. Prüfe das Pop-up.",
@@ -110,5 +109,29 @@
   "statusLabel": {
     "message": "Medienstatus",
     "description": "Localized statusLabel text"
+  },
+  "stateUnknown": {
+    "message": "Der Medienstatus kann nicht bestätigt werden."
+  },
+  "errorAmbiguousTarget": {
+    "message": "Medien werden in mehreren Tabs abgespielt. Starten Sie die Wiedergabe im gewünschten Tab erneut."
+  },
+  "buttonDiagnostics": {
+    "message": "Diagnose kopieren"
+  },
+  "diagnosticsCopied": {
+    "message": "Diagnose kopiert."
+  },
+  "diagnosticsCopyFailed": {
+    "message": "Kopieren fehlgeschlagen. Kopieren Sie den Text unten."
+  },
+  "errorResumeBlocked": {
+    "message": "Der Browser hat die Wiedergabe blockiert. Starten Sie das Medium auf der Website und versuchen Sie es erneut."
+  },
+  "errorResumeTimeout": {
+    "message": "Die Wiedergabe wurde nicht innerhalb von sechs Sekunden gestartet. Drücken Sie das Tastenkürzel erneut."
+  },
+  "errorResumeAmbiguous": {
+    "message": "Die Wiedergabereihenfolge mehrerer Medien ist unklar. Starten Sie das gewünschte Medium einmal auf der Website und versuchen Sie es erneut."
   }
 }

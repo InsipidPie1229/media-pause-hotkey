@@ -36,7 +36,7 @@
     "description": "Localized statePlaying text"
   },
   "statePaused": {
-    "message": "Расширение приостановило медиа: $1",
+    "message": "Можно возобновить: $1",
     "description": "Localized statePaused text"
   },
   "stateIdle": {
@@ -60,7 +60,7 @@
     "description": "Localized errorPauseNothing text"
   },
   "errorResumeNothing": {
-    "message": "Это расширение не приостанавливало медиа в последней вкладке.",
+    "message": "В последней вкладке нет ранее воспроизводившихся медиа, которые можно возобновить.",
     "description": "Localized errorResumeNothing text"
   },
   "errorNoTarget": {
@@ -68,8 +68,7 @@
     "description": "Localized errorNoTarget text"
   },
   "errorPageConnection": {
-    "message": "Не удалось подключиться к странице. Обновите вкладку и попробуйте снова.",
-    "description": "Localized errorPageConnection text"
+    "message": "Не удалось подключиться к странице. Повторите сочетание клавиш, когда страница ответит."
   },
   "errorResumeSome": {
     "message": "Не удалось возобновить часть медиа. Проверьте всплывающее окно.",
@@ -110,5 +109,29 @@
   "statusLabel": {
     "message": "Состояние медиа",
     "description": "Localized statusLabel text"
+  },
+  "stateUnknown": {
+    "message": "Не удалось подтвердить состояние медиа."
+  },
+  "errorAmbiguousTarget": {
+    "message": "Медиа воспроизводится в нескольких вкладках. Запустите воспроизведение заново в нужной вкладке."
+  },
+  "buttonDiagnostics": {
+    "message": "Копировать диагностику"
+  },
+  "diagnosticsCopied": {
+    "message": "Диагностика скопирована."
+  },
+  "diagnosticsCopyFailed": {
+    "message": "Не удалось скопировать. Скопируйте текст ниже."
+  },
+  "errorResumeBlocked": {
+    "message": "Браузер заблокировал воспроизведение. Запустите медиа на сайте и повторите попытку."
+  },
+  "errorResumeTimeout": {
+    "message": "Воспроизведение не началось за шесть секунд. Нажмите сочетание клавиш ещё раз."
+  },
+  "errorResumeAmbiguous": {
+    "message": "Не удалось определить порядок воспроизведения нескольких медиа. Один раз запустите нужное медиа на сайте и повторите попытку."
   }
 }

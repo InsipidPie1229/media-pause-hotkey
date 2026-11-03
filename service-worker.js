@@ -1,8 +1,10 @@
+importScripts("i18n.js");
+
 const STATE_KEY = "sessionState";
 const MAX_MEDIA_RECORDS = 500;
 const MAX_PAUSED_BATCHES = 50;
-const t = (key, substitutions) => chrome.i18n.getMessage(key, substitutions) || key;
-
+const MAX_DOCUMENT_RECORDS = 1000;
+const t = globalThis.mediaShortcutI18n.message;
 let serialQueue = Promise.resolve();
 
 function enqueue(operation) {
@@ -11,22 +13,131 @@ function enqueue(operation) {
   return result;
 }
 
-async function loadState() {
-  const stored = await chrome.storage.session.get(STATE_KEY);
-  return normalizeState(stored[STATE_KEY]);
+function normalizeState(value) {
+  const state = value && [1, 2, 3, 4].includes(value.version) ? value : {};
+  const media = state.media && typeof state.media === "object" ? state.media : {};
+  const latestTarget = state.latestTarget || null;
+  return {
+    version: 4,
+    media,
+    connections: state.connections && typeof state.connections === "object" ? state.connections : {},
+    diagnostics: trimDiagnostics(Array.isArray(state.diagnostics) ? state.diagnostics : []),
+    observations: state.observations && typeof state.observations === "object" ? state.observations : {},
+    pausedBatches: Array.isArray(state.pausedBatches) ? state.pausedBatches : [],
+    latestTarget: latestTarget ? {
+      ...latestTarget,
+      playedAt: latestTarget.playedAt || Math.max(0, ...Object.values(media)
+        .filter((item) => item.tabId === latestTarget.tabId).map((item) => item.playingAt || 0)),
+    } : null,
+    lastActivityAt: state.lastActivityAt || Math.max(0, ...Object.values(media).map((item) => item.playingAt || 0)),
+    error: state.version >= 2 && typeof state.error === "string" ? state.error : "",
+  };
 }
 
-function normalizeState(state) {
-  if (!state || state.version !== 1) {
-    return { version: 1, media: {}, pausedBatches: [], latestTarget: null, error: null };
+function importantDiagnostic(entry) {
+  return ["command", "command-start", "control", "reconnect", "resume-selection", "invalidate", "interrupted"].includes(entry.type);
+}
+
+function trimDiagnostics(entries) {
+  const important = entries.filter(importantDiagnostic).slice(-100);
+  const observations = entries.filter(entry => !importantDiagnostic(entry)).slice(-100);
+  return [...important, ...observations].sort((a, b) => a.at - b.at);
+}
+
+function diagnose(state, type, context = {}, details = {}) {
+  const entry = { at: Date.now(), type };
+  for (const key of ["tabId", "frameId", "documentId", "mediaId"]) if (context[key] !== undefined) entry[key] = context[key];
+  // Explicit fields only: diagnostics never contain page titles, URLs, or raw errors.
+  for (const key of ["playing", "transitioned", "playbackVersion", "sequence", "durationMs", "code", "reason", "mediaCount", "playingCount", "resumeCount", "action", "input", "commandId", "requestId", "sourceVersion", "ended", "hasError"])
+    if (details[key] !== undefined) entry[key] = details[key];
+  if (["play", "playing", "pause", "ended", "error", "emptied", "loadstart", "timeupdate", "snapshot", "event"].includes(details.origin)) entry.origin = details.origin;
+  state.diagnostics.push(entry);
+  state.diagnostics = trimDiagnostics(state.diagnostics);
+}
+
+function setConnection(state, context, status) {
+  state.connections[documentKey(context)] = { ...context, status, checkedAt: Date.now() };
+}
+
+function targetUnknown(state, tabId) {
+  return Object.values(state.connections).some(item => item.tabId === tabId && item.status === "unknown" &&
+    Object.values(state.media).some(media => documentKey(media) === documentKey(item)));
+}
+
+async function loadState() {
+  return normalizeState((await chrome.storage.session.get(STATE_KEY))[STATE_KEY]);
+}
+
+function mediaKey(context, mediaId) {
+  return context.tabId + ":" + context.documentId + ":" + context.frameId + ":" + mediaId;
+}
+
+function documentKey(context) {
+  return context.tabId + ":" + context.documentId + ":" + context.frameId;
+}
+
+function acceptObservation(state, context, packet, isSnapshot = false) {
+  const key = documentKey(context);
+  const previous = state.observations[key];
+  // Legacy events must not overwrite a document already scanned by the new controller.
+  if (typeof packet.controllerId !== "string" || !Number.isSafeInteger(packet.sequence)) return !previous;
+  if (previous) {
+    if (previous.controllerId === packet.controllerId && packet.sequence <= previous.sequence) return false;
+    if (previous.controllerId !== packet.controllerId && !isSnapshot) return false;
   }
-  return {
-    version: 1,
-    media: state.media && typeof state.media === "object" ? state.media : {},
-    pausedBatches: Array.isArray(state.pausedBatches) ? state.pausedBatches : [],
-    latestTarget: state.latestTarget || null,
-    error: state.error || null,
-  };
+  state.observations[key] = { ...context, controllerId: packet.controllerId, sequence: packet.sequence, lastSeen: Date.now() };
+  return true;
+}
+
+function contextFor(sender) {
+  return { tabId: sender.tab.id, documentId: sender.documentId, frameId: sender.frameId || 0 };
+}
+
+function sameMedia(context, item, mediaId) {
+  return item.documentId === context.documentId && item.frameId === context.frameId && item.mediaId === mediaId;
+}
+
+function forgetPause(state, context, mediaId, reason = "playback-change") {
+  for (const batch of state.pausedBatches) {
+    if (batch.tabId === context.tabId) {
+      const previousCount = batch.items.length;
+      batch.items = batch.items.filter((item) => !sameMedia(context, item, mediaId));
+      if (batch.items.length < previousCount) diagnose(state, "invalidate", { ...context, mediaId }, { reason });
+    }
+  }
+}
+
+function recordMatches(record, item) {
+  return record && record.signature === item.signature &&
+    (record.sourceVersion || 0) === (item.sourceVersion || 0) &&
+    (item.playbackVersion === undefined || item.playbackVersion === record.playbackVersion);
+}
+
+function pruneState(state) {
+  const ownedKeys = new Set(state.pausedBatches.flatMap(batch => batch.items.map(item => mediaKey({ tabId: batch.tabId, ...item }, item.mediaId))));
+  const priority = (key, item) => (ownedKeys.has(key) ? 2 : 0) + (item.tabId === state.latestTarget?.tabId ? 1 : 0);
+  const entries = Object.entries(state.media).sort((a, b) => priority(b[0], b[1]) - priority(a[0], a[1]) || (b[1].lastSeen || 0) - (a[1].lastSeen || 0));
+  // An idle pause does not expire. Confirmed navigation, source changes and tab
+  // closure invalidate records; keep the bounded cache across long pauses.
+  state.media = Object.fromEntries(entries.slice(0, MAX_MEDIA_RECORDS));
+  const activeDocuments = new Set(Object.values(state.media).map(documentKey));
+  const documentEntries = Object.entries(state.observations).sort((a, b) =>
+    Number(activeDocuments.has(b[0])) - Number(activeDocuments.has(a[0])) || b[1].lastSeen - a[1].lastSeen);
+  state.observations = Object.fromEntries(documentEntries.slice(0, MAX_DOCUMENT_RECORDS));
+  for (const key of Object.keys(state.connections)) if (!state.observations[key] && !activeDocuments.has(key)) delete state.connections[key];
+  state.pausedBatches = state.pausedBatches.filter((batch) =>
+    batch && Number.isInteger(batch.tabId) && Array.isArray(batch.items));
+  for (const batch of state.pausedBatches) {
+    batch.items = batch.items.filter((item) => {
+      const record = state.media[mediaKey({ tabId: batch.tabId, ...item }, item.mediaId)];
+      const valid = recordMatches(record, item) && !record.playing && !record.ended && !record.hasError;
+      if (!valid) diagnose(state, "invalidate", { tabId: batch.tabId, ...item }, { reason: "record-invalid" });
+      return valid;
+    });
+  }
+  state.pausedBatches = state.pausedBatches.filter((batch) => batch.items.length)
+    .sort((a, b) => Number(a.tabId === state.latestTarget?.tabId) - Number(b.tabId === state.latestTarget?.tabId)).slice(-MAX_PAUSED_BATCHES);
+  if (state.latestTarget && !Number.isInteger(state.latestTarget.tabId)) state.latestTarget = null;
 }
 
 async function saveState(state) {
@@ -34,236 +145,403 @@ async function saveState(state) {
   await chrome.storage.session.set({ [STATE_KEY]: state });
 }
 
-function pruneState(state) {
+function upsertMedia(state, context, value, title) {
+  if (typeof value.mediaId !== "string") return;
+  const key = mediaKey(context, value.mediaId);
+  if (value.removed) {
+    delete state.media[key];
+    forgetPause(state, context, value.mediaId, "element-removed");
+    return;
+  }
+  const previous = state.media[key];
   const now = Date.now();
-  for (const [key, item] of Object.entries(state.media)) {
-    if (now - (item.lastSeen || 0) > 6 * 60 * 60 * 1000) delete state.media[key];
+  const sourceVersion = Number.isInteger(value.sourceVersion) ? value.sourceVersion : 0;
+  const signature = String(value.signature || "");
+  const sameSource = previous && previous.signature === signature && (previous.sourceVersion || 0) === sourceVersion;
+  const reportedStart = Number.isFinite(value.lastStartedAt) ? Math.min(now, Math.max(0, value.lastStartedAt)) :
+    value.playing && value.activity ? now : 0;
+  const playingAt = reportedStart || (sameSource ? previous.playingAt : 0) || 0;
+  const playbackVersion = Number.isInteger(value.playbackVersion) ? value.playbackVersion : 0;
+  const newPlayback = playingAt > 0 && (!sameSource || playbackVersion !== (previous.playbackVersion || 0));
+  const playing = Boolean(value.playing);
+  if (!sameSource || playing || newPlayback || playingAt > (previous?.playingAt || 0))
+    forgetPause(state, context, value.mediaId, !sameSource ? "source-change" : "playback-change");
+  state.media[key] = {
+    ...context, mediaId: value.mediaId, signature, sourceVersion, playing,
+    ended: Boolean(value.ended), hasError: Boolean(value.hasError),
+    observedPlaying: playing || Boolean(sameSource && (previous.observedPlaying || previous.playing || previous.playingAt > 0)),
+    title: String(title || t("targetEmpty")).slice(0, 160),
+    playingAt, playbackVersion, lastSeen: now,
+  };
+  if (playingAt > state.lastActivityAt || newPlayback && playingAt === state.lastActivityAt) {
+    state.lastActivityAt = playingAt;
+    state.latestTarget = { tabId: context.tabId, title: state.media[key].title, playedAt: playingAt, touchedAt: now };
+    state.error = "";
+    diagnose(state, "target", context, { reason: "playback-transition" });
+  } else if (state.latestTarget?.tabId === context.tabId) {
+    state.latestTarget.title = state.media[key].title;
   }
-  const entries = Object.entries(state.media);
-  if (entries.length > MAX_MEDIA_RECORDS) {
-    entries.sort((a, b) => (b[1].lastSeen || 0) - (a[1].lastSeen || 0));
-    state.media = Object.fromEntries(entries.slice(0, MAX_MEDIA_RECORDS));
+}
+
+function applyDocumentSnapshot(state, context, snapshot, title) {
+  if (!Array.isArray(snapshot?.media)) return;
+  if (!acceptObservation(state, context, snapshot, true)) return;
+  setConnection(state, context, "connected");
+  diagnose(state, "snapshot", context, { sequence: snapshot.sequence,
+    mediaCount: snapshot.media.length, playingCount: snapshot.media.filter(item => item.playing).length });
+  const ids = new Set(snapshot.media.map((item) => item.mediaId));
+  for (const [key, record] of Object.entries(state.media)) {
+    if (record.tabId === context.tabId && record.documentId === context.documentId &&
+        record.frameId === context.frameId && !ids.has(record.mediaId)) {
+      delete state.media[key];
+      forgetPause(state, context, record.mediaId, "snapshot-element-missing");
+    }
   }
-  state.pausedBatches = state.pausedBatches
-    .filter((batch) => batch && Number.isInteger(batch.tabId) && Array.isArray(batch.items))
-    .slice(-MAX_PAUSED_BATCHES);
-  if (state.latestTarget && !Number.isInteger(state.latestTarget.tabId)) state.latestTarget = null;
+  for (const value of snapshot.media) upsertMedia(state, context, value, title || snapshot.title);
 }
 
-function mediaKey(sender, mediaId) {
-  return `${sender.tab.id}:${sender.documentId || `frame-${sender.frameId || 0}`}:${sender.frameId || 0}:${mediaId}`;
+function playingInTab(state, tabId) {
+  return Object.values(state.media).filter((item) => item.tabId === tabId && item.playing);
 }
 
-async function removeDocumentRecords(tabId, documentId) {
-  const state = await loadState();
-  for (const [key, item] of Object.entries(state.media)) if (item.tabId === tabId) delete state.media[key];
-  state.pausedBatches = state.pausedBatches.filter((batch) => batch.tabId !== tabId);
-  if (state.latestTarget?.tabId === tabId) state.latestTarget = null;
-  await saveState(state);
-}
-
-function currentPlayingMedia(state, tabId) {
-  return Object.values(state.media)
-    .filter((item) => item.playing && (tabId === undefined || item.tabId === tabId))
-    .sort((a, b) => (b.playingAt || 0) - (a.playingAt || 0));
+function resumeSelection(state, tabId) {
+  const batch = state.pausedBatches.find(item => item.tabId === tabId && item.items.length);
+  const owned = (batch?.items || []).filter(item => {
+    const record = state.media[mediaKey({ tabId, ...item }, item.mediaId)];
+    return recordMatches(record, item) && !record.playing && !record.ended && !record.hasError;
+  });
+  if (owned.length) return { items: owned, reason: "extension-paused" };
+  // Manual/site pauses may resume only the last observed playing media, never
+  // every paused element in a tab or a replacement that has never played.
+  const candidates = Object.values(state.media).filter(item => item.tabId === tabId &&
+    !item.playing && !item.ended && !item.hasError && item.observedPlaying &&
+    item.playingAt >= (state.latestTarget?.playedAt || 0)).sort((a, b) => b.playingAt - a.playingAt);
+  if (!candidates.length) return { items: [], reason: "no-confirmed-resume-target" };
+  if (candidates.length > 1 && candidates[0].playingAt === candidates[1].playingAt)
+    return { items: [], reason: "ambiguous-resume-target" };
+  return { items: [candidates[0]], reason: "recent-media-paused" };
 }
 
 function publicState(state) {
-  const playing = currentPlayingMedia(state);
   const target = state.latestTarget;
-  let pausedCount = 0;
-  if (target) {
-    pausedCount = state.pausedBatches
-      .filter((batch) => batch.tabId === target.tabId)
-      .reduce((count, batch) => count + batch.items.length, 0);
-  }
+  const playingCount = target ? playingInTab(state, target.tabId).length : 0;
+  const pausedCount = target ? resumeSelection(state, target.tabId).items.length : 0;
   return {
+    version: chrome.runtime.getManifest?.().version || "1.0.6",
     target: target ? { tabId: target.tabId, title: target.title || t("targetEmpty") } : null,
-    status: playing.length ? "playing" : pausedCount ? "paused" : "idle",
-    playingCount: playing.filter((item) => item.tabId === target?.tabId).length,
-    pausedCount,
-    error: state.error,
+    status: target && targetUnknown(state, target.tabId) ? "unknown" : playingCount ? "playing" : pausedCount ? "paused" : "idle",
+    playingCount, pausedCount, error: globalThis.mediaShortcutI18n.userError(state.error),
   };
 }
 
 function updateBadge(view) {
-  const text = view.status === "playing" ? "▶" : view.status === "paused" ? "Ⅱ" : view.error ? "!" : "";
-  const color = view.error ? "#b42318" : view.status === "paused" ? "#2563eb" : "#087e55";
-  chrome.action.setBadgeText({ text });
-  chrome.action.setBadgeBackgroundColor({ color });
+  chrome.action.setBadgeText({ text: view.error ? "!" : view.status === "playing" ? "▶" : view.status === "paused" ? "Ⅱ" : "" });
+  chrome.action.setBadgeBackgroundColor({ color: view.error ? "#b42318" : view.status === "paused" ? "#2563eb" : "#087e55" });
   chrome.action.setTitle({ title: view.error || view.target?.title || t("extName") });
 }
 
-async function sendToDocument(item, message) {
+async function withTimeout(operation, milliseconds) {
+  let timer;
   try {
-    const options = item.documentId ? { documentId: item.documentId } : { frameId: item.frameId };
-    return await chrome.tabs.sendMessage(item.tabId, message, options);
+    return await Promise.race([operation, new Promise((_resolve, reject) => {
+      timer = setTimeout(() => reject(new Error("operation timeout")), milliseconds);
+    })]);
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+async function refreshMediaState(state) {
+  const tabs = await chrome.tabs.query({ url: ["http://*/*", "https://*/*"] });
+  const presentTabs = new Set(tabs.filter((tab) => !tab.discarded).map((tab) => tab.id));
+  for (const [key, record] of Object.entries(state.media)) {
+    if (!presentTabs.has(record.tabId)) {
+      diagnose(state, "invalidate", record, { reason: "tab-unavailable" });
+      delete state.media[key];
+    }
+  }
+  state.pausedBatches = state.pausedBatches.filter((batch) => presentTabs.has(batch.tabId));
+  for (const [key, observation] of Object.entries(state.observations)) {
+    if (!presentTabs.has(observation.tabId)) delete state.observations[key];
+  }
+  for (const [key, connection] of Object.entries(state.connections)) {
+    if (!presentTabs.has(connection.tabId)) delete state.connections[key];
+  }
+  if (state.latestTarget && !presentTabs.has(state.latestTarget.tabId)) state.latestTarget = null;
+
+  const scans = await Promise.all(tabs.filter((tab) => Number.isInteger(tab.id) && !tab.discarded).map(async (tab) => {
+    let topology = null;
+    try { topology = await withTimeout(chrome.webNavigation.getAllFrames({ tabId: tab.id }), 2200); } catch { /* Navigation events remain authoritative. */ }
+    try {
+      const frames = await withTimeout(chrome.scripting.executeScript({
+        target: { tabId: tab.id, allFrames: true }, files: ["content.js"], injectImmediately: true,
+      }), 2200);
+      return { tab, topology, frames: frames.filter((frame) => typeof frame.documentId === "string" && Array.isArray(frame.result?.media)) };
+    } catch {
+      return { tab, topology, frames: [] };
+    }
+  }));
+  const failedTabs = new Set();
+  for (const { tab, frames, topology } of scans) {
+    // Only a confirmed frame tree can prove that a document disappeared.
+    if (Array.isArray(topology)) {
+      const liveDocuments = new Set(topology.map(frame => frame.documentId));
+      for (const collection of [state.media, state.observations, state.connections])
+        for (const [key, item] of Object.entries(collection))
+          if (item.tabId === tab.id && !liveDocuments.has(item.documentId)) {
+            if (collection === state.media) diagnose(state, "invalidate", item, { reason: "document-navigation" });
+            delete collection[key];
+          }
+    }
+    const received = new Set(frames.map(frame => frame.documentId));
+    const known = new Map(Object.values(state.media).filter(item => item.tabId === tab.id)
+      .map(item => [item.documentId, item]));
+    const missing = [...known.values()].filter(item => !received.has(item.documentId));
+    if (!frames.length && !missing.length) missing.push({ tabId: tab.id, frameId: 0 });
+    for (const context of missing) {
+      const start = Date.now();
+      try {
+        const recovered = await withTimeout(chrome.scripting.executeScript({
+          target: { tabId: tab.id, ...(context.documentId ? { documentIds: [context.documentId] } : { frameIds: [0] }) },
+          files: ["content.js"], injectImmediately: true,
+        }), 2200);
+        const valid = recovered.filter(frame => typeof frame.documentId === "string" && Array.isArray(frame.result?.media));
+        if (!valid.length) throw new Error("no snapshot");
+        frames.push(...valid);
+        diagnose(state, "reconnect", context, { durationMs: Date.now() - start, code: "recovered" });
+      } catch {
+        if (context.documentId) setConnection(state, context, "unknown");
+        failedTabs.add(tab.id);
+        diagnose(state, "reconnect", context, { durationMs: Date.now() - start, code: "unreachable" });
+      }
+    }
+    for (const frame of frames) applyDocumentSnapshot(state,
+      { tabId: tab.id, documentId: frame.documentId, frameId: frame.frameId },
+      frame.result, tab.title || frame.result.title);
+  }
+  pruneState(state);
+  if (state.latestTarget && !failedTabs.has(state.latestTarget.tabId) &&
+      !Object.values(state.media).some((item) => item.tabId === state.latestTarget.tabId)) {
+    state.latestTarget = null;
+  }
+  if (!state.latestTarget) {
+    const playing = Object.values(state.media).filter((item) => item.playing && !failedTabs.has(item.tabId))
+      .sort((a, b) => b.playingAt - a.playingAt);
+    const confirmed = playing.find(item => item.playingAt > 0);
+    const tabCount = new Set(playing.map(item => item.tabId)).size;
+    if (confirmed || tabCount === 1) {
+      const item = confirmed || playing[0];
+      state.latestTarget = { tabId: item.tabId, title: item.title, playedAt: item.playingAt, touchedAt: Date.now() };
+      diagnose(state, "target", item, { reason: confirmed ? "confirmed-history" : "single-playing-tab" });
+    } else if (tabCount > 1) {
+      state.error = "errorAmbiguousTarget";
+    }
+  }
+  if (state.latestTarget && !failedTabs.has(state.latestTarget.tabId) && state.error === "errorPageConnection") state.error = "";
+  if (state.latestTarget && failedTabs.has(state.latestTarget.tabId)) state.error = "errorPageConnection";
+  return failedTabs;
+}
+
+async function sendToDocument(state, context, action, items) {
+  const requestId = Date.now().toString(36) + "-" + Math.random().toString(36).slice(2);
+  try {
+    return await withTimeout(chrome.tabs.sendMessage(context.tabId,
+      { type: "CONTROL", action, items, requestId }, { documentId: context.documentId }), 8000);
   } catch {
+    // A lost reply does not mean the control failed. Read its receipt; never replay a toggle.
+    try {
+      const frames = await withTimeout(chrome.scripting.executeScript({
+        target: { tabId: context.tabId, documentIds: [context.documentId] }, files: ["content.js"], injectImmediately: true,
+      }), 2200);
+      const snapshot = frames.find(frame => frame.documentId === context.documentId)?.result;
+      if (snapshot?.controlReceipt?.requestId === requestId) {
+        diagnose(state, "control", context, { code: "reply-recovered" });
+        return { ...snapshot.controlReceipt, ...snapshot };
+      }
+      if (snapshot) applyDocumentSnapshot(state, context, snapshot);
+    } catch { /* Preserve last known state until the next command. */ }
+    setConnection(state, context, "unknown");
+    diagnose(state, "control", context, { code: "reply-unconfirmed" });
     return null;
   }
 }
 
-async function performToggle(state, requestedAction = "toggle") {
-    state.error = null;
-    const playing = currentPlayingMedia(state);
-    const shouldPause = requestedAction === "pause" || (requestedAction === "toggle" && playing.length > 0);
-    if (shouldPause && playing.length) {
-      const tabId = playing[0].tabId;
-      const tabItems = currentPlayingMedia(state, tabId);
-      const documents = new Map();
-      for (const item of tabItems) {
-        const key = `${item.documentId || item.frameId}`;
-        if (!documents.has(key)) documents.set(key, item);
-      }
-
-      const results = await Promise.all([...documents.values()].map(async (item) => ({
-        item,
-        result: await sendToDocument(item, { type: "CONTROL", action: "pause" }),
-      })));
+async function performControl(requestedAction, input = "popup") {
+  const startedAt = Date.now();
+  const state = await loadState();
+  const commandId = startedAt.toString(36) + "-" + Math.random().toString(36).slice(2);
+  diagnose(state, "command-start", state.latestTarget || {}, { commandId, input, reason: requestedAction });
+  await saveState(state);
+  state.error = "";
+  const failedTabs = await refreshMediaState(state);
+  const target = state.latestTarget;
+  if (!target) state.error = state.error || "errorNoTarget";
+  else if (failedTabs.has(target.tabId)) state.error = "errorPageConnection";
+  else {
+    const playing = playingInTab(state, target.tabId);
+    const shouldPause = requestedAction === "pause" || requestedAction === "toggle" && playing.length > 0;
+    if (shouldPause && !playing.length) state.error = "errorPauseNothing";
+    else if (shouldPause) {
+      const documents = new Map(Object.values(state.media).filter((item) => item.tabId === target.tabId)
+        .map((item) => [item.documentId, item]));
+      const results = await Promise.all([...documents.values()].map(async (context) =>
+        ({ context, result: await sendToDocument(state, context, "pause") })));
       const pausedItems = [];
-      let failedFrames = 0;
-      for (const { item, result } of results) {
-        if (!result || !Array.isArray(result.paused)) {
-          failedFrames++;
-          continue;
-        }
-        for (const paused of result.paused) {
-          const key = mediaKey({ tab: { id: item.tabId }, documentId: item.documentId, frameId: item.frameId }, paused.mediaId);
-          const record = state.media[key];
-          if (!record) continue;
-          record.playing = false;
-          record.pausedByExtension = true;
-          record.lastSeen = Date.now();
-          pausedItems.push({
-            documentId: record.documentId,
-            frameId: record.frameId,
-            mediaId: record.mediaId,
-            signature: record.signature,
-          });
+      for (const { context, result } of results) {
+        if (!result) continue;
+        applyDocumentSnapshot(state, context, result, target.title);
+        for (const item of result.paused || []) {
+          const record = state.media[mediaKey(context, item.mediaId)];
+          if (recordMatches(record, item) && !record.playing) {
+            pausedItems.push({ documentId: context.documentId, frameId: context.frameId, ...item });
+          }
         }
       }
-
       if (pausedItems.length) {
-        state.pausedBatches = state.pausedBatches.filter((batch) => batch.tabId !== tabId);
-        state.pausedBatches.push({ tabId, title: tabItems[0].title, pausedAt: Date.now(), items: pausedItems });
-        state.latestTarget = { tabId, title: tabItems[0].title, touchedAt: Date.now() };
+        let batch = state.pausedBatches.find((item) => item.tabId === target.tabId);
+        if (!batch) {
+          batch = { tabId: target.tabId, title: target.title, items: [] };
+          state.pausedBatches.push(batch);
+        }
+        const combined = new Map([...batch.items, ...pausedItems].map((item) =>
+          [item.documentId + ":" + item.frameId + ":" + item.mediaId, item]));
+        batch.items = [...combined.values()];
+        batch.pausedAt = Date.now();
       }
-      if (!pausedItems.length && failedFrames) state.error = t("errorPageConnection");
-      await saveState(state);
-      return publicState(state);
+      if (results.some(({ result }) => !result)) state.error = "errorPageConnection";
+      else if (!pausedItems.length || results.some(({ result }) => result.media?.some((item) => item.playing))) {
+        state.error = "errorControl";
+      }
+    } else {
+      const selection = resumeSelection(state, target.tabId);
+      const batch = { tabId: target.tabId, items: selection.items };
+      diagnose(state, "resume-selection", target, { commandId, reason: selection.reason, resumeCount: batch.items.length });
+      if (!batch.items.length) state.error = selection.reason === "ambiguous-resume-target" ? "errorResumeAmbiguous" : "errorResumeNothing";
+      else {
+        const documents = new Map(batch.items.map((item) => [item.documentId, { tabId: batch.tabId, ...item }]));
+        const results = await Promise.all([...documents.values()].map(async (context) => ({
+          context, result: await sendToDocument(state, context, "resume",
+            batch.items.filter((item) => item.documentId === context.documentId)),
+        })));
+        let started = 0;
+        let failed = 0;
+        const failureCodes = [];
+        for (const { context, result } of results) {
+          if (!result) {
+            failed++;
+            continue;
+          }
+          started += result.started || 0;
+          failed += result.failed || 0;
+          for (const failure of result.failures || []) {
+            if (!["media-invalid", "play-state-unconfirmed", "play-timeout", "play-blocked", "play-aborted", "play-rejected"].includes(failure.code)) continue;
+            failureCodes.push(failure.code);
+            diagnose(state, "control", { ...context, mediaId: failure.mediaId }, { code: failure.code, action: "resume", commandId });
+          }
+          const ownedBefore = batch.items.filter(item => item.documentId === context.documentId &&
+            state.pausedBatches.some(owned => owned.tabId === batch.tabId && owned.items.some(candidate => sameMedia(context, candidate, item.mediaId))));
+          applyDocumentSnapshot(state, context, result, target.title);
+          // A failed extension play attempt may advance playbackVersion. Restore
+          // only previously owned, still-paused media in the same live source.
+          const failures = new Set(result.failedIds || (result.failed ? ownedBefore.map(item => item.mediaId).filter(id =>
+            !(result.resumedIds || []).includes(id) && !(result.invalidIds || []).includes(id)) : []));
+          for (const item of ownedBefore) {
+            const record = state.media[mediaKey(context, item.mediaId)];
+            if (!failures.has(item.mediaId) || !record || record.playing || record.ended || record.hasError ||
+                record.signature !== item.signature || record.sourceVersion !== item.sourceVersion) continue;
+            let owned = state.pausedBatches.find(entry => entry.tabId === target.tabId);
+            if (!owned) { owned = { tabId: target.tabId, title: target.title, items: [] }; state.pausedBatches.push(owned); }
+            owned.items = owned.items.filter(candidate => !sameMedia(context, candidate, item.mediaId));
+            owned.items.push({ ...item, playbackVersion: record.playbackVersion });
+            diagnose(state, "control", { ...context, mediaId: item.mediaId }, { code: "retry-preserved" });
+          }
+          for (const mediaId of [...(result.resumedIds || []), ...(result.invalidIds || [])]) {
+            forgetPause(state, context, mediaId);
+          }
+        }
+        if (results.some(({ result }) => !result)) state.error = "errorPageConnection";
+        else if (failed) state.error = failureCodes.length === failed && failureCodes.every(code => code === "play-blocked") ? "errorResumeBlocked" :
+          failureCodes.length === failed && failureCodes.every(code => code === "play-timeout") ? "errorResumeTimeout" : "errorResumeSome";
+        else if (!started) state.error = "errorResumeNone";
+      }
     }
-    if (shouldPause) {
-      state.error = t("errorPauseNothing");
-      await saveState(state);
-      return publicState(state);
-    }
-
-    const batch = [...state.pausedBatches].reverse().find((item) =>
-      item.items.length > 0 && item.tabId === state.latestTarget?.tabId,
-    );
-    if (!batch) {
-      state.error = state.latestTarget ? t("errorResumeNothing") : t("errorNoTarget");
-      await saveState(state);
-      return publicState(state);
-    }
-
-    const documents = new Map();
-    for (const paused of batch.items) {
-      const record = Object.values(state.media).find((item) =>
-        item.tabId === batch.tabId && item.documentId === paused.documentId && item.frameId === paused.frameId,
-      );
-      if (record) documents.set(`${paused.documentId || paused.frameId}`, record);
-    }
-    const results = await Promise.all([...documents.values()].map(async (item) => ({
-      item,
-      result: await sendToDocument(item, {
-        type: "CONTROL",
-        action: "resume",
-        items: batch.items.filter((paused) => paused.documentId === item.documentId && paused.frameId === item.frameId),
-      }),
-    })));
-    const failed = results.reduce((total, { result }) => total + (result?.failed || 0), 0);
-    const started = results.reduce((total, { result }) => total + (result?.started || 0), 0);
-    if (!started || failed) state.error = failed ? t("errorResumeSome") : t("errorResumeNone");
-    if (started) {
-      batch.items = batch.items.filter((paused) => !results.some(({ item, result }) =>
-        item.documentId === paused.documentId && item.frameId === paused.frameId && result?.resumedIds?.includes(paused.mediaId),
-      ));
-      if (!batch.items.length) state.pausedBatches = state.pausedBatches.filter((item) => item !== batch);
-      state.latestTarget = { tabId: batch.tabId, title: batch.title, touchedAt: Date.now() };
-    }
-    await saveState(state);
-    return publicState(state);
+  }
+  diagnose(state, "command", target || {}, { commandId, code: state.error || "success", reason: requestedAction, input,
+    playingCount: target ? playingInTab(state, target.tabId).length : 0,
+    resumeCount: target ? resumeSelection(state, target.tabId).items.length : 0, durationMs: Date.now() - startedAt });
+  await saveState(state);
+  const view = publicState(state);
+  updateBadge(view);
+  return view;
 }
 
-function toggleRecentMedia() {
-  return enqueue(async () => performToggle(await loadState(), "toggle"));
+function runControl(action, input) {
+  return enqueue(() => performControl(action, input));
 }
 
-function manualControl(action) {
-  return enqueue(async () => performToggle(await loadState(), action));
-}
-
-function sameSenderContext(sender) {
-  return Number.isInteger(sender.tab?.id) && typeof sender.documentId === "string";
+async function removeNavigatedDocument(details) {
+  const state = await loadState();
+  try {
+    const frames = await chrome.webNavigation.getAllFrames({ tabId: details.tabId });
+    const current = frames?.find(frame => frame.frameId === details.frameId);
+    if (current && current.documentId !== details.documentId) return;
+  } catch { /* Tab closure cleanup and successful snapshots handle unavailable trees. */ }
+  for (const [key, observation] of Object.entries(state.observations)) {
+    if (observation.tabId === details.tabId &&
+        (details.frameId === 0 || observation.frameId === details.frameId) && observation.documentId !== details.documentId) {
+      delete state.observations[key];
+      delete state.connections[key];
+    }
+  }
+  for (const [key, item] of Object.entries(state.media)) {
+    if (item.tabId !== details.tabId) continue;
+    if ((details.frameId === 0 || item.frameId === details.frameId) && item.documentId !== details.documentId) {
+      diagnose(state, "invalidate", item, { reason: "document-navigation" });
+      delete state.media[key];
+    }
+  }
+  pruneState(state);
+  if (state.latestTarget?.tabId === details.tabId &&
+      !Object.values(state.media).some((item) => item.tabId === details.tabId)) state.latestTarget = null;
+  await saveState(state);
+  updateBadge(publicState(state));
 }
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message?.type === "GET_DIAGNOSTICS" && !sender.tab) {
+    enqueue(async () => ({ version: chrome.runtime.getManifest?.().version || "1.0.6", entries: (await loadState()).diagnostics }))
+      .then(sendResponse).catch(() => sendResponse({ entries: [] }));
+    return true;
+  }
   if (message?.type === "GET_STATE") {
     enqueue(async () => {
       const state = await loadState();
+      await refreshMediaState(state);
+      await saveState(state);
       const view = publicState(state);
       updateBadge(view);
-      sendResponse(view);
-    }).catch(() => sendResponse({ status: "idle", error: t("errorStateRead") }));
+      return view;
+    }).then(sendResponse).catch(() => sendResponse({ status: "idle", error: t("errorStateRead") }));
     return true;
   }
-
-  if (message?.type === "TOGGLE") {
-    toggleRecentMedia().then((view) => {
-      updateBadge(view);
-      sendResponse(view);
-    }).catch(() => sendResponse({ status: "idle", error: t("errorControl") }));
+  const actions = { TOGGLE: "toggle", PAUSE: "pause", RESUME: "resume" };
+  if (Object.hasOwn(actions, message?.type)) {
+    runControl(actions[message.type]).then(sendResponse)
+      .catch(() => sendResponse({ status: "idle", error: t("errorControl") }));
     return true;
   }
-
-  if (message?.type === "PAUSE" || message?.type === "RESUME") {
-    manualControl(message.type === "PAUSE" ? "pause" : "resume").then((view) => {
-      updateBadge(view);
-      sendResponse(view);
-    }).catch(() => sendResponse({ status: "idle", error: t("errorControl") }));
-    return true;
-  }
-
-  if (!sameSenderContext(sender) || !message?.mediaId) return false;
+  if (message?.type !== "MEDIA_STATE" || !Number.isInteger(sender.tab?.id) ||
+      typeof sender.documentId !== "string" || !message.mediaId) return false;
   enqueue(async () => {
     const state = await loadState();
-    const key = mediaKey(sender, message.mediaId);
-    const previous = state.media[key] || {};
-    const now = Date.now();
-    const isPlaying = Boolean(message.playing);
-    state.media[key] = {
-      ...previous,
-      tabId: sender.tab.id,
-      documentId: sender.documentId,
-      frameId: sender.frameId || 0,
-      mediaId: message.mediaId,
-      title: String(sender.tab.title || message.title || t("targetEmpty")).slice(0, 160),
-      signature: String(message.signature || "").slice(0, 512),
-      playing: isPlaying,
-      playingAt: isPlaying ? (message.activity ? now : previous.playingAt || now) : previous.playingAt || 0,
-      pausedByExtension: isPlaying ? false : previous.pausedByExtension || false,
-      lastSeen: now,
-    };
-    if (isPlaying && message.activity) {
-      state.latestTarget = { tabId: sender.tab.id, title: state.media[key].title, touchedAt: now };
-      state.error = null;
-    }
-    if (message.removed) {
-      delete state.media[key];
-      for (const batch of state.pausedBatches) batch.items = batch.items.filter((item) => item.mediaId !== message.mediaId);
-      state.pausedBatches = state.pausedBatches.filter((batch) => batch.items.length);
-    }
+    const context = contextFor(sender);
+    if (!acceptObservation(state, context, message)) return;
+    setConnection(state, context, "connected");
+    upsertMedia(state, context, message, sender.tab.title || message.title);
+    diagnose(state, "media-event", { ...context, mediaId: message.mediaId }, { playing: Boolean(message.playing), transitioned: Boolean(message.transitioned),
+      playbackVersion: message.playbackVersion, sourceVersion: message.sourceVersion, ended: Boolean(message.ended), hasError: Boolean(message.hasError),
+      sequence: message.sequence, origin: message.origin });
+    if (state.error === "errorPageConnection" && state.latestTarget && !targetUnknown(state, state.latestTarget.tabId)) state.error = "";
     await saveState(state);
     updateBadge(publicState(state));
   }).catch(() => undefined);
@@ -273,7 +551,14 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 chrome.tabs.onRemoved.addListener((tabId) => {
   enqueue(async () => {
     const state = await loadState();
-    for (const [key, item] of Object.entries(state.media)) if (item.tabId === tabId) delete state.media[key];
+    for (const [key, item] of Object.entries(state.media)) if (item.tabId === tabId) {
+      diagnose(state, "invalidate", item, { reason: "tab-closed" });
+      delete state.media[key];
+    }
+    for (const [key, observation] of Object.entries(state.observations)) {
+      if (observation.tabId === tabId) delete state.observations[key];
+    }
+    for (const [key, connection] of Object.entries(state.connections)) if (connection.tabId === tabId) delete state.connections[key];
     state.pausedBatches = state.pausedBatches.filter((batch) => batch.tabId !== tabId);
     if (state.latestTarget?.tabId === tabId) state.latestTarget = null;
     await saveState(state);
@@ -281,24 +566,28 @@ chrome.tabs.onRemoved.addListener((tabId) => {
   }).catch(() => undefined);
 });
 
-chrome.webNavigation?.onCommitted?.addListener((details) => {
-  if (details.frameId !== 0) return;
-  enqueue(() => removeDocumentRecords(details.tabId, details.documentId)).catch(() => undefined);
+chrome.webNavigation.onCommitted.addListener((details) => {
+  enqueue(() => removeNavigatedDocument(details)).catch(() => undefined);
 });
-
 chrome.commands.onCommand.addListener((command) => {
-  if (command !== "toggle-recent-media") return;
-  toggleRecentMedia().then(updateBadge).catch(() => updateBadge({ status: "idle", error: t("errorControl") }));
+  if (command === "toggle-recent-media") runControl("toggle", "keyboard").catch(() =>
+    updateBadge({ status: "idle", error: t("errorControl") }));
 });
-
-chrome.runtime.onStartup.addListener(() => {
+function discoverOpenPages() {
   enqueue(async () => {
     const state = await loadState();
+    await refreshMediaState(state);
+    await saveState(state);
     updateBadge(publicState(state));
   }).catch(() => undefined);
-});
-
+}
+chrome.runtime.onInstalled.addListener(discoverOpenPages);
+chrome.runtime.onStartup.addListener(discoverOpenPages);
 enqueue(async () => {
   const state = await loadState();
+  const finished = new Set(state.diagnostics.filter(entry => ["command", "interrupted"].includes(entry.type)).map(entry => entry.commandId));
+  for (const entry of state.diagnostics.filter(entry => entry.type === "command-start" && !finished.has(entry.commandId)))
+    diagnose(state, "interrupted", entry, { commandId: entry.commandId, code: "worker-restarted", input: entry.input });
+  await saveState(state);
   updateBadge(publicState(state));
 }).catch(() => undefined);

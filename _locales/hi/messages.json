@@ -36,7 +36,7 @@
     "description": "Localized statePlaying text"
   },
   "statePaused": {
-    "message": "इस एक्सटेंशन ने $1 मीडिया रोका",
+    "message": "$1 मीडिया फिर से चलाए जा सकते हैं",
     "description": "Localized statePaused text"
   },
   "stateIdle": {
@@ -60,7 +60,7 @@
     "description": "Localized errorPauseNothing text"
   },
   "errorResumeNothing": {
-    "message": "इस एक्सटेंशन ने सबसे हाल के टैब का मीडिया नहीं रोका।",
+    "message": "हाल में चलाए गए टैब में फिर से चलाने योग्य कोई मीडिया नहीं है।",
     "description": "Localized errorResumeNothing text"
   },
   "errorNoTarget": {
@@ -68,8 +68,7 @@
     "description": "Localized errorNoTarget text"
   },
   "errorPageConnection": {
-    "message": "पेज से कनेक्ट नहीं हो सका। टैब रीफ़्रेश करके फिर प्रयास करें।",
-    "description": "Localized errorPageConnection text"
+    "message": "पेज से संपर्क नहीं हो सका। पेज के जवाब देने पर शॉर्टकट फिर आज़माएँ।"
   },
   "errorResumeSome": {
     "message": "कुछ मीडिया फिर से नहीं चला। पॉपअप में स्थिति देखें।",
@@ -110,5 +109,29 @@
   "statusLabel": {
     "message": "मीडिया स्थिति",
     "description": "Localized statusLabel text"
+  },
+  "stateUnknown": {
+    "message": "मीडिया की स्थिति की पुष्टि नहीं हो सकी।"
+  },
+  "errorAmbiguousTarget": {
+    "message": "कई टैब में मीडिया चल रहा है। जिस टैब को नियंत्रित करना है, उसमें प्लेबैक फिर से शुरू करें।"
+  },
+  "buttonDiagnostics": {
+    "message": "निदान कॉपी करें"
+  },
+  "diagnosticsCopied": {
+    "message": "निदान कॉपी किया गया।"
+  },
+  "diagnosticsCopyFailed": {
+    "message": "कॉपी नहीं हो सका। नीचे दिया गया पाठ कॉपी करें।"
+  },
+  "errorResumeBlocked": {
+    "message": "ब्राउज़र ने प्लेबैक रोक दिया। साइट पर मीडिया चलाएँ, फिर दोबारा कोशिश करें।"
+  },
+  "errorResumeTimeout": {
+    "message": "छह सेकंड में प्लेबैक शुरू नहीं हुआ। शॉर्टकट दोबारा दबाएँ।"
+  },
+  "errorResumeAmbiguous": {
+    "message": "कई मीडिया का प्लेबैक क्रम स्पष्ट नहीं है। साइट पर अपना चुना हुआ मीडिया एक बार चलाएँ, फिर दोबारा कोशिश करें।"
   }
 }

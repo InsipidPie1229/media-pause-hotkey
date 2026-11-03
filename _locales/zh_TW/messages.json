@@ -36,7 +36,7 @@
     "description": "Localized statePlaying text"
   },
   "statePaused": {
-    "message": "此擴充功能已暫停 $1 個媒體",
+    "message": "$1 個媒體可繼續播放",
     "description": "Localized statePaused text"
   },
   "stateIdle": {
@@ -60,7 +60,7 @@
     "description": "Localized errorPauseNothing text"
   },
   "errorResumeNothing": {
-    "message": "此擴充功能沒有暫停最近播放分頁中的媒體。",
+    "message": "最近播放的分頁中沒有可繼續播放的媒體。",
     "description": "Localized errorResumeNothing text"
   },
   "errorNoTarget": {
@@ -68,8 +68,7 @@
     "description": "Localized errorNoTarget text"
   },
   "errorPageConnection": {
-    "message": "無法連線到頁面。請重新整理分頁後再試。",
-    "description": "Localized errorPageConnection text"
+    "message": "無法連線至頁面。頁面回應後，請重試快捷鍵。"
   },
   "errorResumeSome": {
     "message": "部分媒體無法恢復，請查看彈出視窗。",
@@ -110,5 +109,29 @@
   "statusLabel": {
     "message": "媒體狀態",
     "description": "Localized statusLabel text"
+  },
+  "stateUnknown": {
+    "message": "無法確認媒體狀態。"
+  },
+  "errorAmbiguousTarget": {
+    "message": "多個分頁正在播放媒體。請在要控制的分頁中重新開始播放。"
+  },
+  "buttonDiagnostics": {
+    "message": "複製診斷記錄"
+  },
+  "diagnosticsCopied": {
+    "message": "已複製診斷記錄。"
+  },
+  "diagnosticsCopyFailed": {
+    "message": "無法複製。請複製下方文字。"
+  },
+  "errorResumeBlocked": {
+    "message": "瀏覽器封鎖了播放。請在網站上播放媒體後重試。"
+  },
+  "errorResumeTimeout": {
+    "message": "播放未在六秒內開始。請再次按快捷鍵重試。"
+  },
+  "errorResumeAmbiguous": {
+    "message": "無法區分多個媒體的播放順序。請在網站上播放一次要控制的媒體，然後重試。"
   }
 }

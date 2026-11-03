@@ -36,7 +36,7 @@
     "description": "Localized statePlaying text"
   },
   "statePaused": {
-    "message": "$1개 미디어 일시정지됨",
+    "message": "미디어 $1개 재개 가능",
     "description": "Localized statePaused text"
   },
   "stateIdle": {
@@ -60,7 +60,7 @@
     "description": "Localized errorPauseNothing text"
   },
   "errorResumeNothing": {
-    "message": "최근 재생 탭에서 확장 프로그램이 멈춘 미디어가 없습니다.",
+    "message": "최근 재생 탭에 다시 재생할 수 있는 미디어가 없습니다.",
     "description": "Localized errorResumeNothing text"
   },
   "errorNoTarget": {
@@ -68,8 +68,7 @@
     "description": "Localized errorNoTarget text"
   },
   "errorPageConnection": {
-    "message": "페이지에 연결할 수 없습니다. 탭을 새로고침한 뒤 다시 시도하세요.",
-    "description": "Localized errorPageConnection text"
+    "message": "페이지와 연결할 수 없습니다. 페이지가 응답하면 단축키를 다시 눌러주세요."
   },
   "errorResumeSome": {
     "message": "일부 미디어를 재개하지 못했습니다. 팝업에서 상태를 확인하세요.",
@@ -110,5 +109,29 @@
   "statusLabel": {
     "message": "미디어 상태",
     "description": "Localized statusLabel text"
+  },
+  "stateUnknown": {
+    "message": "미디어 상태를 확인할 수 없습니다."
+  },
+  "errorAmbiguousTarget": {
+    "message": "여러 탭에서 재생 중입니다. 제어할 탭에서 재생을 다시 시작하세요."
+  },
+  "buttonDiagnostics": {
+    "message": "진단 기록 복사"
+  },
+  "diagnosticsCopied": {
+    "message": "진단 기록을 복사했습니다."
+  },
+  "diagnosticsCopyFailed": {
+    "message": "복사하지 못했습니다. 아래 내용을 직접 복사하세요."
+  },
+  "errorResumeBlocked": {
+    "message": "브라우저가 재생을 차단했습니다. 사이트에서 미디어를 재생한 뒤 다시 시도하세요."
+  },
+  "errorResumeTimeout": {
+    "message": "6초 안에 재생이 시작되지 않았습니다. 단축키를 다시 눌러 재시도하세요."
+  },
+  "errorResumeAmbiguous": {
+    "message": "여러 미디어의 재생 순서를 구분할 수 없습니다. 원하는 미디어를 사이트에서 한 번 재생한 뒤 다시 시도하세요."
   }
 }

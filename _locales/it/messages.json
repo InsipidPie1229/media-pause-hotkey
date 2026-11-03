@@ -36,7 +36,7 @@
     "description": "Localized statePlaying text"
   },
   "statePaused": {
-    "message": "$1 contenuti in pausa con questa estensione",
+    "message": "$1 contenuti multimediali possono riprendere",
     "description": "Localized statePaused text"
   },
   "stateIdle": {
@@ -60,7 +60,7 @@
     "description": "Localized errorPauseNothing text"
   },
   "errorResumeNothing": {
-    "message": "Questa estensione non ha messo in pausa contenuti nell'ultima scheda.",
+    "message": "Nell’ultima scheda non ci sono contenuti già riprodotti che possono essere ripresi.",
     "description": "Localized errorResumeNothing text"
   },
   "errorNoTarget": {
@@ -68,8 +68,7 @@
     "description": "Localized errorNoTarget text"
   },
   "errorPageConnection": {
-    "message": "Impossibile raggiungere la pagina. Ricarica la scheda e riprova.",
-    "description": "Localized errorPageConnection text"
+    "message": "Impossibile raggiungere la pagina. Riprova la scorciatoia quando la pagina risponde."
   },
   "errorResumeSome": {
     "message": "Impossibile riprendere alcuni contenuti. Controlla il popup.",
@@ -110,5 +109,29 @@
   "statusLabel": {
     "message": "Stato dei contenuti",
     "description": "Localized statusLabel text"
+  },
+  "stateUnknown": {
+    "message": "Impossibile confermare lo stato del contenuto."
+  },
+  "errorAmbiguousTarget": {
+    "message": "Più schede stanno riproducendo contenuti. Riavvia la riproduzione nella scheda da controllare."
+  },
+  "buttonDiagnostics": {
+    "message": "Copia diagnostica"
+  },
+  "diagnosticsCopied": {
+    "message": "Diagnostica copiata."
+  },
+  "diagnosticsCopyFailed": {
+    "message": "Copia non riuscita. Copia il testo qui sotto."
+  },
+  "errorResumeBlocked": {
+    "message": "Il browser ha bloccato la riproduzione. Avvia il contenuto sul sito e riprova."
+  },
+  "errorResumeTimeout": {
+    "message": "La riproduzione non è iniziata entro sei secondi. Premi di nuovo la scorciatoia."
+  },
+  "errorResumeAmbiguous": {
+    "message": "Non è possibile determinare l’ordine di riproduzione di più contenuti. Avvia una volta il contenuto desiderato sul sito e riprova."
   }
 }
