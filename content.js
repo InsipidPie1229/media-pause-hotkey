@@ -14,7 +14,7 @@
   let nextId = 1;
   let sequence = 0;
   const boost = globalThis.__mediaShortcutBoost || (globalThis.__mediaShortcutBoost = {
-    context: null, graphs: new Map(), watchdog: 0,
+    context: null, graphs: new Map(), watchdog: 0, minGeneration: 0, appliedGeneration: 0,
   });
   let controlReceipt = null;
   let controlQueue = Promise.resolve();
@@ -293,10 +293,19 @@
     return { ok: false, code: "boost-refused-cors" };
   }
 
-  function resetAllGains() {
+  // A reset revokes every boost request issued under an older settings
+  // generation, including requests still waiting on AudioContext.resume().
+  function resetAllGains(generation) {
+    if (Number.isInteger(generation)) {
+      boost.minGeneration = Math.max(boost.minGeneration || 0, generation + 1);
+      // A reset that arrives after boost was re-enabled and used must not
+      // clear gains applied under that newer generation.
+      if (generation < (boost.appliedGeneration || 0)) return false;
+    }
     for (const graph of boost.graphs.values()) graph.gain.gain.value = 1;
     clearInterval(boost.watchdog);
     boost.watchdog = 0;
+    return true;
   }
 
   // Best effort: after an extension reload this world keeps running but can no
@@ -328,13 +337,18 @@
     return boost.context.state === "running";
   }
 
-  async function connectGraph(media, item) {
+  function boostAuthorized(generation) {
+    return Number.isInteger(generation) && generation >= (boost.minGeneration || 0);
+  }
+
+  async function connectGraph(media, item, generation) {
     // Checked for new and already connected elements alike: the current source
     // may have changed since the graph was created.
     const allowed = sourceAllowsBoost(media);
     if (!allowed.ok) return allowed;
     if (boost.graphs.has(media)) {
       if (!boost.context || !await ensureRunning()) return { ok: false, code: "boost-refused-context" };
+      if (!boostAuthorized(generation)) return { ok: false, code: "boost-reset-superseded" };
       if (!matches(media, item)) return { ok: false, code: "media-invalid" };
       if (!sourceAllowsBoost(media).ok) return { ok: false, code: "boost-refused-cors" };
       return { ok: true };
@@ -343,7 +357,9 @@
     try {
       if (!boost.context || boost.context.state === "closed") boost.context = new AudioContext();
       if (!await ensureRunning()) return { ok: false, code: "boost-refused-context" };
-      // Re-check after the await: the page may have swapped the source meanwhile.
+      // Re-check after the await: boost may have been turned off or the page
+      // may have swapped the source meanwhile.
+      if (!boostAuthorized(generation)) return { ok: false, code: "boost-reset-superseded" };
       if (!matches(media, item)) return { ok: false, code: "media-invalid" };
       if (!sourceAllowsBoost(media).ok) return { ok: false, code: "boost-refused-cors" };
       const source = boost.context.createMediaElementSource(media);
@@ -358,15 +374,18 @@
     }
   }
 
-  async function setEffectiveVolume(media, item, next, boostAllowed) {
+  async function setEffectiveVolume(media, item, next, boostAllowed, generation) {
     const target = Math.round(clamp(next, 0, boostAllowed ? VOLUME_MAX_BOOST : 1) * 100) / 100;
     if (target > 1) {
-      const connected = await connectGraph(media, item);
+      if (!boostAuthorized(generation)) return "boost-reset-superseded";
+      const connected = await connectGraph(media, item, generation);
       // Refused boost keeps the current volume untouched.
       if (!connected.ok) return connected.code;
+      if (!boostAuthorized(generation)) return "boost-reset-superseded";
       if (!matches(media, item)) return "media-invalid";
       media.volume = 1;
       boost.graphs.get(media).gain.gain.value = target;
+      boost.appliedGeneration = Math.max(boost.appliedGeneration || 0, generation);
       armWatchdog();
       return "";
     }
@@ -382,7 +401,7 @@
 
   // Volume and speed changes never call play()/pause() and never touch playback
   // history; they only set the requested property and report the actual value.
-  async function adjustMedia(items, adjust, boostAllowed = false) {
+  async function adjustMedia(items, adjust, boostAllowed = false, generation = null) {
     snapshot();
     const kind = adjust?.kind;
     const mode = adjust?.mode;
@@ -404,7 +423,7 @@
           const next = mode === "set" ? value : current + value;
           // Effective level = media.volume x gain. Without the experimental
           // boost the result is clamped to 100% (gain 1).
-          const code = await setEffectiveVolume(media, item, next, boostAllowed === true);
+          const code = await setEffectiveVolume(media, item, next, boostAllowed === true, generation);
           if (code) {
             results.push({ mediaId: item.mediaId, code, volume: effectiveVolume(media) });
             continue;
@@ -464,8 +483,8 @@
     if (message?.type === "BOOST_RESET") {
       // Turning the experiment off drops every boost made in this world,
       // including graphs created by an earlier controller. Paths stay until reload.
-      resetAllGains();
-      sendResponse({ reset: boost.graphs.size });
+      const applied = resetAllGains(message.generation);
+      sendResponse({ reset: boost.graphs.size, stale: !applied });
       return false;
     }
     if (message?.type !== "CONTROL") return false;
@@ -475,7 +494,7 @@
         return { ...controlReceipt, ...snapshot() };
       const items = Array.isArray(message.items) ? message.items : [];
       const result = message.action === "pause" ? await pausePlayingMedia() :
-        message.action === "adjust" ? await adjustMedia(items, message.adjust, message.boostAllowed) : await resumeMedia(items);
+        message.action === "adjust" ? await adjustMedia(items, message.adjust, message.boostAllowed, message.boostGeneration) : await resumeMedia(items);
       controlReceipt = { requestId: message.requestId, action: message.action,
         paused: result.paused || [], started: result.started || 0, failed: result.failed || 0,
         resumedIds: result.resumedIds || [], invalidIds: result.invalidIds || [], failedIds: result.failedIds || [],

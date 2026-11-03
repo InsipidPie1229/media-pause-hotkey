@@ -8,15 +8,21 @@ const t = globalThis.mediaShortcutI18n.message;
 const VERSION = chrome.runtime.getManifest?.().version || "";
 const SETTINGS_KEY = "settings";
 // A single user preference (no site data): the experimental >100% boost. Off by default.
-let settings = { boostEnabled: false };
+// generation increases on every change so pages can reject boost requests
+// issued before the latest switch-off.
+let settings = { boostEnabled: false, generation: 0 };
 const settingsReady = (async () => {
   try {
     const stored = (await chrome.storage.local?.get(SETTINGS_KEY))?.[SETTINGS_KEY];
-    settings = { boostEnabled: stored?.boostEnabled === true };
+    settings = { boostEnabled: stored?.boostEnabled === true,
+      generation: Number.isInteger(stored?.generation) ? stored.generation : 0 };
   } catch { /* Keep the safe default. */ }
 })();
 chrome.storage.onChanged?.addListener((changes, area) => {
-  if (area === "local" && changes[SETTINGS_KEY]) settings = { boostEnabled: changes[SETTINGS_KEY].newValue?.boostEnabled === true };
+  if (area === "local" && changes[SETTINGS_KEY]) {
+    const value = changes[SETTINGS_KEY].newValue;
+    settings = { boostEnabled: value?.boostEnabled === true, generation: Number.isInteger(value?.generation) ? value.generation : 0 };
+  }
 });
 
 function isExtensionPage(sender) {
@@ -418,18 +424,21 @@ async function refreshMediaState(state) {
 
 // Sends BOOST_RESET to one document (never to whatever replaced it), falling
 // back to the registry in the same isolated world. Returns the graph count or null.
-async function resetBoostInDocument(context) {
+async function resetBoostInDocument(context, generation = settings.generation) {
   try {
-    const reply = await withTimeout(chrome.tabs.sendMessage(context.tabId, { type: "BOOST_RESET" },
+    const reply = await withTimeout(chrome.tabs.sendMessage(context.tabId, { type: "BOOST_RESET", generation },
       { documentId: context.documentId }), 2200);
     if (reply && Number.isInteger(reply.reset)) return reply.reset;
   } catch { /* Fall back to direct registry access below. */ }
   try {
     const [result] = await withTimeout(chrome.scripting.executeScript({
       target: { tabId: context.tabId, documentIds: [context.documentId] },
-      func: () => {
+      args: [generation],
+      func: (resetGeneration) => {
         const registry = globalThis.__mediaShortcutBoost;
         if (!registry) return 0;
+        registry.minGeneration = Math.max(registry.minGeneration || 0, resetGeneration + 1);
+        if (resetGeneration < (registry.appliedGeneration || 0)) return registry.graphs.size;
         for (const graph of registry.graphs.values()) graph.gain.gain.value = 1;
         clearInterval(registry.watchdog);
         registry.watchdog = 0;
@@ -636,7 +645,7 @@ async function performAdjust(adjust, input = "popup", expectedKey = "") {
         const items = selection.items.filter(item => item.documentId === record.documentId)
           .map(({ mediaId, signature, sourceVersion }) => ({ mediaId, signature, sourceVersion }));
         return { context, result: await sendToDocument(state, context, "adjust", items,
-          { adjust, boostAllowed: settings.boostEnabled }) };
+          { adjust, boostAllowed: settings.boostEnabled, boostGeneration: settings.generation }) };
       }));
       const adjusted = [];
       const failureCodes = [];
@@ -691,7 +700,7 @@ function runAdjust(adjust, input, expectedKey) {
 // and forbids new boosts; Web Audio paths already created stay until reload.
 async function setBoostEnabled(enabled) {
   await settingsReady;
-  settings = { boostEnabled: enabled };
+  settings = { boostEnabled: enabled, generation: (settings.generation || 0) + 1 };
   await chrome.storage.local.set({ [SETTINGS_KEY]: settings });
   const state = await loadState();
   let reset = 0;
