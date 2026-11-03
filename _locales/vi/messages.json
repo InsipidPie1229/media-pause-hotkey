@@ -150,7 +150,7 @@
     "message": "Đặt lại tốc độ về 1× trong thẻ phát gần đây nhất"
   },
   "volumeHeading": {
-    "message": "Âm lượng"
+    "message": "Âm lượng tiện ích"
   },
   "speedHeading": {
     "message": "Tốc độ"
@@ -171,13 +171,13 @@
     "message": "1×"
   },
   "osdVolume": {
-    "message": "Âm lượng $1%"
+    "message": "Âm lượng tiện ích $1%"
   },
   "osdVolumeMuted": {
-    "message": "Âm lượng $1% (tắt tiếng)"
+    "message": "Âm lượng tiện ích $1% (tắt tiếng)"
   },
   "osdVolumeMixed": {
-    "message": "Âm lượng: khác nhau"
+    "message": "Âm lượng tiện ích: khác nhau"
   },
   "osdSpeed": {
     "message": "Tốc độ $1×"
@@ -201,7 +201,7 @@
     "message": "Dùng âm lượng tiện ích (thử nghiệm)"
   },
   "boostHint": {
-    "message": "Thêm âm lượng riêng 0–500% lên trên âm lượng của trang. Nội dung bạn điều chỉnh sẽ dùng xử lý âm thanh của trình duyệt cho đến khi tải lại trang."
+    "message": "Áp dụng hệ số nhân 0–500% riêng cho âm lượng của chính trang. Nội dung bạn điều chỉnh sẽ dùng xử lý âm thanh của trình duyệt cho đến khi tải lại trang."
   },
   "boostActiveNote": {
     "message": "Đã tăng cường. Âm thanh lớn có thể bị méo."
@@ -213,7 +213,7 @@
     "message": "Đã tắt âm lượng tiện ích và trở về 100%. Nội dung đã điều chỉnh trước đó vẫn giữ đường âm thanh cho đến khi tải lại trang."
   },
   "osdVolumeBoosted": {
-    "message": "Âm lượng $1% (tăng cường)"
+    "message": "Âm lượng tiện ích $1% (tăng cường)"
   },
   "osdBoostRefused": {
     "message": "Âm lượng tiện ích không khả dụng ở đây"

@@ -150,7 +150,7 @@
     "message": "Kembalikan kecepatan ke 1× di tab yang terakhir diputar"
   },
   "volumeHeading": {
-    "message": "Volume"
+    "message": "Volume ekstensi"
   },
   "speedHeading": {
     "message": "Kecepatan"
@@ -171,13 +171,13 @@
     "message": "1×"
   },
   "osdVolume": {
-    "message": "Volume $1%"
+    "message": "Volume ekstensi $1%"
   },
   "osdVolumeMuted": {
-    "message": "Volume $1% (bisu)"
+    "message": "Volume ekstensi $1% (bisu)"
   },
   "osdVolumeMixed": {
-    "message": "Volume: berbeda"
+    "message": "Volume ekstensi: berbeda"
   },
   "osdSpeed": {
     "message": "Kecepatan $1×"
@@ -201,7 +201,7 @@
     "message": "Gunakan volume ekstensi (eksperimental)"
   },
   "boostHint": {
-    "message": "Menambahkan volume 0–500% miliknya sendiri di atas volume situs. Media yang Anda sesuaikan memakai pemrosesan audio browser hingga halaman dimuat ulang."
+    "message": "Menerapkan pengali terpisah 0–500% ke volume situs itu sendiri. Media yang Anda sesuaikan memakai pemrosesan audio browser hingga halaman dimuat ulang."
   },
   "boostActiveNote": {
     "message": "Ditingkatkan. Suara keras dapat terdistorsi."
@@ -213,7 +213,7 @@
     "message": "Volume ekstensi mati dan kembali ke 100%. Media yang sudah disesuaikan tetap memakai jalur audio hingga halaman dimuat ulang."
   },
   "osdVolumeBoosted": {
-    "message": "Volume $1% (ditingkatkan)"
+    "message": "Volume ekstensi $1% (ditingkatkan)"
   },
   "osdBoostRefused": {
     "message": "Volume ekstensi tidak tersedia di sini"

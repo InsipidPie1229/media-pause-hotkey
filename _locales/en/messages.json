@@ -150,7 +150,7 @@
     "message": "Reset speed to 1× in the most recently playing tab"
   },
   "volumeHeading": {
-    "message": "Volume"
+    "message": "Extension volume"
   },
   "speedHeading": {
     "message": "Speed"
@@ -171,13 +171,13 @@
     "message": "1×"
   },
   "osdVolume": {
-    "message": "Volume $1%"
+    "message": "Extension volume $1%"
   },
   "osdVolumeMuted": {
-    "message": "Volume $1% (muted)"
+    "message": "Extension volume $1% (muted)"
   },
   "osdVolumeMixed": {
-    "message": "Volume: mixed"
+    "message": "Extension volume: mixed"
   },
   "osdSpeed": {
     "message": "Speed $1×"
@@ -201,7 +201,7 @@
     "message": "Use extension volume (experimental)"
   },
   "boostHint": {
-    "message": "Adds its own 0–500% volume on top of the site's volume. Media you adjust uses the browser's audio processing until the page is reloaded."
+    "message": "Applies a separate 0–500% multiplier to the site's own volume. Media you adjust uses the browser's audio processing until the page is reloaded."
   },
   "boostActiveNote": {
     "message": "Boosted. Loud sound may distort."
@@ -213,7 +213,7 @@
     "message": "Extension volume is off and back to 100%. Media adjusted before keeps the audio path until the page is reloaded."
   },
   "osdVolumeBoosted": {
-    "message": "Volume $1% (boosted)"
+    "message": "Extension volume $1% (boosted)"
   },
   "osdBoostRefused": {
     "message": "Extension volume unavailable here"

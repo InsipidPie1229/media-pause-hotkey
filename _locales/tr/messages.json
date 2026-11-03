@@ -150,7 +150,7 @@
     "message": "En son oynatılan sekmede hızı 1× olarak sıfırla"
   },
   "volumeHeading": {
-    "message": "Ses"
+    "message": "Uzantı ses düzeyi"
   },
   "speedHeading": {
     "message": "Hız"
@@ -171,13 +171,13 @@
     "message": "1×"
   },
   "osdVolume": {
-    "message": "Ses $1%"
+    "message": "Uzantı ses düzeyi $1%"
   },
   "osdVolumeMuted": {
-    "message": "Ses $1% (kapalı)"
+    "message": "Uzantı ses düzeyi $1% (kapalı)"
   },
   "osdVolumeMixed": {
-    "message": "Ses: farklı"
+    "message": "Uzantı ses düzeyi: farklı"
   },
   "osdSpeed": {
     "message": "Hız $1×"
@@ -201,7 +201,7 @@
     "message": "Uzantı ses düzeyini kullan (deneysel)"
   },
   "boostHint": {
-    "message": "Site ses düzeyinin üzerine kendi 0–500% ses düzeyini ekler. Ayarladığınız medya, sayfa yeniden yüklenene kadar tarayıcının ses işlemesinden geçer."
+    "message": "Sitenin kendi ses düzeyine ayrı bir 0–500% çarpanı uygular. Ayarladığınız medya, sayfa yeniden yüklenene kadar tarayıcının ses işlemesini kullanır."
   },
   "boostActiveNote": {
     "message": "Yükseltildi. Yüksek ses bozulabilir."
@@ -213,7 +213,7 @@
     "message": "Uzantı ses düzeyi kapalı ve 100%'e döndü. Daha önce ayarlanan medya, sayfa yenilenene kadar ses yolunu korur."
   },
   "osdVolumeBoosted": {
-    "message": "Ses $1% (yükseltildi)"
+    "message": "Uzantı ses düzeyi $1% (yükseltildi)"
   },
   "osdBoostRefused": {
     "message": "Uzantı ses düzeyi burada kullanılamıyor"

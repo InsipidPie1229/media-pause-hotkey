@@ -150,7 +150,7 @@
     "message": "Restablecer la velocidad a 1× en la pestaña reproducida más recientemente"
   },
   "volumeHeading": {
-    "message": "Volumen"
+    "message": "Volumen de la extensión"
   },
   "speedHeading": {
     "message": "Velocidad"
@@ -171,13 +171,13 @@
     "message": "1×"
   },
   "osdVolume": {
-    "message": "Volumen $1%"
+    "message": "Volumen de la extensión $1%"
   },
   "osdVolumeMuted": {
-    "message": "Volumen $1% (silenciado)"
+    "message": "Volumen de la extensión $1% (silenciado)"
   },
   "osdVolumeMixed": {
-    "message": "Volumen: distinto"
+    "message": "Volumen de la extensión: distinto"
   },
   "osdSpeed": {
     "message": "Velocidad $1×"
@@ -201,7 +201,7 @@
     "message": "Usar el volumen de la extensión (experimental)"
   },
   "boostHint": {
-    "message": "Añade su propio volumen del 0–500% sobre el volumen del sitio. Los medios que ajustes usan el procesamiento de audio del navegador hasta que se recargue la página."
+    "message": "Aplica un multiplicador independiente del 0–500% al volumen propio del sitio. Los medios que ajustes usan el procesamiento de audio del navegador hasta que se recargue la página."
   },
   "boostActiveNote": {
     "message": "Amplificado. El sonido alto puede distorsionarse."
@@ -213,7 +213,7 @@
     "message": "El volumen de la extensión está desactivado y vuelve al 100%. Los medios ya ajustados mantienen la ruta de audio hasta que se recargue la página."
   },
   "osdVolumeBoosted": {
-    "message": "Volumen $1% (amplificado)"
+    "message": "Volumen de la extensión $1% (amplificado)"
   },
   "osdBoostRefused": {
     "message": "Volumen de la extensión no disponible aquí"

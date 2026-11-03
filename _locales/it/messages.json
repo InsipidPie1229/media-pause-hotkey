@@ -150,7 +150,7 @@
     "message": "Riporta la velocità a 1× nell'ultima scheda riprodotta"
   },
   "volumeHeading": {
-    "message": "Volume"
+    "message": "Volume dell'estensione"
   },
   "speedHeading": {
     "message": "Velocità"
@@ -171,13 +171,13 @@
     "message": "1×"
   },
   "osdVolume": {
-    "message": "Volume $1%"
+    "message": "Volume dell'estensione $1%"
   },
   "osdVolumeMuted": {
-    "message": "Volume $1% (disattivato)"
+    "message": "Volume dell'estensione $1% (disattivato)"
   },
   "osdVolumeMixed": {
-    "message": "Volume: diverso"
+    "message": "Volume dell'estensione: diverso"
   },
   "osdSpeed": {
     "message": "Velocità $1×"
@@ -201,7 +201,7 @@
     "message": "Usa il volume dell'estensione (sperimentale)"
   },
   "boostHint": {
-    "message": "Aggiunge un proprio volume da 0–500% sopra il volume del sito. I contenuti che regoli usano l'elaborazione audio del browser finché la pagina non viene ricaricata."
+    "message": "Applica un moltiplicatore separato da 0–500% al volume del sito stesso. I contenuti che regoli usano l'elaborazione audio del browser finché la pagina non viene ricaricata."
   },
   "boostActiveNote": {
     "message": "Potenziato. Un suono forte può distorcersi."
@@ -213,7 +213,7 @@
     "message": "Il volume dell'estensione è disattivato e torna al 100%. I contenuti già regolati mantengono il percorso audio finché la pagina non viene ricaricata."
   },
   "osdVolumeBoosted": {
-    "message": "Volume $1% (potenziato)"
+    "message": "Volume dell'estensione $1% (potenziato)"
   },
   "osdBoostRefused": {
     "message": "Volume dell'estensione non disponibile qui"

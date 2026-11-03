@@ -150,7 +150,7 @@
     "message": "将最近播放的标签页速度恢复为 1×"
   },
   "volumeHeading": {
-    "message": "音量"
+    "message": "扩展音量"
   },
   "speedHeading": {
     "message": "速度"
@@ -171,13 +171,13 @@
     "message": "1×"
   },
   "osdVolume": {
-    "message": "音量 $1%"
+    "message": "扩展音量 $1%"
   },
   "osdVolumeMuted": {
-    "message": "音量 $1%（静音）"
+    "message": "扩展音量 $1%（静音）"
   },
   "osdVolumeMixed": {
-    "message": "音量：不一致"
+    "message": "扩展音量：不一致"
   },
   "osdSpeed": {
     "message": "速度 $1×"
@@ -201,7 +201,7 @@
     "message": "使用扩展音量（实验性）"
   },
   "boostHint": {
-    "message": "在网站音量之上增加独立的 0–500% 音量。你调整的媒体会经过浏览器的音频处理，直到页面重新加载。"
+    "message": "对网站自身的音量应用独立的 0–500% 倍率。你调整的媒体会经过浏览器的音频处理，直到页面重新加载。"
   },
   "boostActiveNote": {
     "message": "已增强。大音量可能会失真。"
@@ -213,7 +213,7 @@
     "message": "扩展音量已关闭并恢复到 100%。此前调整过的媒体会保持音频路径，直到页面重新加载。"
   },
   "osdVolumeBoosted": {
-    "message": "音量 $1%（增强）"
+    "message": "扩展音量 $1%（增强）"
   },
   "osdBoostRefused": {
     "message": "此处无法使用扩展音量"

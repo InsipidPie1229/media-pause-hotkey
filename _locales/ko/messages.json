@@ -150,7 +150,7 @@
     "message": "최근 재생 탭의 배속을 1배로 되돌리기"
   },
   "volumeHeading": {
-    "message": "볼륨"
+    "message": "확장 볼륨"
   },
   "speedHeading": {
     "message": "배속"
@@ -171,13 +171,13 @@
     "message": "1×"
   },
   "osdVolume": {
-    "message": "볼륨 $1%"
+    "message": "확장 볼륨 $1%"
   },
   "osdVolumeMuted": {
-    "message": "볼륨 $1% (음소거)"
+    "message": "확장 볼륨 $1% (음소거)"
   },
   "osdVolumeMixed": {
-    "message": "볼륨: 서로 다름"
+    "message": "확장 볼륨: 서로 다름"
   },
   "osdSpeed": {
     "message": "배속 $1×"
@@ -201,7 +201,7 @@
     "message": "확장 볼륨 사용 (실험)"
   },
   "boostHint": {
-    "message": "사이트 볼륨 위에 0~500% 확장 볼륨을 더합니다. 조절한 미디어는 페이지를 새로고침할 때까지 브라우저 오디오 처리를 거칩니다."
+    "message": "사이트 볼륨에 별도 배율(0~500%)을 적용합니다. 조절한 미디어는 페이지를 새로고침할 때까지 브라우저 오디오 처리를 거칩니다."
   },
   "boostActiveNote": {
     "message": "증폭 중입니다. 큰 소리는 찌그러질 수 있습니다."
@@ -213,7 +213,7 @@
     "message": "확장 볼륨을 껐고 100%로 되돌렸습니다. 이미 조절한 미디어는 페이지를 새로고침할 때까지 오디오 처리 경로가 유지됩니다."
   },
   "osdVolumeBoosted": {
-    "message": "볼륨 $1% (증폭)"
+    "message": "확장 볼륨 $1% (증폭)"
   },
   "osdBoostRefused": {
     "message": "이 미디어는 확장 볼륨 사용 불가"

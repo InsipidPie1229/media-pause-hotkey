@@ -150,7 +150,7 @@
     "message": "Geschwindigkeit im zuletzt abgespielten Tab auf 1× zurücksetzen"
   },
   "volumeHeading": {
-    "message": "Lautstärke"
+    "message": "Erweiterungslautstärke"
   },
   "speedHeading": {
     "message": "Geschwindigkeit"
@@ -171,13 +171,13 @@
     "message": "1×"
   },
   "osdVolume": {
-    "message": "Lautstärke $1%"
+    "message": "Erweiterungslautstärke $1%"
   },
   "osdVolumeMuted": {
-    "message": "Lautstärke $1% (stumm)"
+    "message": "Erweiterungslautstärke $1% (stumm)"
   },
   "osdVolumeMixed": {
-    "message": "Lautstärke: unterschiedlich"
+    "message": "Erweiterungslautstärke: unterschiedlich"
   },
   "osdSpeed": {
     "message": "Geschwindigkeit $1×"
@@ -201,7 +201,7 @@
     "message": "Erweiterungslautstärke verwenden (experimentell)"
   },
   "boostHint": {
-    "message": "Fügt eine eigene Lautstärke von 0–500% zusätzlich zur Lautstärke der Website hinzu. Angepasste Medien werden bis zum Neuladen der Seite über die Audioverarbeitung des Browsers geleitet."
+    "message": "Wendet einen separaten 0–500%-Multiplikator auf die Lautstärke der Website selbst an. Angepasste Medien nutzen die Audioverarbeitung des Browsers, bis die Seite neu geladen wird."
   },
   "boostActiveNote": {
     "message": "Verstärkt. Laute Töne können verzerren."
@@ -213,7 +213,7 @@
     "message": "Die Erweiterungslautstärke ist aus und wieder bei 100%. Bereits angepasste Medien behalten den Audiopfad bis zum Neuladen der Seite."
   },
   "osdVolumeBoosted": {
-    "message": "Lautstärke $1% (verstärkt)"
+    "message": "Erweiterungslautstärke $1% (verstärkt)"
   },
   "osdBoostRefused": {
     "message": "Erweiterungslautstärke hier nicht verfügbar"
