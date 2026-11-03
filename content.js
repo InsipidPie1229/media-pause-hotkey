@@ -1,5 +1,5 @@
 (() => {
-  const CONTROLLER_VERSION = "1.0.6";
+  const CONTROLLER_VERSION = "1.1.0";
   const oldController = globalThis.__mediaShortcutController;
   if (oldController?.version === CONTROLLER_VERSION) return oldController.snapshot();
   oldController?.dispose();
@@ -62,6 +62,9 @@
       hasError: Boolean(media.error),
       lastStartedAt: meta.lastStartedAt,
       playbackVersion: meta.playbackVersion,
+      volume: media.volume,
+      playbackRate: media.playbackRate,
+      muted: media.muted,
       transitioned,
       origin,
     };
@@ -254,18 +257,98 @@
     };
   }
 
+  const RATE_MIN = 0.25;
+  const RATE_MAX = 4;
+
+  function clamp(value, low, high) {
+    return Math.min(high, Math.max(low, value));
+  }
+
+  // Volume and speed changes never call play()/pause() and never touch playback
+  // history; they only set the requested property and report the actual value.
+  function adjustMedia(items, adjust) {
+    snapshot();
+    const kind = adjust?.kind;
+    const mode = adjust?.mode;
+    const value = Number(adjust?.value);
+    const results = [];
+    for (const item of items) {
+      const media = mediaById.get(item.mediaId);
+      if (!["volume", "rate"].includes(kind) || !["delta", "set"].includes(mode) || !Number.isFinite(value)) {
+        results.push({ mediaId: item.mediaId, code: "adjust-invalid" });
+        continue;
+      }
+      if (!matches(media, item)) {
+        results.push({ mediaId: item.mediaId, code: "media-invalid" });
+        continue;
+      }
+      try {
+        if (kind === "volume") {
+          const next = mode === "set" ? value : media.volume + value;
+          media.volume = clamp(Math.round(next * 100) / 100, 0, 1);
+        } else {
+          const next = mode === "set" ? value : media.playbackRate + value;
+          media.playbackRate = clamp(Math.round(next * 100) / 100, RATE_MIN, RATE_MAX);
+        }
+        results.push({ mediaId: item.mediaId, volume: media.volume, playbackRate: media.playbackRate, muted: media.muted });
+      } catch {
+        results.push({ mediaId: item.mediaId, code: "adjust-rejected" });
+      }
+    }
+    return {
+      adjusted: results.filter((item) => !item.code),
+      failures: results.filter((item) => item.code),
+      failed: results.filter((item) => item.code).length,
+      ...snapshot(),
+    };
+  }
+
+  let osdHost = null;
+  let osdLabel = null;
+  let osdTimer = 0;
+
+  function showOsd(text) {
+    if (window !== window.top || typeof text !== "string" || !text) return false;
+    if (!osdHost) {
+      osdHost = document.createElement("div");
+      const shadow = osdHost.attachShadow({ mode: "closed" });
+      const style = document.createElement("style");
+      style.textContent = ":host{all:initial}div{position:fixed;top:24px;left:50%;transform:translateX(-50%);" +
+        "z-index:2147483647;pointer-events:none;padding:8px 16px;border-radius:8px;background:rgba(17,24,39,.86);" +
+        "color:#fff;font:600 16px/1.3 system-ui,sans-serif;letter-spacing:.01em;transition:opacity .15s;opacity:0}" +
+        "div.show{opacity:1}";
+      osdLabel = document.createElement("div");
+      osdLabel.setAttribute("role", "status");
+      shadow.append(style, osdLabel);
+    }
+    // Fullscreen players hide everything outside the fullscreen element.
+    const fullscreen = document.fullscreenElement;
+    const parent = fullscreen && !(fullscreen instanceof HTMLMediaElement) ? fullscreen : document.documentElement;
+    if (osdHost.parentNode !== parent) parent.append(osdHost);
+    osdLabel.textContent = text;
+    osdLabel.className = "show";
+    clearTimeout(osdTimer);
+    osdTimer = setTimeout(() => { osdLabel.className = ""; }, 1000);
+    return true;
+  }
+
   function onMessage(message, _sender, sendResponse) {
+    if (message?.type === "OSD") {
+      sendResponse({ shown: showOsd(message.text) });
+      return false;
+    }
     if (message?.type !== "CONTROL") return false;
-    if (!["pause", "resume"].includes(message.action)) return false;
+    if (!["pause", "resume", "adjust"].includes(message.action)) return false;
     const run = async () => {
       if (message.requestId && controlReceipt?.requestId === message.requestId)
         return { ...controlReceipt, ...snapshot() };
+      const items = Array.isArray(message.items) ? message.items : [];
       const result = message.action === "pause" ? await pausePlayingMedia() :
-        await resumeMedia(Array.isArray(message.items) ? message.items : []);
+        message.action === "adjust" ? adjustMedia(items, message.adjust) : await resumeMedia(items);
       controlReceipt = { requestId: message.requestId, action: message.action,
         paused: result.paused || [], started: result.started || 0, failed: result.failed || 0,
         resumedIds: result.resumedIds || [], invalidIds: result.invalidIds || [], failedIds: result.failedIds || [],
-        failures: result.failures || [] };
+        failures: result.failures || [], adjusted: result.adjusted || [] };
       return { ...result, ...snapshot() };
     };
     controlQueue = controlQueue.then(run, run);
@@ -298,6 +381,8 @@
       }
       mediaById.clear();
       listeners.clear();
+      clearTimeout(osdTimer);
+      osdHost?.remove();
     },
   };
   for (const media of mediaById.values()) report(media);

@@ -5,6 +5,7 @@ const MAX_MEDIA_RECORDS = 500;
 const MAX_PAUSED_BATCHES = 50;
 const MAX_DOCUMENT_RECORDS = 1000;
 const t = globalThis.mediaShortcutI18n.message;
+const VERSION = chrome.runtime.getManifest().version;
 let serialQueue = Promise.resolve();
 
 function enqueue(operation) {
@@ -35,7 +36,7 @@ function normalizeState(value) {
 }
 
 function importantDiagnostic(entry) {
-  return ["command", "command-start", "control", "reconnect", "resume-selection", "invalidate", "interrupted"].includes(entry.type);
+  return ["command", "command-start", "control", "reconnect", "resume-selection", "adjust-selection", "invalidate", "interrupted"].includes(entry.type);
 }
 
 function trimDiagnostics(entries) {
@@ -48,7 +49,7 @@ function diagnose(state, type, context = {}, details = {}) {
   const entry = { at: Date.now(), type };
   for (const key of ["tabId", "frameId", "documentId", "mediaId"]) if (context[key] !== undefined) entry[key] = context[key];
   // Explicit fields only: diagnostics never contain page titles, URLs, or raw errors.
-  for (const key of ["playing", "transitioned", "playbackVersion", "sequence", "durationMs", "code", "reason", "mediaCount", "playingCount", "resumeCount", "action", "input", "commandId", "requestId", "sourceVersion", "ended", "hasError"])
+  for (const key of ["playing", "transitioned", "playbackVersion", "sequence", "durationMs", "code", "reason", "mediaCount", "playingCount", "resumeCount", "adjustCount", "action", "input", "commandId", "requestId", "sourceVersion", "ended", "hasError"])
     if (details[key] !== undefined) entry[key] = details[key];
   if (["play", "playing", "pause", "ended", "error", "emptied", "loadstart", "timeupdate", "snapshot", "event"].includes(details.origin)) entry.origin = details.origin;
   state.diagnostics.push(entry);
@@ -173,6 +174,14 @@ function upsertMedia(state, context, value, title) {
     title: String(title || t("targetEmpty")).slice(0, 160),
     playingAt, playbackVersion, lastSeen: now,
   };
+  // Levels are informational only; they never affect target or resume selection.
+  const record = state.media[key];
+  if (Number.isFinite(value.volume)) record.volume = value.volume;
+  else if (sameSource && Number.isFinite(previous.volume)) record.volume = previous.volume;
+  if (Number.isFinite(value.playbackRate)) record.playbackRate = value.playbackRate;
+  else if (sameSource && Number.isFinite(previous.playbackRate)) record.playbackRate = previous.playbackRate;
+  if (typeof value.muted === "boolean") record.muted = value.muted;
+  else if (sameSource && typeof previous.muted === "boolean") record.muted = previous.muted;
   if (playingAt > state.lastActivityAt || newPlayback && playingAt === state.lastActivityAt) {
     state.lastActivityAt = playingAt;
     state.latestTarget = { tabId: context.tabId, title: state.media[key].title, playedAt: playingAt, touchedAt: now };
@@ -222,12 +231,46 @@ function resumeSelection(state, tabId) {
   return { items: [candidates[0]], reason: "recent-media-paused" };
 }
 
+// Volume/speed act on what the toggle would act on: playing media in the
+// latest tab, otherwise the media a resume would restart.
+function adjustSelection(state, tabId) {
+  const playing = playingInTab(state, tabId);
+  if (playing.length) return { items: playing, reason: "playing" };
+  const resume = resumeSelection(state, tabId);
+  return { items: resume.items.map(item => state.media[mediaKey({ tabId, ...item }, item.mediaId)]).filter(Boolean),
+    reason: resume.items.length ? "resume-target" : resume.reason };
+}
+
+function selectionKey(tabId, items) {
+  return tabId + "|" + [...new Set(items.map(item => item.documentId))].sort().join(",");
+}
+
+function levelsFor(items) {
+  const unique = (values) => {
+    const known = values.filter(value => Number.isFinite(value));
+    if (!known.length) return { value: null, mixed: false };
+    return known.every(value => value === known[0]) ? { value: known[0], mixed: false } : { value: null, mixed: true };
+  };
+  const volume = unique(items.map(item => item.volume));
+  const rate = unique(items.map(item => item.playbackRate));
+  return {
+    count: items.length,
+    volume: volume.value, volumeMixed: volume.mixed,
+    playbackRate: rate.value, rateMixed: rate.mixed,
+    muted: items.length > 0 && items.every(item => item.muted === true),
+    someMuted: items.some(item => item.muted === true),
+  };
+}
+
 function publicState(state) {
   const target = state.latestTarget;
   const playingCount = target ? playingInTab(state, target.tabId).length : 0;
   const pausedCount = target ? resumeSelection(state, target.tabId).items.length : 0;
+  const adjust = target ? adjustSelection(state, target.tabId) : { items: [] };
   return {
-    version: chrome.runtime.getManifest?.().version || "1.0.6",
+    levels: levelsFor(adjust.items),
+    adjustKey: target && adjust.items.length ? selectionKey(target.tabId, adjust.items) : "",
+    version: VERSION,
     target: target ? { tabId: target.tabId, title: target.title || t("targetEmpty") } : null,
     status: target && targetUnknown(state, target.tabId) ? "unknown" : playingCount ? "playing" : pausedCount ? "paused" : "idle",
     playingCount, pausedCount, error: globalThis.mediaShortcutI18n.userError(state.error),
@@ -342,11 +385,11 @@ async function refreshMediaState(state) {
   return failedTabs;
 }
 
-async function sendToDocument(state, context, action, items) {
+async function sendToDocument(state, context, action, items, extra = {}) {
   const requestId = Date.now().toString(36) + "-" + Math.random().toString(36).slice(2);
   try {
     return await withTimeout(chrome.tabs.sendMessage(context.tabId,
-      { type: "CONTROL", action, items, requestId }, { documentId: context.documentId }), 8000);
+      { type: "CONTROL", action, items, requestId, ...extra }, { documentId: context.documentId }), 8000);
   } catch {
     // A lost reply does not mean the control failed. Read its receipt; never replay a toggle.
     try {
@@ -479,6 +522,98 @@ function runControl(action, input) {
   return enqueue(() => performControl(action, input));
 }
 
+const VOLUME_STEP = 0.1;
+const RATE_STEP = 0.25;
+
+function formatRate(value) {
+  return String(Math.round(value * 100) / 100);
+}
+
+function osdText(kind, levels) {
+  if (kind === "volume") {
+    if (levels.volumeMixed || levels.volume === null) return t("osdVolumeMixed");
+    return t(levels.muted ? "osdVolumeMuted" : "osdVolume", String(Math.round(levels.volume * 100)));
+  }
+  if (levels.rateMixed || levels.playbackRate === null) return t("osdSpeedMixed");
+  return t("osdSpeed", formatRate(levels.playbackRate));
+}
+
+// adjust = { kind: "volume" | "rate", mode: "delta" | "set", value }.
+// expectedKey (popup only) pins the tab and documents the popup was showing.
+async function performAdjust(adjust, input = "popup", expectedKey = "") {
+  const startedAt = Date.now();
+  const state = await loadState();
+  const commandId = startedAt.toString(36) + "-" + Math.random().toString(36).slice(2);
+  const reason = "adjust-" + adjust.kind + "-" + adjust.mode;
+  diagnose(state, "command-start", state.latestTarget || {}, { commandId, input, reason });
+  await saveState(state);
+  state.error = "";
+  const failedTabs = await refreshMediaState(state);
+  const target = state.latestTarget;
+  let applied = null;
+  if (!target) state.error = state.error || "errorNoTarget";
+  else if (failedTabs.has(target.tabId)) state.error = "errorPageConnection";
+  else {
+    const selection = adjustSelection(state, target.tabId);
+    const key = selection.items.length ? selectionKey(target.tabId, selection.items) : "";
+    diagnose(state, "adjust-selection", target, { commandId, reason: selection.reason, adjustCount: selection.items.length });
+    if (!selection.items.length) state.error = "errorAdjustNothing";
+    else if (expectedKey && expectedKey !== key) state.error = "errorTargetChanged";
+    else {
+      const documents = new Map(selection.items.map(item => [item.documentId, item]));
+      const results = await Promise.all([...documents.values()].map(async (record) => {
+        const context = { tabId: target.tabId, documentId: record.documentId, frameId: record.frameId };
+        const items = selection.items.filter(item => item.documentId === record.documentId)
+          .map(({ mediaId, signature, sourceVersion }) => ({ mediaId, signature, sourceVersion }));
+        return { context, result: await sendToDocument(state, context, "adjust", items, { adjust }) };
+      }));
+      const adjusted = [];
+      let failed = 0;
+      for (const { context, result } of results) {
+        // A lost reply is never retried: a repeated delta would apply twice.
+        if (!result) continue;
+        applyDocumentSnapshot(state, context, result, target.title);
+        adjusted.push(...(result.adjusted || []));
+        failed += result.failed || 0;
+        for (const failure of result.failures || [])
+          diagnose(state, "control", { ...context, mediaId: failure.mediaId }, { code: failure.code, action: "adjust", commandId });
+      }
+      applied = levelsFor(adjusted);
+      if (results.some(({ result }) => !result)) state.error = "errorPageConnection";
+      else if (!adjusted.length) state.error = "errorControl";
+      else if (failed) state.error = "errorAdjustSome";
+      if (adjusted.length && input === "keyboard") {
+        try {
+          await withTimeout(chrome.tabs.sendMessage(target.tabId, { type: "OSD", text: osdText(adjust.kind, applied) }, { frameId: 0 }), 1500);
+        } catch { /* The on-page indicator is optional feedback. */ }
+      }
+    }
+  }
+  diagnose(state, "command", target || {}, { commandId, code: state.error || "success", reason, input,
+    adjustCount: applied?.count || 0, durationMs: Date.now() - startedAt });
+  await saveState(state);
+  const view = publicState(state);
+  updateBadge(view);
+  return { ...view, applied };
+}
+
+function validAdjust(value) {
+  return Boolean(value) && ["volume", "rate"].includes(value.kind) && ["delta", "set"].includes(value.mode) &&
+    Number.isFinite(value.value) && Math.abs(value.value) <= 16;
+}
+
+function runAdjust(adjust, input, expectedKey) {
+  return enqueue(() => performAdjust(adjust, input, expectedKey));
+}
+
+const ADJUST_COMMANDS = {
+  "volume-up": { kind: "volume", mode: "delta", value: VOLUME_STEP },
+  "volume-down": { kind: "volume", mode: "delta", value: -VOLUME_STEP },
+  "speed-up": { kind: "rate", mode: "delta", value: RATE_STEP },
+  "speed-down": { kind: "rate", mode: "delta", value: -RATE_STEP },
+  "speed-reset": { kind: "rate", mode: "set", value: 1 },
+};
+
 async function removeNavigatedDocument(details) {
   const state = await loadState();
   try {
@@ -509,7 +644,7 @@ async function removeNavigatedDocument(details) {
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message?.type === "GET_DIAGNOSTICS" && !sender.tab) {
-    enqueue(async () => ({ version: chrome.runtime.getManifest?.().version || "1.0.6", entries: (await loadState()).diagnostics }))
+    enqueue(async () => ({ version: VERSION, entries: (await loadState()).diagnostics }))
       .then(sendResponse).catch(() => sendResponse({ entries: [] }));
     return true;
   }
@@ -522,6 +657,16 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       updateBadge(view);
       return view;
     }).then(sendResponse).catch(() => sendResponse({ status: "idle", error: t("errorStateRead") }));
+    return true;
+  }
+  if (message?.type === "ADJUST" && !sender.tab) {
+    if (!validAdjust(message.adjust)) {
+      sendResponse({ status: "idle", error: t("errorControl") });
+      return false;
+    }
+    const { kind, mode, value } = message.adjust;
+    runAdjust({ kind, mode, value }, "popup", typeof message.expectedKey === "string" ? message.expectedKey : "")
+      .then(sendResponse).catch(() => sendResponse({ status: "idle", error: t("errorControl") }));
     return true;
   }
   const actions = { TOGGLE: "toggle", PAUSE: "pause", RESUME: "resume" };
@@ -571,6 +716,8 @@ chrome.webNavigation.onCommitted.addListener((details) => {
 });
 chrome.commands.onCommand.addListener((command) => {
   if (command === "toggle-recent-media") runControl("toggle", "keyboard").catch(() =>
+    updateBadge({ status: "idle", error: t("errorControl") }));
+  else if (Object.hasOwn(ADJUST_COMMANDS, command)) runAdjust(ADJUST_COMMANDS[command], "keyboard").catch(() =>
     updateBadge({ status: "idle", error: t("errorControl") }));
 });
 function discoverOpenPages() {

@@ -33,6 +33,22 @@
     shortcutHint: "Global by default. Change the scope to Chrome if you prefer.",
     footer: "Controls video and audio on HTTP and HTTPS pages.",
     statusLabel: "Media status",
+    volumeHeading: "Volume",
+    speedHeading: "Speed",
+    levelMixed: "Mixed",
+    levelMutedNote: "Muted on the page. Volume changes do not unmute.",
+    buttonSpeedDown: "Slower",
+    buttonSpeedUp: "Faster",
+    buttonSpeedReset: "1×",
+    osdVolume: "Volume $1%",
+    osdVolumeMuted: "Volume $1% (muted)",
+    osdVolumeMixed: "Volume: mixed",
+    osdSpeed: "Speed $1×",
+    osdSpeedMixed: "Speed: mixed",
+    errorAdjustNothing: "No media to adjust in the latest tab.",
+    errorAdjustSome: "Some media could not be adjusted.",
+    errorTargetChanged: "The latest media tab changed. Check the popup and try again.",
+    shortcutsMoreHint: "Volume and speed shortcuts can also be set on the same page.",
   };
 
   function message(key, substitutions) {
