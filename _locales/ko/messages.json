@@ -4,7 +4,7 @@
     "description": "Localized extName text"
   },
   "extDescription": {
-    "message": "Chrome에서 최근 재생한 탭의 웹 미디어를 일시정지하고 재개합니다.",
+    "message": "최근 재생 탭의 미디어를 전역 단축키로 일시정지·재개하고, 배속과 확장 볼륨(0~500%, 선택)을 조절합니다.",
     "description": "Localized extDescription text"
   },
   "actionTitle": {

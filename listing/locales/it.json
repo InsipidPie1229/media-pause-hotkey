@@ -1,8 +1,8 @@
 {
   "language": "it",
   "name": "Scorciatoia multimediale",
-  "shortDescription": "Metti in pausa e riprendi i contenuti web nell'ultima scheda Chrome riprodotta.",
-  "fullDescription": "Scorciatoia multimediale\n\nMetti in pausa e riprendi i contenuti web nell'ultima scheda Chrome riprodotta.\n\n• Metti in pausa o riprendi i contenuti web nell'ultima scheda riprodotta.\n\n• L'ambito predefinito è globale. Se vuoi, impostalo su solo Chrome.\n\n• Controlla video e audio nelle pagine HTTP e HTTPS.",
+  "shortDescription": "Pausa/ripresa, velocità e volume opzionale dell'estensione (0–500%) nell'ultima scheda riprodotta, con una scorciatoia globale.",
+  "fullDescription": "Scorciatoia multimediale\n\nControlla i contenuti web nella scheda che hai riprodotto più di recente, anche quando un'altra app è in primo piano.\n\n• Metti in pausa o riprendi con una scorciatoia globale (predefinita Ctrl+Shift+1, oppure Command+Shift+1 su Mac). Puoi cambiarla nelle impostazioni delle scorciatoie di Chrome.\n\n• Cambia la velocità di riproduzione (0.25×–4×) con le scorciatoie o i preset del popup.\n\n• Volume dell'estensione opzionale (sperimentale): 0–500% applicato separatamente al volume del sito stesso, senza spostare il cursore del volume del sito.\n\n• Funziona con video e audio standard nelle pagine HTTP e HTTPS. Nessun dato viene inviato a un server.",
   "category": "Productivity",
   "distribution": "Public, all regions",
   "screenshot": "media-shortcuts-it-1280x800.png"

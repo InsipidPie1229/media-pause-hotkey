@@ -1,9 +1,11 @@
 Media Shortcut
 
-Pause and resume web media in the most recently playing Chrome tab.
+Control web media in the tab you most recently played, even while another app is focused.
 
-• Pause or resume media in the most recently playing tab.
+• Pause or resume with a global shortcut (default Ctrl+Shift+1, or Command+Shift+1 on Mac). You can change it in Chrome's shortcut settings.
 
-• Global shortcut by default, with Chrome-only scope available.
+• Change playback speed (0.25×–4×) with shortcuts or popup presets.
 
-• Controls standard video and audio on HTTP and HTTPS pages.
+• Optional extension volume (experimental): 0–500% applied separately to the site's own volume, without moving the site's volume slider.
+
+• Works with standard video and audio on HTTP and HTTPS pages. No data is sent to any server.

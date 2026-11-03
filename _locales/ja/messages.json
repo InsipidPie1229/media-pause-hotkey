@@ -4,7 +4,7 @@
     "description": "Localized extName text"
   },
   "extDescription": {
-    "message": "Chromeで最後に再生したタブのウェブメディアを一時停止・再開します。",
+    "message": "グローバルショートカットで、最後に再生したタブのメディアを一時停止/再開し、速度と任意の拡張機能音量（0–500%）を調整します。",
     "description": "Localized extDescription text"
   },
   "actionTitle": {

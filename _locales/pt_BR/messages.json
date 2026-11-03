@@ -4,7 +4,7 @@
     "description": "Localized extName text"
   },
   "extDescription": {
-    "message": "Pause e retome mídias da Web na guia do Chrome reproduzida mais recentemente.",
+    "message": "Pause/retome, velocidade e volume opcional da extensão (0–500%) na guia reproduzida mais recentemente, com um atalho global.",
     "description": "Localized extDescription text"
   },
   "actionTitle": {

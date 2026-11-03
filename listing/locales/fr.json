@@ -1,8 +1,8 @@
 {
   "language": "fr",
   "name": "Raccourci multimédia",
-  "shortDescription": "Mettez en pause et reprenez les contenus Web dans l'onglet Chrome lu le plus récemment.",
-  "fullDescription": "Raccourci multimédia\n\nMettez en pause et reprenez les contenus Web dans l'onglet Chrome lu le plus récemment.\n\n• Mettre en pause ou reprendre les contenus Web dans l'onglet lu le plus récemment.\n\n• La portée est globale par défaut. Vous pouvez choisir Chrome uniquement.\n\n• Contrôle la vidéo et l'audio des pages HTTP et HTTPS.",
+  "shortDescription": "Pause/lecture, vitesse et volume d'extension facultatif (0–500 %) dans l'onglet lu le plus récemment, via un raccourci global.",
+  "fullDescription": "Raccourci multimédia\n\nContrôlez les contenus Web de l'onglet que vous avez lu le plus récemment, même lorsqu'une autre application a le focus.\n\n• Mettez en pause ou reprenez avec un raccourci global (Ctrl+Shift+1 par défaut, ou Command+Shift+1 sur Mac). Vous pouvez le modifier dans les paramètres de raccourcis de Chrome.\n\n• Modifiez la vitesse de lecture (0.25×–4×) avec des raccourcis ou les préréglages du popup.\n\n• Volume de l'extension facultatif (expérimental) : 0–500 % appliqué séparément au volume propre du site, sans déplacer le curseur de volume du site.\n\n• Fonctionne avec la vidéo et l'audio standards des pages HTTP et HTTPS. Aucune donnée n'est envoyée à un serveur.",
   "category": "Productivity",
   "distribution": "Public, all regions",
   "screenshot": "media-shortcuts-fr-1280x800.png"

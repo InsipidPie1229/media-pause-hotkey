@@ -4,7 +4,7 @@
     "description": "Localized extName text"
   },
   "extDescription": {
-    "message": "Pausiere und setze Webmedien im zuletzt abgespielten Chrome-Tab fort.",
+    "message": "Pausieren, Tempo und optionale Erweiterungslautstärke (0–500 %) im zuletzt abgespielten Tab per globalem Tastenkürzel.",
     "description": "Localized extDescription text"
   },
   "actionTitle": {

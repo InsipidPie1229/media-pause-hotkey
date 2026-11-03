@@ -1,8 +1,8 @@
 {
   "language": "de",
   "name": "Medien-Tastenkürzel",
-  "shortDescription": "Pausiere und setze Webmedien im zuletzt abgespielten Chrome-Tab fort.",
-  "fullDescription": "Medien-Tastenkürzel\n\nPausiere und setze Webmedien im zuletzt abgespielten Chrome-Tab fort.\n\n• Webmedien im zuletzt abgespielten Tab pausieren oder fortsetzen.\n\n• Der Geltungsbereich ist standardmäßig global. Bei Bedarf auf Chrome ändern.\n\n• Steuert Video und Audio auf HTTP- und HTTPS-Seiten.",
+  "shortDescription": "Pausieren, Tempo und optionale Erweiterungslautstärke (0–500 %) im zuletzt abgespielten Tab per globalem Tastenkürzel.",
+  "fullDescription": "Medien-Tastenkürzel\n\nSteuere Webmedien in dem Tab, den du zuletzt abgespielt hast, auch während eine andere App im Fokus ist.\n\n• Pausiere oder setze mit einem globalen Tastenkürzel fort (standardmäßig Ctrl+Shift+1 bzw. Command+Shift+1 auf dem Mac). Du kannst es in den Tastenkürzel-Einstellungen von Chrome ändern.\n\n• Ändere die Wiedergabegeschwindigkeit (0.25×–4×) mit Tastenkürzeln oder Popup-Voreinstellungen.\n\n• Optionale Erweiterungslautstärke (experimentell): 0–500 %, separat auf die Lautstärke der Website angewendet, ohne den Lautstärkeregler der Website zu verschieben.\n\n• Funktioniert mit Standardvideo und -audio auf HTTP- und HTTPS-Seiten. Es werden keine Daten an einen Server gesendet.",
   "category": "Productivity",
   "distribution": "Public, all regions",
   "screenshot": "media-shortcuts-de-1280x800.png"

@@ -4,7 +4,7 @@
     "description": "Localized extName text"
   },
   "extDescription": {
-    "message": "Pausa y reanuda contenido web en la pestaña de Chrome reproducida más recientemente.",
+    "message": "Pausa/reanuda, velocidad y volumen opcional de la extensión (0–500 %) en la pestaña más reciente con un atajo global.",
     "description": "Localized extDescription text"
   },
   "actionTitle": {

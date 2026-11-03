@@ -4,7 +4,7 @@
     "description": "Localized extName text"
   },
   "extDescription": {
-    "message": "Metti in pausa e riprendi i contenuti web nell'ultima scheda Chrome riprodotta.",
+    "message": "Pausa/ripresa, velocità e volume opzionale dell'estensione (0–500%) nell'ultima scheda riprodotta, con una scorciatoia globale.",
     "description": "Localized extDescription text"
   },
   "actionTitle": {

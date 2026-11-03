@@ -4,7 +4,7 @@
     "description": "Localized extName text"
   },
   "extDescription": {
-    "message": "Chrome-এর সর্বশেষ চালানো ট্যাবে ওয়েব মিডিয়া থামান ও আবার চালান।",
+    "message": "গ্লোবাল শর্টকাট দিয়ে সর্বশেষ চালানো ট্যাবের মিডিয়া থামান/আবার চালান এবং গতি ও ঐচ্ছিক এক্সটেনশন ভলিউম (0–500%) নিয়ন্ত্রণ করুন।",
     "description": "Localized extDescription text"
   },
   "actionTitle": {

@@ -1,8 +1,8 @@
 {
   "language": "tr",
   "name": "Medya Kısayolu",
-  "shortDescription": "Chrome'da en son oynatılan sekmedeki web medyasını duraklatıp sürdürün.",
-  "fullDescription": "Medya Kısayolu\n\nChrome'da en son oynatılan sekmedeki web medyasını duraklatıp sürdürün.\n\n• En son oynatılan sekmedeki web medyasını duraklat veya sürdür.\n\n• Varsayılan kapsam geneldir. İsterseniz Chrome olarak değiştirin.\n\n• HTTP ve HTTPS sayfalarındaki video ve sesi kontrol eder.",
+  "shortDescription": "En son oynatılan sekmedeki medya için genel kısayolla duraklatma/sürdürme, hız ve isteğe bağlı uzantı ses düzeyi (0–500%).",
+  "fullDescription": "Medya Kısayolu\n\nBaşka bir uygulama odaktayken bile en son oynattığınız sekmedeki web medyasını kontrol edin.\n\n• Genel kısayolla duraklatın veya sürdürün (varsayılan Ctrl+Shift+1, Mac'te Command+Shift+1). Chrome'un kısayol ayarlarından değiştirebilirsiniz.\n\n• Kısayollar veya açılır pencere ön ayarlarıyla oynatma hızını (0.25×–4×) değiştirin.\n\n• İsteğe bağlı uzantı ses düzeyi (deneysel): sitenin kendi ses düzeyine ayrı olarak uygulanan 0–500%; sitenin ses kaydırıcısını hareket ettirmez.\n\n• HTTP ve HTTPS sayfalarındaki standart video ve sesle çalışır. Hiçbir sunucuya veri gönderilmez.",
   "category": "Productivity",
   "distribution": "Public, all regions",
   "screenshot": "media-shortcuts-tr-1280x800.png"

@@ -1,8 +1,8 @@
 {
   "language": "vi",
   "name": "Phím tắt nội dung đa phương tiện",
-  "shortDescription": "Tạm dừng và tiếp tục nội dung web trong thẻ Chrome phát gần đây nhất.",
-  "fullDescription": "Phím tắt nội dung đa phương tiện\n\nTạm dừng và tiếp tục nội dung web trong thẻ Chrome phát gần đây nhất.\n\n• Tạm dừng hoặc tiếp tục nội dung web trong thẻ phát gần đây nhất.\n\n• Phạm vi mặc định là toàn cục. Bạn có thể đổi thành chỉ trong Chrome.\n\n• Điều khiển video và âm thanh trên các trang HTTP và HTTPS.",
+  "shortDescription": "Tạm dừng/tiếp tục, tốc độ và âm lượng tiện ích tùy chọn (0–500%) cho nội dung ở thẻ phát gần đây nhất, bằng phím tắt toàn cục.",
+  "fullDescription": "Phím tắt nội dung đa phương tiện\n\nĐiều khiển nội dung web ở thẻ bạn phát gần đây nhất, ngay cả khi một ứng dụng khác đang được chú ý.\n\n• Tạm dừng hoặc tiếp tục bằng phím tắt toàn cục (mặc định Ctrl+Shift+1, hoặc Command+Shift+1 trên Mac). Bạn có thể đổi trong cài đặt phím tắt của Chrome.\n\n• Đổi tốc độ phát (0.25×–4×) bằng phím tắt hoặc mục đặt sẵn trong cửa sổ bật lên.\n\n• Âm lượng tiện ích tùy chọn (thử nghiệm): 0–500% được áp dụng riêng cho âm lượng của chính trang, không di chuyển thanh trượt âm lượng của trang.\n\n• Hoạt động với video và âm thanh tiêu chuẩn trên các trang HTTP và HTTPS. Không dữ liệu nào được gửi đến máy chủ.",
   "category": "Productivity",
   "distribution": "Public, all regions",
   "screenshot": "media-shortcuts-vi-1280x800.png"

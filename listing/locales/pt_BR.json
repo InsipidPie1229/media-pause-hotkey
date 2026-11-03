@@ -1,8 +1,8 @@
 {
   "language": "pt_BR",
   "name": "Atalho de mídia",
-  "shortDescription": "Pause e retome mídias da Web na guia do Chrome reproduzida mais recentemente.",
-  "fullDescription": "Atalho de mídia\n\nPause e retome mídias da Web na guia do Chrome reproduzida mais recentemente.\n\n• Pausar ou retomar mídias da Web na guia reproduzida mais recentemente.\n\n• O escopo padrão é global. Se preferir, mude para somente Chrome.\n\n• Controla vídeo e áudio em páginas HTTP e HTTPS.",
+  "shortDescription": "Pause/retome, velocidade e volume opcional da extensão (0–500%) na guia reproduzida mais recentemente, com um atalho global.",
+  "fullDescription": "Atalho de mídia\n\nControle mídias da Web na guia que você reproduziu mais recentemente, mesmo enquanto outro aplicativo está em foco.\n\n• Pause ou retome com um atalho global (padrão Ctrl+Shift+1, ou Command+Shift+1 no Mac). Você pode alterá-lo nas configurações de atalhos do Chrome.\n\n• Altere a velocidade de reprodução (0.25×–4×) com atalhos ou predefinições do popup.\n\n• Volume da extensão opcional (experimental): 0–500% aplicado separadamente ao volume do próprio site, sem mover o controle de volume do site.\n\n• Funciona com vídeo e áudio padrão em páginas HTTP e HTTPS. Nenhum dado é enviado a qualquer servidor.",
   "category": "Productivity",
   "distribution": "Public, all regions",
   "screenshot": "media-shortcuts-pt_BR-1280x800.png"

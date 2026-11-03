@@ -4,7 +4,7 @@
     "description": "Localized extName text"
   },
   "extDescription": {
-    "message": "Jeda dan lanjutkan media web di tab Chrome yang terakhir diputar.",
+    "message": "Jeda/lanjutkan, kecepatan, dan volume ekstensi opsional (0–500%) untuk media di tab yang terakhir diputar, dengan pintasan global.",
     "description": "Localized extDescription text"
   },
   "actionTitle": {

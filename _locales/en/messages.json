@@ -4,7 +4,7 @@
     "description": "Localized extName text"
   },
   "extDescription": {
-    "message": "Pause and resume web media in the most recently playing Chrome tab.",
+    "message": "Pause/resume, speed and an optional extension volume (0–500%) for media in the most recently playing tab, with a global shortcut.",
     "description": "Localized extDescription text"
   },
   "actionTitle": {

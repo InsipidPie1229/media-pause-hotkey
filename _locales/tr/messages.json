@@ -4,7 +4,7 @@
     "description": "Localized extName text"
   },
   "extDescription": {
-    "message": "Chrome'da en son oynatılan sekmedeki web medyasını duraklatıp sürdürün.",
+    "message": "En son oynatılan sekmedeki medya için genel kısayolla duraklatma/sürdürme, hız ve isteğe bağlı uzantı ses düzeyi (0–500%).",
     "description": "Localized extDescription text"
   },
   "actionTitle": {

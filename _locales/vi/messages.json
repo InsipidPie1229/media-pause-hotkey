@@ -4,7 +4,7 @@
     "description": "Localized extName text"
   },
   "extDescription": {
-    "message": "Tạm dừng và tiếp tục nội dung web trong thẻ Chrome phát gần đây nhất.",
+    "message": "Tạm dừng/tiếp tục, tốc độ và âm lượng tiện ích tùy chọn (0–500%) cho nội dung ở thẻ phát gần đây nhất, bằng phím tắt toàn cục.",
     "description": "Localized extDescription text"
   },
   "actionTitle": {

@@ -1,8 +1,8 @@
 {
   "language": "zh_TW",
   "name": "媒體快捷鍵",
-  "shortDescription": "暫停或繼續 Chrome 中最近播放分頁的網頁媒體。",
-  "fullDescription": "媒體快捷鍵\n\n暫停或繼續 Chrome 中最近播放分頁的網頁媒體。\n\n• 暫停或繼續最近播放分頁中的網頁媒體.\n\n• 預設範圍為全域；如有需要，可改為僅在 Chrome 中生效。\n\n• 控制 HTTP 和 HTTPS 網頁中的影片與音訊。",
+  "shortDescription": "用全域快捷鍵暫停/繼續最近播放分頁中的媒體，並調整速度和可選的擴展音量（0–500%）。",
+  "fullDescription": "媒體快捷鍵\n\n即使其他應用程式處於焦點狀態，也能控制您最近播放的分頁中的網頁媒體。\n\n• 使用全域快捷鍵暫停或繼續（預設 Ctrl+Shift+1，Mac 上為 Command+Shift+1）。可在 Chrome 的快捷鍵設定中變更。\n\n• 使用快捷鍵或彈出式視窗預設調整播放速度（0.25×–4×）。\n\n• 可選的擴展音量（實驗性）：0–500%，單獨套用於網站本身的音量，不會移動網站的音量滑桿。\n\n• 適用於 HTTP 和 HTTPS 網頁中的標準影片與音訊。不會將任何資料傳送至伺服器。",
   "category": "Productivity",
   "distribution": "Public, all regions",
   "screenshot": "media-shortcuts-zh_TW-1280x800.png"

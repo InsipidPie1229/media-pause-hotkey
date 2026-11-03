@@ -4,7 +4,7 @@
     "description": "Localized extName text"
   },
   "extDescription": {
-    "message": "Mettez en pause et reprenez les contenus Web dans l'onglet Chrome lu le plus récemment.",
+    "message": "Pause/lecture, vitesse et volume d'extension facultatif (0–500 %) dans l'onglet lu le plus récemment, via un raccourci global.",
     "description": "Localized extDescription text"
   },
   "actionTitle": {

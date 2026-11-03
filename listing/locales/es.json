@@ -1,8 +1,8 @@
 {
   "language": "es",
   "name": "Atajo de medios",
-  "shortDescription": "Pausa y reanuda contenido web en la pestaña de Chrome reproducida más recientemente.",
-  "fullDescription": "Atajo de medios\n\nPausa y reanuda contenido web en la pestaña de Chrome reproducida más recientemente.\n\n• Pausar o reanudar contenido web en la pestaña reproducida más recientemente.\n\n• El alcance predeterminado es global. Puedes cambiarlo a solo Chrome.\n\n• Controla vídeo y audio en páginas HTTP y HTTPS.",
+  "shortDescription": "Pausa/reanuda, velocidad y volumen opcional de la extensión (0–500 %) en la pestaña más reciente con un atajo global.",
+  "fullDescription": "Atajo de medios\n\nControla contenido web en la pestaña que reprodujiste más recientemente, aunque otra aplicación tenga el foco.\n\n• Pausa o reanuda con un atajo global (Ctrl+Shift+1 predeterminado, o Command+Shift+1 en Mac). Puedes cambiarlo en la configuración de atajos de Chrome.\n\n• Cambia la velocidad de reproducción (0.25×–4×) con atajos o ajustes predefinidos del panel emergente.\n\n• Volumen de la extensión opcional (experimental): 0–500 % aplicado por separado al volumen propio del sitio, sin mover el control de volumen del sitio.\n\n• Funciona con vídeo y audio estándar en páginas HTTP y HTTPS. No se envía ningún dato a ningún servidor.",
   "category": "Productivity",
   "distribution": "Public, all regions",
   "screenshot": "media-shortcuts-es-1280x800.png"

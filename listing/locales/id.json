@@ -1,8 +1,8 @@
 {
   "language": "id",
   "name": "Pintasan Media",
-  "shortDescription": "Jeda dan lanjutkan media web di tab Chrome yang terakhir diputar.",
-  "fullDescription": "Pintasan Media\n\nJeda dan lanjutkan media web di tab Chrome yang terakhir diputar.\n\n• Jeda atau lanjutkan media web di tab yang terakhir diputar.\n\n• Cakupan default bersifat global. Ubah ke Chrome saja jika diinginkan.\n\n• Mengontrol video dan audio di halaman HTTP dan HTTPS.",
+  "shortDescription": "Jeda/lanjutkan, kecepatan, dan volume ekstensi opsional (0–500%) untuk media di tab yang terakhir diputar, dengan pintasan global.",
+  "fullDescription": "Pintasan Media\n\nKendalikan media web di tab yang terakhir Anda putar, bahkan saat aplikasi lain sedang difokuskan.\n\n• Jeda atau lanjutkan dengan pintasan global (default Ctrl+Shift+1, atau Command+Shift+1 di Mac). Anda dapat mengubahnya di setelan pintasan Chrome.\n\n• Ubah kecepatan pemutaran (0.25×–4×) dengan pintasan atau preset popup.\n\n• Volume ekstensi opsional (eksperimental): 0–500% diterapkan secara terpisah ke volume situs itu sendiri, tanpa menggeser penggeser volume situs.\n\n• Berfungsi dengan video dan audio standar di halaman HTTP dan HTTPS. Tidak ada data yang dikirim ke server mana pun.",
   "category": "Productivity",
   "distribution": "Public, all regions",
   "screenshot": "media-shortcuts-id-1280x800.png"

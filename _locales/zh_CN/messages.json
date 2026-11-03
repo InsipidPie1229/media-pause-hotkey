@@ -4,7 +4,7 @@
     "description": "Localized extName text"
   },
   "extDescription": {
-    "message": "暂停或恢复 Chrome 中最近播放标签页的网页媒体。",
+    "message": "用全局快捷键暂停/继续最近播放标签页中的媒体，并调整速度和可选的扩展音量（0–500%）。",
     "description": "Localized extDescription text"
   },
   "actionTitle": {

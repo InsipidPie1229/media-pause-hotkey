@@ -4,7 +4,7 @@
     "description": "Localized extName text"
   },
   "extDescription": {
-    "message": "Приостанавливайте и возобновляйте медиа в последней активной вкладке Chrome.",
+    "message": "Пауза/возобновление, скорость и необязательная громкость расширения (0–500%) в последней активной вкладке по глобальному сочетанию.",
     "description": "Localized extDescription text"
   },
   "actionTitle": {

@@ -21,7 +21,7 @@ The extension UI and listing assets are prepared for 17 Chrome locales. Add each
 
 ## Upload and review
 
-Upload `MediaPauseHotkey-WebStore-1.0.6.zip` through the item's Package section. The ZIP has `manifest.json` at its root. In the Store listing section, add the locales you plan to publish and copy the corresponding listing data and screenshot. Review Package, Store listing, Privacy, and Distribution before submission. Public release remains subject to Google review.
+Upload `MediaPauseHotkey-WebStore-1.3.1.zip` through the item's Package section. The ZIP has `manifest.json` at its root. In the Store listing section, add the locales you plan to publish and copy the corresponding listing data and screenshot. Review Package, Store listing, Privacy, and Distribution before submission. Public release remains subject to Google review.
 
 Version 1.0.4 adds local, user-copyable diagnostics (last 200 records, no titles or URLs). Update the hosted privacy policy from `privacy.html` before submitting. The package is prepared; Web Store submission has not been performed for this release. Normal-profile installation/duplicate checks and OS global-key testing remain manual.
 

@@ -4,7 +4,7 @@
     "description": "Localized extName text"
   },
   "extDescription": {
-    "message": "暫停或繼續 Chrome 中最近播放分頁的網頁媒體。",
+    "message": "用全域快捷鍵暫停/繼續最近播放分頁中的媒體，並調整速度和可選的擴展音量（0–500%）。",
     "description": "Localized extDescription text"
   },
   "actionTitle": {

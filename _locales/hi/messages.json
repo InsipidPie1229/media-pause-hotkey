@@ -4,7 +4,7 @@
     "description": "Localized extName text"
   },
   "extDescription": {
-    "message": "Chrome के सबसे हाल में चलाए गए टैब में वेब मीडिया रोकें और फिर चलाएँ।",
+    "message": "वैश्विक शॉर्टकट से सबसे हाल में चलाए गए टैब के मीडिया को रोकें/चलाएँ, गति और वैकल्पिक एक्सटेंशन वॉल्यूम (0–500%) समायोजित करें।",
     "description": "Localized extDescription text"
   },
   "actionTitle": {

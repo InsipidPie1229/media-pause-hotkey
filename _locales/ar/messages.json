@@ -4,7 +4,7 @@
     "description": "Localized extName text"
   },
   "extDescription": {
-    "message": "أوقف الوسائط أو استأنفها في أحدث علامة تبويب تشغيلًا في Chrome.",
+    "message": "إيقاف/استئناف الوسائط، والسرعة، ومستوى صوت إضافة اختياري (0–500%) في أحدث علامة تبويب تشغيلًا، عبر اختصار عام.",
     "description": "Localized extDescription text"
   },
   "actionTitle": {
