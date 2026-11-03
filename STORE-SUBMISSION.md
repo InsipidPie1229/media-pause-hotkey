@@ -25,6 +25,8 @@ Upload `MediaPauseHotkey-WebStore-1.0.6.zip` through the item's Package section.
 
 Version 1.0.4 adds local, user-copyable diagnostics (last 200 records, no titles or URLs). Update the hosted privacy policy from `privacy.html` before submitting. The package is prepared; Web Store submission has not been performed for this release. Normal-profile installation/duplicate checks and OS global-key testing remain manual.
 
+1.3.1 (local, not submitted) changes the suggested global pause/resume key to Ctrl+Shift+1 / Command+Shift+1.
+
 1.3.0 (local, not submitted) replaces the boost with an opt-in extension volume (0–500% gain layer; the site's own volume is never changed). Same `storage.local` preference, no new permissions.
 
 1.2.1 (local, not submitted) suggests Ctrl+Shift+9 / Command+Shift+9 as the global pause/resume shortcut; volume and speed commands stay unassigned.

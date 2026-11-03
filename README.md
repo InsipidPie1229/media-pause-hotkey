@@ -12,9 +12,9 @@ Pause and resume standard HTML video and audio in the most recently playing Chro
 
 ## Set a global shortcut
 
-Since 1.2.1, pause/resume has a suggested global shortcut: **Ctrl+Shift+9** (Windows/Linux) or **Command+Shift+9** (macOS). Chrome assigns it on install, and on update only when you had no key for that command before. A key you chose yourself, or a key you removed on purpose, is kept as it is. If another extension already uses the same key, Chrome leaves this command without a key. ChromeOS does not support global scope. A registered key does not guarantee that the operating system or another app delivers it to Chrome.
+Since 1.3.1, pause/resume has a suggested global shortcut: **Ctrl+Shift+1** (Windows/Linux) or **Command+Shift+1** (macOS). Chrome only accepts Ctrl+Shift+0–9 as a default global key, so easier combinations cannot be preset. Note that a global key is taken from every app while Chrome runs (for example, Ctrl+Shift+1 is a number-format shortcut in Excel). Chrome assigns it on install, and on update only when you had no key for that command before. A key you chose yourself, or a key you removed on purpose, is kept as it is. If another extension already uses the same key, Chrome leaves this command without a key. ChromeOS does not support global scope. A registered key does not guarantee that the operating system or another app delivers it to Chrome.
 
-To change it:
+To change it (you can also pick other combinations such as Ctrl+Shift+Space and keep the scope Global):
 
 1. Open `chrome://extensions/shortcuts`.
 2. Set a key for **Media Shortcut** → **Pause or resume web media in the most recently playing tab**.
