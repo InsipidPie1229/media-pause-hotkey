@@ -133,5 +133,68 @@
   },
   "errorResumeAmbiguous": {
     "message": "Die Wiedergabereihenfolge mehrerer Medien ist unklar. Starten Sie das gewünschte Medium einmal auf der Website und versuchen Sie es erneut."
+  },
+  "commandVolumeUp": {
+    "message": "Lautstärke im zuletzt abgespielten Tab um 10% erhöhen"
+  },
+  "commandVolumeDown": {
+    "message": "Lautstärke im zuletzt abgespielten Tab um 10% verringern"
+  },
+  "commandSpeedUp": {
+    "message": "Geschwindigkeit im zuletzt abgespielten Tab um 0.25× erhöhen"
+  },
+  "commandSpeedDown": {
+    "message": "Geschwindigkeit im zuletzt abgespielten Tab um 0.25× verringern"
+  },
+  "commandSpeedReset": {
+    "message": "Geschwindigkeit im zuletzt abgespielten Tab auf 1× zurücksetzen"
+  },
+  "volumeHeading": {
+    "message": "Lautstärke"
+  },
+  "speedHeading": {
+    "message": "Geschwindigkeit"
+  },
+  "levelMixed": {
+    "message": "Unterschiedlich"
+  },
+  "levelMutedNote": {
+    "message": "Auf der Seite stummgeschaltet. Lautstärkeänderungen heben die Stummschaltung nicht auf."
+  },
+  "buttonSpeedDown": {
+    "message": "Langsamer"
+  },
+  "buttonSpeedUp": {
+    "message": "Schneller"
+  },
+  "buttonSpeedReset": {
+    "message": "1×"
+  },
+  "osdVolume": {
+    "message": "Lautstärke $1%"
+  },
+  "osdVolumeMuted": {
+    "message": "Lautstärke $1% (stumm)"
+  },
+  "osdVolumeMixed": {
+    "message": "Lautstärke: unterschiedlich"
+  },
+  "osdSpeed": {
+    "message": "Geschwindigkeit $1×"
+  },
+  "osdSpeedMixed": {
+    "message": "Geschwindigkeit: unterschiedlich"
+  },
+  "errorAdjustNothing": {
+    "message": "Im zuletzt abgespielten Tab gibt es keine Medien zum Anpassen."
+  },
+  "errorAdjustSome": {
+    "message": "Einige Medien konnten nicht angepasst werden."
+  },
+  "errorTargetChanged": {
+    "message": "Der zuletzt abgespielte Medien-Tab hat sich geändert. Popup prüfen und erneut versuchen."
+  },
+  "shortcutsMoreHint": {
+    "message": "Lautstärke- und Geschwindigkeits-Tastenkürzel lassen sich auf derselben Seite festlegen."
   }
 }

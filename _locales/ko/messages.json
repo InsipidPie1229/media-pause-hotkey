@@ -133,5 +133,68 @@
   },
   "errorResumeAmbiguous": {
     "message": "여러 미디어의 재생 순서를 구분할 수 없습니다. 원하는 미디어를 사이트에서 한 번 재생한 뒤 다시 시도하세요."
+  },
+  "commandVolumeUp": {
+    "message": "최근 재생 탭의 볼륨 10% 올리기"
+  },
+  "commandVolumeDown": {
+    "message": "최근 재생 탭의 볼륨 10% 내리기"
+  },
+  "commandSpeedUp": {
+    "message": "최근 재생 탭의 배속 0.25 올리기"
+  },
+  "commandSpeedDown": {
+    "message": "최근 재생 탭의 배속 0.25 내리기"
+  },
+  "commandSpeedReset": {
+    "message": "최근 재생 탭의 배속을 1배로 되돌리기"
+  },
+  "volumeHeading": {
+    "message": "볼륨"
+  },
+  "speedHeading": {
+    "message": "배속"
+  },
+  "levelMixed": {
+    "message": "서로 다름"
+  },
+  "levelMutedNote": {
+    "message": "페이지에서 음소거된 상태입니다. 볼륨을 바꿔도 음소거는 풀리지 않습니다."
+  },
+  "buttonSpeedDown": {
+    "message": "느리게"
+  },
+  "buttonSpeedUp": {
+    "message": "빠르게"
+  },
+  "buttonSpeedReset": {
+    "message": "1×"
+  },
+  "osdVolume": {
+    "message": "볼륨 $1%"
+  },
+  "osdVolumeMuted": {
+    "message": "볼륨 $1% (음소거)"
+  },
+  "osdVolumeMixed": {
+    "message": "볼륨: 서로 다름"
+  },
+  "osdSpeed": {
+    "message": "배속 $1×"
+  },
+  "osdSpeedMixed": {
+    "message": "배속: 서로 다름"
+  },
+  "errorAdjustNothing": {
+    "message": "최근 재생 탭에 조절할 미디어가 없습니다."
+  },
+  "errorAdjustSome": {
+    "message": "일부 미디어를 조절하지 못했습니다."
+  },
+  "errorTargetChanged": {
+    "message": "최근 재생 탭이 바뀌었습니다. 팝업을 확인하고 다시 시도하세요."
+  },
+  "shortcutsMoreHint": {
+    "message": "같은 화면에서 볼륨·배속 단축키도 지정할 수 있습니다."
   }
 }

@@ -133,5 +133,68 @@
   },
   "errorResumeAmbiguous": {
     "message": "Не удалось определить порядок воспроизведения нескольких медиа. Один раз запустите нужное медиа на сайте и повторите попытку."
+  },
+  "commandVolumeUp": {
+    "message": "Увеличить громкость на 10% в последней активной вкладке"
+  },
+  "commandVolumeDown": {
+    "message": "Уменьшить громкость на 10% в последней активной вкладке"
+  },
+  "commandSpeedUp": {
+    "message": "Увеличить скорость на 0.25× в последней активной вкладке"
+  },
+  "commandSpeedDown": {
+    "message": "Уменьшить скорость на 0.25× в последней активной вкладке"
+  },
+  "commandSpeedReset": {
+    "message": "Сбросить скорость до 1× в последней активной вкладке"
+  },
+  "volumeHeading": {
+    "message": "Громкость"
+  },
+  "speedHeading": {
+    "message": "Скорость"
+  },
+  "levelMixed": {
+    "message": "Разная"
+  },
+  "levelMutedNote": {
+    "message": "На странице отключён звук. Изменение громкости не включит его."
+  },
+  "buttonSpeedDown": {
+    "message": "Медленнее"
+  },
+  "buttonSpeedUp": {
+    "message": "Быстрее"
+  },
+  "buttonSpeedReset": {
+    "message": "1×"
+  },
+  "osdVolume": {
+    "message": "Громкость $1%"
+  },
+  "osdVolumeMuted": {
+    "message": "Громкость $1% (без звука)"
+  },
+  "osdVolumeMixed": {
+    "message": "Громкость: разная"
+  },
+  "osdSpeed": {
+    "message": "Скорость $1×"
+  },
+  "osdSpeedMixed": {
+    "message": "Скорость: разная"
+  },
+  "errorAdjustNothing": {
+    "message": "В последней вкладке нет медиа для настройки."
+  },
+  "errorAdjustSome": {
+    "message": "Не удалось настроить некоторые медиа."
+  },
+  "errorTargetChanged": {
+    "message": "Последняя вкладка с медиа изменилась. Проверьте всплывающее окно и повторите попытку."
+  },
+  "shortcutsMoreHint": {
+    "message": "Сочетания для громкости и скорости можно задать на той же странице."
   }
 }

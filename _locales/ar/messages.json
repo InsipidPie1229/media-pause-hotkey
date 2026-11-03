@@ -133,5 +133,68 @@
   },
   "errorResumeAmbiguous": {
     "message": "لا يمكن تحديد ترتيب تشغيل عدة وسائط. شغّل الوسائط المطلوبة مرة واحدة على الموقع ثم حاول مجددًا."
+  },
+  "commandVolumeUp": {
+    "message": "رفع مستوى الصوت بنسبة 10% في أحدث علامة تبويب تشغيلًا"
+  },
+  "commandVolumeDown": {
+    "message": "خفض مستوى الصوت بنسبة 10% في أحدث علامة تبويب تشغيلًا"
+  },
+  "commandSpeedUp": {
+    "message": "زيادة السرعة بمقدار 0.25× في أحدث علامة تبويب تشغيلًا"
+  },
+  "commandSpeedDown": {
+    "message": "خفض السرعة بمقدار 0.25× في أحدث علامة تبويب تشغيلًا"
+  },
+  "commandSpeedReset": {
+    "message": "إعادة السرعة إلى 1× في أحدث علامة تبويب تشغيلًا"
+  },
+  "volumeHeading": {
+    "message": "مستوى الصوت"
+  },
+  "speedHeading": {
+    "message": "السرعة"
+  },
+  "levelMixed": {
+    "message": "متفاوت"
+  },
+  "levelMutedNote": {
+    "message": "الصوت مكتوم في الصفحة. تغيير مستوى الصوت لا يلغي الكتم."
+  },
+  "buttonSpeedDown": {
+    "message": "أبطأ"
+  },
+  "buttonSpeedUp": {
+    "message": "أسرع"
+  },
+  "buttonSpeedReset": {
+    "message": "1×"
+  },
+  "osdVolume": {
+    "message": "مستوى الصوت $1%"
+  },
+  "osdVolumeMuted": {
+    "message": "مستوى الصوت $1% (مكتوم)"
+  },
+  "osdVolumeMixed": {
+    "message": "مستوى الصوت: متفاوت"
+  },
+  "osdSpeed": {
+    "message": "السرعة $1×"
+  },
+  "osdSpeedMixed": {
+    "message": "السرعة: متفاوت"
+  },
+  "errorAdjustNothing": {
+    "message": "لا توجد وسائط لضبطها في أحدث علامة تبويب."
+  },
+  "errorAdjustSome": {
+    "message": "تعذّر ضبط بعض الوسائط."
+  },
+  "errorTargetChanged": {
+    "message": "تغيّرت أحدث علامة تبويب وسائط. راجع النافذة المنبثقة وحاول مرة أخرى."
+  },
+  "shortcutsMoreHint": {
+    "message": "يمكن أيضًا تعيين اختصارات مستوى الصوت والسرعة من الصفحة نفسها."
   }
 }

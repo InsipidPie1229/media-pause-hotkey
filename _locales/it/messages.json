@@ -133,5 +133,68 @@
   },
   "errorResumeAmbiguous": {
     "message": "Non è possibile determinare l’ordine di riproduzione di più contenuti. Avvia una volta il contenuto desiderato sul sito e riprova."
+  },
+  "commandVolumeUp": {
+    "message": "Alza il volume del 10% nell'ultima scheda riprodotta"
+  },
+  "commandVolumeDown": {
+    "message": "Abbassa il volume del 10% nell'ultima scheda riprodotta"
+  },
+  "commandSpeedUp": {
+    "message": "Aumenta la velocità di 0.25× nell'ultima scheda riprodotta"
+  },
+  "commandSpeedDown": {
+    "message": "Riduci la velocità di 0.25× nell'ultima scheda riprodotta"
+  },
+  "commandSpeedReset": {
+    "message": "Riporta la velocità a 1× nell'ultima scheda riprodotta"
+  },
+  "volumeHeading": {
+    "message": "Volume"
+  },
+  "speedHeading": {
+    "message": "Velocità"
+  },
+  "levelMixed": {
+    "message": "Diverso"
+  },
+  "levelMutedNote": {
+    "message": "Audio disattivato nella pagina. Modificare il volume non riattiva l'audio."
+  },
+  "buttonSpeedDown": {
+    "message": "Più lento"
+  },
+  "buttonSpeedUp": {
+    "message": "Più veloce"
+  },
+  "buttonSpeedReset": {
+    "message": "1×"
+  },
+  "osdVolume": {
+    "message": "Volume $1%"
+  },
+  "osdVolumeMuted": {
+    "message": "Volume $1% (disattivato)"
+  },
+  "osdVolumeMixed": {
+    "message": "Volume: diverso"
+  },
+  "osdSpeed": {
+    "message": "Velocità $1×"
+  },
+  "osdSpeedMixed": {
+    "message": "Velocità: diversa"
+  },
+  "errorAdjustNothing": {
+    "message": "Nessun contenuto da regolare nell'ultima scheda."
+  },
+  "errorAdjustSome": {
+    "message": "Impossibile regolare alcuni contenuti."
+  },
+  "errorTargetChanged": {
+    "message": "L'ultima scheda multimediale è cambiata. Controlla il popup e riprova."
+  },
+  "shortcutsMoreHint": {
+    "message": "Le scorciatoie per volume e velocità si possono impostare nella stessa pagina."
   }
 }

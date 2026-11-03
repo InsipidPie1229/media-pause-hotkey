@@ -133,5 +133,68 @@
   },
   "errorResumeAmbiguous": {
     "message": "Não foi possível determinar a ordem de reprodução de várias mídias. Reproduza uma vez a mídia desejada no site e tente novamente."
+  },
+  "commandVolumeUp": {
+    "message": "Aumentar o volume em 10% na guia reproduzida mais recentemente"
+  },
+  "commandVolumeDown": {
+    "message": "Diminuir o volume em 10% na guia reproduzida mais recentemente"
+  },
+  "commandSpeedUp": {
+    "message": "Aumentar a velocidade em 0.25× na guia reproduzida mais recentemente"
+  },
+  "commandSpeedDown": {
+    "message": "Reduzir a velocidade em 0.25× na guia reproduzida mais recentemente"
+  },
+  "commandSpeedReset": {
+    "message": "Redefinir a velocidade para 1× na guia reproduzida mais recentemente"
+  },
+  "volumeHeading": {
+    "message": "Volume"
+  },
+  "speedHeading": {
+    "message": "Velocidade"
+  },
+  "levelMixed": {
+    "message": "Diferente"
+  },
+  "levelMutedNote": {
+    "message": "Silenciado na página. Alterar o volume não remove o silêncio."
+  },
+  "buttonSpeedDown": {
+    "message": "Mais lento"
+  },
+  "buttonSpeedUp": {
+    "message": "Mais rápido"
+  },
+  "buttonSpeedReset": {
+    "message": "1×"
+  },
+  "osdVolume": {
+    "message": "Volume $1%"
+  },
+  "osdVolumeMuted": {
+    "message": "Volume $1% (silenciado)"
+  },
+  "osdVolumeMixed": {
+    "message": "Volume: diferente"
+  },
+  "osdSpeed": {
+    "message": "Velocidade $1×"
+  },
+  "osdSpeedMixed": {
+    "message": "Velocidade: diferente"
+  },
+  "errorAdjustNothing": {
+    "message": "Não há mídia para ajustar na guia mais recente."
+  },
+  "errorAdjustSome": {
+    "message": "Não foi possível ajustar algumas mídias."
+  },
+  "errorTargetChanged": {
+    "message": "A guia de mídia mais recente mudou. Verifique o popup e tente novamente."
+  },
+  "shortcutsMoreHint": {
+    "message": "Os atalhos de volume e velocidade também podem ser definidos na mesma página."
   }
 }

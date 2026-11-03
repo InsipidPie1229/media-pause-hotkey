@@ -133,5 +133,68 @@
   },
   "errorResumeAmbiguous": {
     "message": "无法区分多个媒体的播放顺序。请在网站上播放一次要控制的媒体，然后重试。"
+  },
+  "commandVolumeUp": {
+    "message": "将最近播放的标签页音量提高 10%"
+  },
+  "commandVolumeDown": {
+    "message": "将最近播放的标签页音量降低 10%"
+  },
+  "commandSpeedUp": {
+    "message": "将最近播放的标签页速度提高 0.25×"
+  },
+  "commandSpeedDown": {
+    "message": "将最近播放的标签页速度降低 0.25×"
+  },
+  "commandSpeedReset": {
+    "message": "将最近播放的标签页速度恢复为 1×"
+  },
+  "volumeHeading": {
+    "message": "音量"
+  },
+  "speedHeading": {
+    "message": "速度"
+  },
+  "levelMixed": {
+    "message": "不一致"
+  },
+  "levelMutedNote": {
+    "message": "页面已静音。调整音量不会取消静音。"
+  },
+  "buttonSpeedDown": {
+    "message": "更慢"
+  },
+  "buttonSpeedUp": {
+    "message": "更快"
+  },
+  "buttonSpeedReset": {
+    "message": "1×"
+  },
+  "osdVolume": {
+    "message": "音量 $1%"
+  },
+  "osdVolumeMuted": {
+    "message": "音量 $1%（静音）"
+  },
+  "osdVolumeMixed": {
+    "message": "音量：不一致"
+  },
+  "osdSpeed": {
+    "message": "速度 $1×"
+  },
+  "osdSpeedMixed": {
+    "message": "速度：不一致"
+  },
+  "errorAdjustNothing": {
+    "message": "最近播放的标签页中没有可调整的媒体。"
+  },
+  "errorAdjustSome": {
+    "message": "部分媒体无法调整。"
+  },
+  "errorTargetChanged": {
+    "message": "最近播放的媒体标签页已更改。请检查弹出窗口后重试。"
+  },
+  "shortcutsMoreHint": {
+    "message": "音量与速度快捷键也可在同一页面中设置。"
   }
 }

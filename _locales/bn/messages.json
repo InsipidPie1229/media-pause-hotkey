@@ -133,5 +133,68 @@
   },
   "errorResumeAmbiguous": {
     "message": "একাধিক মিডিয়ার প্লেব্যাকের ক্রম বোঝা যাচ্ছে না। সাইটে আপনার পছন্দের মিডিয়াটি একবার চালিয়ে আবার চেষ্টা করুন।"
+  },
+  "commandVolumeUp": {
+    "message": "সর্বশেষ চালানো ট্যাবে ভলিউম 10% বাড়ান"
+  },
+  "commandVolumeDown": {
+    "message": "সর্বশেষ চালানো ট্যাবে ভলিউম 10% কমান"
+  },
+  "commandSpeedUp": {
+    "message": "সর্বশেষ চালানো ট্যাবে গতি 0.25× বাড়ান"
+  },
+  "commandSpeedDown": {
+    "message": "সর্বশেষ চালানো ট্যাবে গতি 0.25× কমান"
+  },
+  "commandSpeedReset": {
+    "message": "সর্বশেষ চালানো ট্যাবে গতি 1×-এ ফিরিয়ে আনুন"
+  },
+  "volumeHeading": {
+    "message": "ভলিউম"
+  },
+  "speedHeading": {
+    "message": "গতি"
+  },
+  "levelMixed": {
+    "message": "মিশ্র"
+  },
+  "levelMutedNote": {
+    "message": "পৃষ্ঠায় মিউট করা আছে। ভলিউম বদলালে মিউট সরে যাবে না।"
+  },
+  "buttonSpeedDown": {
+    "message": "ধীরে"
+  },
+  "buttonSpeedUp": {
+    "message": "দ্রুত"
+  },
+  "buttonSpeedReset": {
+    "message": "1×"
+  },
+  "osdVolume": {
+    "message": "ভলিউম $1%"
+  },
+  "osdVolumeMuted": {
+    "message": "ভলিউম $1% (মিউট)"
+  },
+  "osdVolumeMixed": {
+    "message": "ভলিউম: মিশ্র"
+  },
+  "osdSpeed": {
+    "message": "গতি $1×"
+  },
+  "osdSpeedMixed": {
+    "message": "গতি: মিশ্র"
+  },
+  "errorAdjustNothing": {
+    "message": "সর্বশেষ ট্যাবে সামঞ্জস্য করার মতো মিডিয়া নেই।"
+  },
+  "errorAdjustSome": {
+    "message": "কিছু মিডিয়া সামঞ্জস্য করা যায়নি।"
+  },
+  "errorTargetChanged": {
+    "message": "সর্বশেষ মিডিয়া ট্যাব বদলে গেছে। পপআপ দেখে আবার চেষ্টা করুন।"
+  },
+  "shortcutsMoreHint": {
+    "message": "একই পৃষ্ঠা থেকেই ভলিউম ও গতির শর্টকাটও সেট করা যায়।"
   }
 }

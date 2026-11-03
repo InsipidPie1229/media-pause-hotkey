@@ -133,5 +133,68 @@
   },
   "errorResumeAmbiguous": {
     "message": "कई मीडिया का प्लेबैक क्रम स्पष्ट नहीं है। साइट पर अपना चुना हुआ मीडिया एक बार चलाएँ, फिर दोबारा कोशिश करें।"
+  },
+  "commandVolumeUp": {
+    "message": "सबसे हाल में चलाए गए टैब में वॉल्यूम 10% बढ़ाएँ"
+  },
+  "commandVolumeDown": {
+    "message": "सबसे हाल में चलाए गए टैब में वॉल्यूम 10% घटाएँ"
+  },
+  "commandSpeedUp": {
+    "message": "सबसे हाल में चलाए गए टैब में गति 0.25× बढ़ाएँ"
+  },
+  "commandSpeedDown": {
+    "message": "सबसे हाल में चलाए गए टैब में गति 0.25× घटाएँ"
+  },
+  "commandSpeedReset": {
+    "message": "सबसे हाल में चलाए गए टैब में गति 1× पर लौटाएँ"
+  },
+  "volumeHeading": {
+    "message": "वॉल्यूम"
+  },
+  "speedHeading": {
+    "message": "गति"
+  },
+  "levelMixed": {
+    "message": "अलग-अलग"
+  },
+  "levelMutedNote": {
+    "message": "पेज पर म्यूट है। वॉल्यूम बदलने से म्यूट नहीं हटेगा।"
+  },
+  "buttonSpeedDown": {
+    "message": "धीमा"
+  },
+  "buttonSpeedUp": {
+    "message": "तेज़"
+  },
+  "buttonSpeedReset": {
+    "message": "1×"
+  },
+  "osdVolume": {
+    "message": "वॉल्यूम $1%"
+  },
+  "osdVolumeMuted": {
+    "message": "वॉल्यूम $1% (म्यूट)"
+  },
+  "osdVolumeMixed": {
+    "message": "वॉल्यूम: अलग-अलग"
+  },
+  "osdSpeed": {
+    "message": "गति $1×"
+  },
+  "osdSpeedMixed": {
+    "message": "गति: अलग-अलग"
+  },
+  "errorAdjustNothing": {
+    "message": "सबसे हाल के टैब में समायोजित करने के लिए कोई मीडिया नहीं है।"
+  },
+  "errorAdjustSome": {
+    "message": "कुछ मीडिया समायोजित नहीं किए जा सके।"
+  },
+  "errorTargetChanged": {
+    "message": "सबसे हाल का मीडिया टैब बदल गया है। पॉपअप देखें और फिर से प्रयास करें।"
+  },
+  "shortcutsMoreHint": {
+    "message": "उसी पेज पर वॉल्यूम और गति के शॉर्टकट भी सेट किए जा सकते हैं।"
   }
 }

@@ -133,5 +133,68 @@
   },
   "errorResumeAmbiguous": {
     "message": "No se puede determinar el orden de reproducción de varios elementos. Reproduce una vez el contenido que quieras en el sitio y vuelve a intentarlo."
+  },
+  "commandVolumeUp": {
+    "message": "Subir el volumen un 10% en la pestaña reproducida más recientemente"
+  },
+  "commandVolumeDown": {
+    "message": "Bajar el volumen un 10% en la pestaña reproducida más recientemente"
+  },
+  "commandSpeedUp": {
+    "message": "Aumentar la velocidad 0.25× en la pestaña reproducida más recientemente"
+  },
+  "commandSpeedDown": {
+    "message": "Reducir la velocidad 0.25× en la pestaña reproducida más recientemente"
+  },
+  "commandSpeedReset": {
+    "message": "Restablecer la velocidad a 1× en la pestaña reproducida más recientemente"
+  },
+  "volumeHeading": {
+    "message": "Volumen"
+  },
+  "speedHeading": {
+    "message": "Velocidad"
+  },
+  "levelMixed": {
+    "message": "Distinto"
+  },
+  "levelMutedNote": {
+    "message": "Silenciado en la página. Cambiar el volumen no quita el silencio."
+  },
+  "buttonSpeedDown": {
+    "message": "Más lento"
+  },
+  "buttonSpeedUp": {
+    "message": "Más rápido"
+  },
+  "buttonSpeedReset": {
+    "message": "1×"
+  },
+  "osdVolume": {
+    "message": "Volumen $1%"
+  },
+  "osdVolumeMuted": {
+    "message": "Volumen $1% (silenciado)"
+  },
+  "osdVolumeMixed": {
+    "message": "Volumen: distinto"
+  },
+  "osdSpeed": {
+    "message": "Velocidad $1×"
+  },
+  "osdSpeedMixed": {
+    "message": "Velocidad: distinta"
+  },
+  "errorAdjustNothing": {
+    "message": "No hay medios que ajustar en la pestaña más reciente."
+  },
+  "errorAdjustSome": {
+    "message": "No se pudieron ajustar algunos medios."
+  },
+  "errorTargetChanged": {
+    "message": "La pestaña de medios más reciente ha cambiado. Revisa la ventana emergente y vuelve a intentarlo."
+  },
+  "shortcutsMoreHint": {
+    "message": "Los atajos de volumen y velocidad también se pueden configurar en la misma página."
   }
 }

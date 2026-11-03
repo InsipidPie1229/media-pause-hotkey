@@ -133,5 +133,68 @@
   },
   "errorResumeAmbiguous": {
     "message": "Không thể xác định thứ tự phát của nhiều nội dung. Hãy phát nội dung bạn muốn trên trang web một lần rồi thử lại."
+  },
+  "commandVolumeUp": {
+    "message": "Tăng âm lượng 10% trong thẻ phát gần đây nhất"
+  },
+  "commandVolumeDown": {
+    "message": "Giảm âm lượng 10% trong thẻ phát gần đây nhất"
+  },
+  "commandSpeedUp": {
+    "message": "Tăng tốc độ 0.25× trong thẻ phát gần đây nhất"
+  },
+  "commandSpeedDown": {
+    "message": "Giảm tốc độ 0.25× trong thẻ phát gần đây nhất"
+  },
+  "commandSpeedReset": {
+    "message": "Đặt lại tốc độ về 1× trong thẻ phát gần đây nhất"
+  },
+  "volumeHeading": {
+    "message": "Âm lượng"
+  },
+  "speedHeading": {
+    "message": "Tốc độ"
+  },
+  "levelMixed": {
+    "message": "Khác nhau"
+  },
+  "levelMutedNote": {
+    "message": "Đã tắt tiếng trên trang. Thay đổi âm lượng không bật lại tiếng."
+  },
+  "buttonSpeedDown": {
+    "message": "Chậm hơn"
+  },
+  "buttonSpeedUp": {
+    "message": "Nhanh hơn"
+  },
+  "buttonSpeedReset": {
+    "message": "1×"
+  },
+  "osdVolume": {
+    "message": "Âm lượng $1%"
+  },
+  "osdVolumeMuted": {
+    "message": "Âm lượng $1% (tắt tiếng)"
+  },
+  "osdVolumeMixed": {
+    "message": "Âm lượng: khác nhau"
+  },
+  "osdSpeed": {
+    "message": "Tốc độ $1×"
+  },
+  "osdSpeedMixed": {
+    "message": "Tốc độ: khác nhau"
+  },
+  "errorAdjustNothing": {
+    "message": "Không có nội dung nào để điều chỉnh trong thẻ gần đây nhất."
+  },
+  "errorAdjustSome": {
+    "message": "Không thể điều chỉnh một số nội dung."
+  },
+  "errorTargetChanged": {
+    "message": "Thẻ nội dung gần đây nhất đã thay đổi. Kiểm tra cửa sổ bật lên và thử lại."
+  },
+  "shortcutsMoreHint": {
+    "message": "Bạn cũng có thể đặt phím tắt âm lượng và tốc độ trên cùng trang."
   }
 }

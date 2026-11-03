@@ -5,7 +5,7 @@ const MAX_MEDIA_RECORDS = 500;
 const MAX_PAUSED_BATCHES = 50;
 const MAX_DOCUMENT_RECORDS = 1000;
 const t = globalThis.mediaShortcutI18n.message;
-const VERSION = chrome.runtime.getManifest().version;
+const VERSION = chrome.runtime.getManifest?.().version || "";
 let serialQueue = Promise.resolve();
 
 function enqueue(operation) {
@@ -659,7 +659,9 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     }).then(sendResponse).catch(() => sendResponse({ status: "idle", error: t("errorStateRead") }));
     return true;
   }
-  if (message?.type === "ADJUST" && !sender.tab) {
+  // Only extension pages (the popup) may adjust; content scripts report state only.
+  if (message?.type === "ADJUST" && sender.id === chrome.runtime.id &&
+      typeof sender.url === "string" && sender.url.startsWith(chrome.runtime.getURL(""))) {
     if (!validAdjust(message.adjust)) {
       sendResponse({ status: "idle", error: t("errorControl") });
       return false;

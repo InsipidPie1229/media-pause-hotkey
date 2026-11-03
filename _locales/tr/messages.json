@@ -133,5 +133,68 @@
   },
   "errorResumeAmbiguous": {
     "message": "Birden fazla medyanın oynatma sırası belirlenemiyor. İstediğiniz medyayı sitede bir kez oynatıp tekrar deneyin."
+  },
+  "commandVolumeUp": {
+    "message": "En son oynatılan sekmede sesi 10% artır"
+  },
+  "commandVolumeDown": {
+    "message": "En son oynatılan sekmede sesi 10% azalt"
+  },
+  "commandSpeedUp": {
+    "message": "En son oynatılan sekmede hızı 0.25× artır"
+  },
+  "commandSpeedDown": {
+    "message": "En son oynatılan sekmede hızı 0.25× azalt"
+  },
+  "commandSpeedReset": {
+    "message": "En son oynatılan sekmede hızı 1× olarak sıfırla"
+  },
+  "volumeHeading": {
+    "message": "Ses"
+  },
+  "speedHeading": {
+    "message": "Hız"
+  },
+  "levelMixed": {
+    "message": "Farklı"
+  },
+  "levelMutedNote": {
+    "message": "Sayfada ses kapalı. Ses düzeyini değiştirmek sesi açmaz."
+  },
+  "buttonSpeedDown": {
+    "message": "Daha yavaş"
+  },
+  "buttonSpeedUp": {
+    "message": "Daha hızlı"
+  },
+  "buttonSpeedReset": {
+    "message": "1×"
+  },
+  "osdVolume": {
+    "message": "Ses $1%"
+  },
+  "osdVolumeMuted": {
+    "message": "Ses $1% (kapalı)"
+  },
+  "osdVolumeMixed": {
+    "message": "Ses: farklı"
+  },
+  "osdSpeed": {
+    "message": "Hız $1×"
+  },
+  "osdSpeedMixed": {
+    "message": "Hız: farklı"
+  },
+  "errorAdjustNothing": {
+    "message": "En son sekmede ayarlanacak medya yok."
+  },
+  "errorAdjustSome": {
+    "message": "Bazı medyalar ayarlanamadı."
+  },
+  "errorTargetChanged": {
+    "message": "En son medya sekmesi değişti. Açılır pencereyi kontrol edip tekrar deneyin."
+  },
+  "shortcutsMoreHint": {
+    "message": "Ses ve hız kısayolları aynı sayfadan da ayarlanabilir."
   }
 }

@@ -133,5 +133,68 @@
   },
   "errorResumeAmbiguous": {
     "message": "Several media items have the same playback order. Play the item you want on the site once, then try again."
+  },
+  "commandVolumeUp": {
+    "message": "Volume up 10% in the most recently playing tab"
+  },
+  "commandVolumeDown": {
+    "message": "Volume down 10% in the most recently playing tab"
+  },
+  "commandSpeedUp": {
+    "message": "Speed up by 0.25× in the most recently playing tab"
+  },
+  "commandSpeedDown": {
+    "message": "Slow down by 0.25× in the most recently playing tab"
+  },
+  "commandSpeedReset": {
+    "message": "Reset speed to 1× in the most recently playing tab"
+  },
+  "volumeHeading": {
+    "message": "Volume"
+  },
+  "speedHeading": {
+    "message": "Speed"
+  },
+  "levelMixed": {
+    "message": "Mixed"
+  },
+  "levelMutedNote": {
+    "message": "Muted on the page. Volume changes do not unmute."
+  },
+  "buttonSpeedDown": {
+    "message": "Slower"
+  },
+  "buttonSpeedUp": {
+    "message": "Faster"
+  },
+  "buttonSpeedReset": {
+    "message": "1×"
+  },
+  "osdVolume": {
+    "message": "Volume $1%"
+  },
+  "osdVolumeMuted": {
+    "message": "Volume $1% (muted)"
+  },
+  "osdVolumeMixed": {
+    "message": "Volume: mixed"
+  },
+  "osdSpeed": {
+    "message": "Speed $1×"
+  },
+  "osdSpeedMixed": {
+    "message": "Speed: mixed"
+  },
+  "errorAdjustNothing": {
+    "message": "No media to adjust in the latest tab."
+  },
+  "errorAdjustSome": {
+    "message": "Some media could not be adjusted."
+  },
+  "errorTargetChanged": {
+    "message": "The latest media tab changed. Check the popup and try again."
+  },
+  "shortcutsMoreHint": {
+    "message": "Volume and speed shortcuts can also be set on the same page."
   }
 }

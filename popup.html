@@ -33,6 +33,24 @@
         </div>
       </div>
 
+      <section class="levels-card">
+        <div class="level-row">
+          <span class="label" data-i18n="volumeHeading">Volume</span>
+          <input type="range" id="volumeSlider" min="0" max="100" step="5" data-i18n-aria-label="volumeHeading" aria-label="Volume">
+          <span class="level-value" id="volumeValue">–</span>
+        </div>
+        <div class="level-row">
+          <span class="label" data-i18n="speedHeading">Speed</span>
+          <div class="speed-controls">
+            <button class="speed-button" id="speedDownButton" type="button" data-i18n-aria-label="buttonSpeedDown" aria-label="Slower">−</button>
+            <span class="level-value" id="speedValue">–</span>
+            <button class="speed-button" id="speedUpButton" type="button" data-i18n-aria-label="buttonSpeedUp" aria-label="Faster">+</button>
+            <button class="speed-button" id="speedResetButton" type="button" data-i18n="buttonSpeedReset">1×</button>
+          </div>
+        </div>
+        <p class="hint" id="mutedNote" data-i18n="levelMutedNote" hidden>Muted on the page. Volume changes do not unmute.</p>
+      </section>
+
       <p class="error" id="errorMessage" role="status" hidden></p>
 
       <section class="shortcut-card">
@@ -40,6 +58,7 @@
         <p class="shortcut-value" id="shortcutValue" data-i18n="shortcutNotSet">Not set</p>
         <a href="chrome://extensions/shortcuts" id="shortcutLink"><span data-i18n="shortcutSettings">Open shortcut settings</span> <span aria-hidden="true">↗</span></a>
         <p class="hint" data-i18n="shortcutHint">Global by default. Change the scope to Chrome if you prefer.</p>
+        <p class="hint" data-i18n="shortcutsMoreHint">Volume and speed shortcuts can also be set on the same page.</p>
       </section>
 
       <button class="diagnostics-button" id="diagnosticsButton" type="button" data-i18n="buttonDiagnostics">Copy diagnostics</button>

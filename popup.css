@@ -60,7 +60,7 @@ h1 { margin: 3px 0 0; font-size: 19px; letter-spacing: -.035em; }
 .status-dot.paused { background: #3468c8; box-shadow: 0 0 0 4px #e0eaff; }
 .status-dot.error { background: #c13934; box-shadow: 0 0 0 4px #fae3e1; }
 
-.target-card, .shortcut-card {
+.target-card, .shortcut-card, .levels-card {
   border: 1px solid #e3e9f0;
   border-radius: 14px;
   background: #fff;
@@ -111,6 +111,62 @@ button:focus-visible, a:focus-visible { outline: 3px solid #8eb9ff; outline-offs
 
 .secondary-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; margin-top: 9px; }
 .error { margin: 10px 1px 0; color: #a42d29; font-size: 12px; line-height: 1.5; }
+
+.levels-card {
+  display: grid;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.level-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.level-row .label {
+  flex: none;
+  min-width: 46px;
+}
+
+.level-value {
+  min-width: 42px;
+  color: #26364b;
+  font-size: 13px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  text-align: end;
+}
+
+#volumeSlider {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0;
+  accent-color: #17365d;
+}
+
+#volumeSlider:disabled { opacity: .45; }
+
+.speed-controls {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+.speed-button {
+  min-width: 28px;
+  min-height: 28px;
+  padding: 0 7px;
+  border-radius: 8px;
+  font-size: 12px;
+  line-height: 1;
+}
+
+.speed-button:disabled { opacity: .45; }
+
+.levels-card .hint { margin-top: 0; }
 
 .shortcut-card { margin-top: 14px; }
 .shortcut-value { margin: 7px 0; font-size: 14px; font-weight: 700; }

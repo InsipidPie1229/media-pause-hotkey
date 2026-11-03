@@ -133,5 +133,68 @@
   },
   "errorResumeAmbiguous": {
     "message": "L’ordre de lecture de plusieurs médias est indéterminé. Lancez une fois le média souhaité sur le site, puis réessayez."
+  },
+  "commandVolumeUp": {
+    "message": "Augmenter le volume de 10% dans l'onglet lu le plus récemment"
+  },
+  "commandVolumeDown": {
+    "message": "Baisser le volume de 10% dans l'onglet lu le plus récemment"
+  },
+  "commandSpeedUp": {
+    "message": "Augmenter la vitesse de 0.25× dans l'onglet lu le plus récemment"
+  },
+  "commandSpeedDown": {
+    "message": "Réduire la vitesse de 0.25× dans l'onglet lu le plus récemment"
+  },
+  "commandSpeedReset": {
+    "message": "Rétablir la vitesse à 1× dans l'onglet lu le plus récemment"
+  },
+  "volumeHeading": {
+    "message": "Volume"
+  },
+  "speedHeading": {
+    "message": "Vitesse"
+  },
+  "levelMixed": {
+    "message": "Variable"
+  },
+  "levelMutedNote": {
+    "message": "Muet sur la page. Changer le volume ne réactive pas le son."
+  },
+  "buttonSpeedDown": {
+    "message": "Plus lent"
+  },
+  "buttonSpeedUp": {
+    "message": "Plus rapide"
+  },
+  "buttonSpeedReset": {
+    "message": "1×"
+  },
+  "osdVolume": {
+    "message": "Volume $1%"
+  },
+  "osdVolumeMuted": {
+    "message": "Volume $1% (muet)"
+  },
+  "osdVolumeMixed": {
+    "message": "Volume : variable"
+  },
+  "osdSpeed": {
+    "message": "Vitesse $1×"
+  },
+  "osdSpeedMixed": {
+    "message": "Vitesse : variable"
+  },
+  "errorAdjustNothing": {
+    "message": "Aucun contenu à ajuster dans l'onglet le plus récent."
+  },
+  "errorAdjustSome": {
+    "message": "Certains contenus n'ont pas pu être ajustés."
+  },
+  "errorTargetChanged": {
+    "message": "L'onglet de médias le plus récent a changé. Vérifiez le popup et réessayez."
+  },
+  "shortcutsMoreHint": {
+    "message": "Les raccourcis de volume et de vitesse peuvent aussi être définis sur la même page."
   }
 }

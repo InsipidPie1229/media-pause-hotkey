@@ -133,5 +133,68 @@
   },
   "errorResumeAmbiguous": {
     "message": "複数のメディアの再生順序を判別できません。サイトで操作したいメディアを一度再生してから再試行してください。"
+  },
+  "commandVolumeUp": {
+    "message": "最後に再生したタブの音量を10%上げる"
+  },
+  "commandVolumeDown": {
+    "message": "最後に再生したタブの音量を10%下げる"
+  },
+  "commandSpeedUp": {
+    "message": "最後に再生したタブの再生速度を0.25×上げる"
+  },
+  "commandSpeedDown": {
+    "message": "最後に再生したタブの再生速度を0.25×下げる"
+  },
+  "commandSpeedReset": {
+    "message": "最後に再生したタブの再生速度を1×に戻す"
+  },
+  "volumeHeading": {
+    "message": "音量"
+  },
+  "speedHeading": {
+    "message": "再生速度"
+  },
+  "levelMixed": {
+    "message": "混在"
+  },
+  "levelMutedNote": {
+    "message": "ページでミュートされています。音量を変えてもミュートは解除されません。"
+  },
+  "buttonSpeedDown": {
+    "message": "遅く"
+  },
+  "buttonSpeedUp": {
+    "message": "速く"
+  },
+  "buttonSpeedReset": {
+    "message": "1×"
+  },
+  "osdVolume": {
+    "message": "音量 $1%"
+  },
+  "osdVolumeMuted": {
+    "message": "音量 $1%（ミュート）"
+  },
+  "osdVolumeMixed": {
+    "message": "音量: 混在"
+  },
+  "osdSpeed": {
+    "message": "再生速度 $1×"
+  },
+  "osdSpeedMixed": {
+    "message": "再生速度: 混在"
+  },
+  "errorAdjustNothing": {
+    "message": "最近のタブに調整できるメディアがありません。"
+  },
+  "errorAdjustSome": {
+    "message": "一部のメディアを調整できませんでした。"
+  },
+  "errorTargetChanged": {
+    "message": "最近のメディアタブが変わりました。ポップアップを確認して、もう一度お試しください。"
+  },
+  "shortcutsMoreHint": {
+    "message": "音量と再生速度のショートカットも同じ画面で設定できます。"
   }
 }

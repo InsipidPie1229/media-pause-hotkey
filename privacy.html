@@ -21,13 +21,13 @@
   <section class="language" lang="en">
     <h1>Privacy Policy — Media Shortcut</h1>
     <p class="updated">Last updated: October 8, 2026</p>
-    <p>Media Shortcut is a Chrome extension that lets you pause and resume standard HTML audio and video in the most recently playing tab.</p>
+    <p>Media Shortcut is a Chrome extension that lets you pause and resume standard HTML audio and video in the most recently playing tab and adjust its volume and playback speed.</p>
 
     <h2>Information processed</h2>
     <p>To provide this feature, the extension processes the page title, the source URL of standard audio and video elements, their playback state, and temporary Chrome tab, document, frame, and media identifiers. It does not read the media stream or the page body.</p>
 
     <h2>How information is used and stored</h2>
-    <p>This information is used only to identify the tab with the most recently active media and to pause or resume the relevant media when you use the shortcut or popup. Temporary state is kept locally in Chrome's <code>storage.session</code> for the current browser session. Records for navigated or closed tabs are removed, and session data is cleared by Chrome's session lifecycle.</p>
+    <p>This information is used only to identify the tab with the most recently active media and to pause, resume, or adjust the volume and speed of the relevant media when you use a shortcut or the popup. Volume and speed values are read from the page only to show and apply them. Temporary state is kept locally in Chrome's <code>storage.session</code> for the current browser session. Records for navigated or closed tabs are removed, and session data is cleared by Chrome's session lifecycle.</p>
 
     <h2>Local diagnostics</h2>
     <p>The extension keeps up to 200 recent diagnostic records (100 command/error records and 100 observation records) locally in storage.session to help investigate missed media detection. They contain temporary tab/document/frame/media identifiers, event and playback-transition information, error codes, and durations, but no page titles or URLs. Records are not sent to any server. The popup copies them to your clipboard only when you choose Copy diagnostics; if copying is unavailable, the text is shown for manual copying.</p>

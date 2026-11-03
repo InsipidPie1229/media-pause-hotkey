@@ -133,5 +133,68 @@
   },
   "errorResumeAmbiguous": {
     "message": "Urutan pemutaran beberapa media tidak dapat ditentukan. Putar media yang diinginkan sekali di situs, lalu coba lagi."
+  },
+  "commandVolumeUp": {
+    "message": "Naikkan volume 10% di tab yang terakhir diputar"
+  },
+  "commandVolumeDown": {
+    "message": "Turunkan volume 10% di tab yang terakhir diputar"
+  },
+  "commandSpeedUp": {
+    "message": "Naikkan kecepatan 0.25× di tab yang terakhir diputar"
+  },
+  "commandSpeedDown": {
+    "message": "Turunkan kecepatan 0.25× di tab yang terakhir diputar"
+  },
+  "commandSpeedReset": {
+    "message": "Kembalikan kecepatan ke 1× di tab yang terakhir diputar"
+  },
+  "volumeHeading": {
+    "message": "Volume"
+  },
+  "speedHeading": {
+    "message": "Kecepatan"
+  },
+  "levelMixed": {
+    "message": "Berbeda"
+  },
+  "levelMutedNote": {
+    "message": "Dibisukan di halaman. Perubahan volume tidak membatalkan bisu."
+  },
+  "buttonSpeedDown": {
+    "message": "Lebih lambat"
+  },
+  "buttonSpeedUp": {
+    "message": "Lebih cepat"
+  },
+  "buttonSpeedReset": {
+    "message": "1×"
+  },
+  "osdVolume": {
+    "message": "Volume $1%"
+  },
+  "osdVolumeMuted": {
+    "message": "Volume $1% (bisu)"
+  },
+  "osdVolumeMixed": {
+    "message": "Volume: berbeda"
+  },
+  "osdSpeed": {
+    "message": "Kecepatan $1×"
+  },
+  "osdSpeedMixed": {
+    "message": "Kecepatan: berbeda"
+  },
+  "errorAdjustNothing": {
+    "message": "Tidak ada media untuk disesuaikan di tab terbaru."
+  },
+  "errorAdjustSome": {
+    "message": "Beberapa media tidak dapat disesuaikan."
+  },
+  "errorTargetChanged": {
+    "message": "Tab media terbaru berubah. Periksa popup dan coba lagi."
+  },
+  "shortcutsMoreHint": {
+    "message": "Pintasan volume dan kecepatan juga dapat diatur di halaman yang sama."
   }
 }

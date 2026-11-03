@@ -13,7 +13,7 @@ The extension UI and listing assets are prepared for 17 Chrome locales. Add each
 
 ## Privacy and single-purpose declarations
 
-- Single purpose: Pause or resume standard HTML audio/video in the most recently playing Chrome tab using a user-assigned shortcut.
+- Single purpose: Pause or resume standard HTML audio/video in the most recently playing Chrome tab, and adjust its volume and speed, using user-assigned shortcuts.
 - Data use: The extension processes page titles, standard audio/video source URLs and playback states, plus temporary tab/document/frame/media identifiers. This state is used only for media control and stored locally in `chrome.storage.session` for the current session; no extension data is sent to a server.
 - Analytics or advertising: None.
 - Permission justification: `MediaPauseHotkey/listing/single-purpose.txt`
@@ -24,5 +24,7 @@ The extension UI and listing assets are prepared for 17 Chrome locales. Add each
 Upload `MediaPauseHotkey-WebStore-1.0.6.zip` through the item's Package section. The ZIP has `manifest.json` at its root. In the Store listing section, add the locales you plan to publish and copy the corresponding listing data and screenshot. Review Package, Store listing, Privacy, and Distribution before submission. Public release remains subject to Google review.
 
 Version 1.0.4 adds local, user-copyable diagnostics (last 200 records, no titles or URLs). Update the hosted privacy policy from `privacy.html` before submitting. The package is prepared; Web Store submission has not been performed for this release. Normal-profile installation/duplicate checks and OS global-key testing remain manual.
+
+1.1.0 (local, not submitted) adds optional volume and speed shortcuts, popup controls and a one-second on-page indicator. No permissions were added. Before release: update the hosted privacy policy, the single-purpose text above, and the localized listing descriptions and screenshots (not yet updated for 1.1.0).
 
 1.0.6 is prepared locally, not submitted. Resume may restore the most recently played media even if it was paused outside the extension. Extension-paused groups have priority. Diagnostics retain 100 command/error and 100 observation entries; update the hosted policy before release.
