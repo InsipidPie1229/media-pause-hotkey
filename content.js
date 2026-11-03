@@ -319,18 +319,32 @@
     }, 500);
   }
 
-  async function connectGraph(media) {
-    if (boost.graphs.has(media)) return { ok: true };
+  // item pins the element and its source generation; every await is followed
+  // by a re-check so a request never lands on a source that replaced it.
+  async function ensureRunning() {
+    if (boost.context.state !== "running") {
+      await Promise.race([boost.context.resume(), new Promise((resolve) => setTimeout(resolve, 1000))]);
+    }
+    return boost.context.state === "running";
+  }
+
+  async function connectGraph(media, item) {
+    // Checked for new and already connected elements alike: the current source
+    // may have changed since the graph was created.
     const allowed = sourceAllowsBoost(media);
     if (!allowed.ok) return allowed;
+    if (boost.graphs.has(media)) {
+      if (!boost.context || !await ensureRunning()) return { ok: false, code: "boost-refused-context" };
+      if (!matches(media, item)) return { ok: false, code: "media-invalid" };
+      if (!sourceAllowsBoost(media).ok) return { ok: false, code: "boost-refused-cors" };
+      return { ok: true };
+    }
     if (!navigator.userActivation?.hasBeenActive) return { ok: false, code: "boost-refused-activation" };
     try {
       if (!boost.context || boost.context.state === "closed") boost.context = new AudioContext();
-      if (boost.context.state !== "running") {
-        await Promise.race([boost.context.resume(), new Promise((resolve) => setTimeout(resolve, 1000))]);
-      }
-      if (boost.context.state !== "running") return { ok: false, code: "boost-refused-context" };
+      if (!await ensureRunning()) return { ok: false, code: "boost-refused-context" };
       // Re-check after the await: the page may have swapped the source meanwhile.
+      if (!matches(media, item)) return { ok: false, code: "media-invalid" };
       if (!sourceAllowsBoost(media).ok) return { ok: false, code: "boost-refused-cors" };
       const source = boost.context.createMediaElementSource(media);
       const gain = boost.context.createGain();
@@ -344,12 +358,13 @@
     }
   }
 
-  async function setEffectiveVolume(media, next, boostAllowed) {
+  async function setEffectiveVolume(media, item, next, boostAllowed) {
     const target = Math.round(clamp(next, 0, boostAllowed ? VOLUME_MAX_BOOST : 1) * 100) / 100;
     if (target > 1) {
-      const connected = await connectGraph(media);
+      const connected = await connectGraph(media, item);
       // Refused boost keeps the current volume untouched.
       if (!connected.ok) return connected.code;
+      if (!matches(media, item)) return "media-invalid";
       media.volume = 1;
       boost.graphs.get(media).gain.gain.value = target;
       armWatchdog();
@@ -389,7 +404,7 @@
           const next = mode === "set" ? value : current + value;
           // Effective level = media.volume x gain. Without the experimental
           // boost the result is clamped to 100% (gain 1).
-          const code = await setEffectiveVolume(media, next, boostAllowed === true);
+          const code = await setEffectiveVolume(media, item, next, boostAllowed === true);
           if (code) {
             results.push({ mediaId: item.mediaId, code, volume: effectiveVolume(media) });
             continue;

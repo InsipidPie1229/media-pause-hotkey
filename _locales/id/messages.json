@@ -223,5 +223,8 @@
   },
   "errorAdjustPartial": {
     "message": "$1 dari $2 item media disesuaikan."
+  },
+  "errorBoostResetUnreached": {
+    "message": "Penguatan dimatikan, tetapi pengaturan ulang tidak dapat dikonfirmasi di $1 bingkai halaman. Akan dicoba lagi saat merespons; memuat ulang halaman tersebut juga menghapusnya."
   }
 }

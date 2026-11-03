@@ -223,5 +223,8 @@
   },
   "errorAdjustPartial": {
     "message": "미디어 $2개 중 $1개를 조절했습니다."
+  },
+  "errorBoostResetUnreached": {
+    "message": "증폭을 껐지만 페이지 프레임 $1개에서 초기화를 확인하지 못했습니다. 응답하면 다시 시도하며, 해당 페이지를 새로고침해도 해제됩니다."
   }
 }

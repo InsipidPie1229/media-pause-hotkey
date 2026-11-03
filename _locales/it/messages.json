@@ -223,5 +223,8 @@
   },
   "errorAdjustPartial": {
     "message": "Sono stati regolati $1 contenuti su $2."
+  },
+  "errorBoostResetUnreached": {
+    "message": "L'amplificazione è disattivata, ma il ripristino non è stato confermato in $1 frame di pagina. Verrà ritentato quando risponderanno; anche ricaricare quelle pagine la rimuove."
   }
 }

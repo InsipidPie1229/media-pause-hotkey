@@ -223,5 +223,8 @@
   },
   "errorAdjustPartial": {
     "message": "$1 von $2 Medienelementen wurden angepasst."
+  },
+  "errorBoostResetUnreached": {
+    "message": "Die Verstärkung ist aus, aber das Zurücksetzen konnte in $1 Seitenframes nicht bestätigt werden. Es wird erneut versucht, sobald sie antworten; ein Neuladen dieser Seiten entfernt sie ebenfalls."
   }
 }

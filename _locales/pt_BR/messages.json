@@ -223,5 +223,8 @@
   },
   "errorAdjustPartial": {
     "message": "$1 de $2 itens de mídia foram ajustados."
+  },
+  "errorBoostResetUnreached": {
+    "message": "O reforço está desativado, mas não foi possível confirmar a redefinição em $1 quadros de página. Uma nova tentativa será feita quando responderem; recarregar essas páginas também o remove."
   }
 }

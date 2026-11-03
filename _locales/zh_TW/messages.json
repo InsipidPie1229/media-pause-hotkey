@@ -223,5 +223,8 @@
   },
   "errorAdjustPartial": {
     "message": "已調整 $2 個媒體中的 $1 個。"
+  },
+  "errorBoostResetUnreached": {
+    "message": "已關閉增強，但無法在 $1 個頁面框架中確認重設。它們回應後會重試；重新載入這些頁面也會解除增強。"
   }
 }

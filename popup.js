@@ -205,15 +205,22 @@ for (const chip of speedChips) {
 elements.boostToggle.addEventListener("change", async () => {
   const enabled = elements.boostToggle.checked;
   elements.boostToggle.disabled = true;
+  let message = "";
   try {
     const reply = await chrome.runtime.sendMessage({ type: "SET_BOOST", enabled });
     boostOffPaths = enabled ? 0 : reply?.connectedPaths || 0;
     setBoostRange(reply?.boostEnabled === true);
+    message = typeof reply?.error === "string" ? reply.error : "";
   } catch {
-    showState({ status: "idle", error: t("errorControl") });
+    message = t("errorControl");
   } finally {
     elements.boostToggle.disabled = false;
     await loadState();
+    // Turning boost off reports frames it could not reach instead of claiming success.
+    if (message) {
+      elements.errorMessage.textContent = message;
+      elements.errorMessage.hidden = false;
+    }
   }
 });
 

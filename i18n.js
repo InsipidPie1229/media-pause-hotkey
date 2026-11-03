@@ -58,6 +58,7 @@
     osdBoostRefused: "Can't boost above 100% here",
     errorBoostRefused: "Volume above 100% isn't available for this media. The volume was kept.",
     errorAdjustPartial: "$1 of $2 media items were adjusted.",
+    errorBoostResetUnreached: "Boost is off, but resetting it could not be confirmed in $1 page frames. It will be retried when they respond; reloading those pages also removes it.",
   };
 
   function message(key, substitutions) {

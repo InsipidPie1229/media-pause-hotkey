@@ -223,5 +223,8 @@
   },
   "errorAdjustPartial": {
     "message": "Se ajustaron $1 de $2 elementos multimedia."
+  },
+  "errorBoostResetUnreached": {
+    "message": "El refuerzo está desactivado, pero no se pudo confirmar el restablecimiento en $1 marcos de página. Se volverá a intentar cuando respondan; recargar esas páginas también lo elimina."
   }
 }

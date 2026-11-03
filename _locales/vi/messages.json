@@ -223,5 +223,8 @@
   },
   "errorAdjustPartial": {
     "message": "Đã điều chỉnh $1 trong $2 mục nội dung."
+  },
+  "errorBoostResetUnreached": {
+    "message": "Đã tắt tăng âm lượng, nhưng chưa xác nhận được việc đặt lại ở $1 khung trang. Sẽ thử lại khi chúng phản hồi; tải lại các trang đó cũng gỡ bỏ tăng âm lượng."
   }
 }

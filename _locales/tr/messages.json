@@ -223,5 +223,8 @@
   },
   "errorAdjustPartial": {
     "message": "$2 medya öğesinden $1 tanesi ayarlandı."
+  },
+  "errorBoostResetUnreached": {
+    "message": "Güçlendirme kapalı, ancak sıfırlama $1 sayfa çerçevesinde doğrulanamadı. Yanıt verdiklerinde yeniden denenecek; bu sayfaları yeniden yüklemek de güçlendirmeyi kaldırır."
   }
 }

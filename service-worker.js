@@ -41,6 +41,8 @@ function normalizeState(value) {
     diagnostics: trimDiagnostics(Array.isArray(state.diagnostics) ? state.diagnostics : []),
     observations: state.observations && typeof state.observations === "object" ? state.observations : {},
     pausedBatches: Array.isArray(state.pausedBatches) ? state.pausedBatches : [],
+    // Documents whose boost reset could not be confirmed when boost was turned off.
+    boostResetPending: state.boostResetPending && typeof state.boostResetPending === "object" ? state.boostResetPending : {},
     latestTarget: latestTarget ? {
       ...latestTarget,
       playedAt: latestTarget.playedAt || Math.max(0, ...Object.values(media)
@@ -65,7 +67,7 @@ function diagnose(state, type, context = {}, details = {}) {
   const entry = { at: Date.now(), type };
   for (const key of ["tabId", "frameId", "documentId", "mediaId"]) if (context[key] !== undefined) entry[key] = context[key];
   // Explicit fields only: diagnostics never contain page titles, URLs, or raw errors.
-  for (const key of ["playing", "transitioned", "playbackVersion", "sequence", "durationMs", "code", "reason", "mediaCount", "playingCount", "resumeCount", "adjustCount", "action", "input", "commandId", "requestId", "sourceVersion", "ended", "hasError"])
+  for (const key of ["playing", "transitioned", "playbackVersion", "sequence", "durationMs", "code", "reason", "mediaCount", "playingCount", "resumeCount", "adjustCount", "unreachedCount", "action", "input", "commandId", "requestId", "sourceVersion", "ended", "hasError"])
     if (details[key] !== undefined) entry[key] = details[key];
   if (["play", "playing", "pause", "ended", "error", "emptied", "loadstart", "timeupdate", "snapshot", "event"].includes(details.origin)) entry.origin = details.origin;
   state.diagnostics.push(entry);
@@ -155,6 +157,8 @@ function pruneState(state) {
   state.pausedBatches = state.pausedBatches.filter((batch) => batch.items.length)
     .sort((a, b) => Number(a.tabId === state.latestTarget?.tabId) - Number(b.tabId === state.latestTarget?.tabId)).slice(-MAX_PAUSED_BATCHES);
   if (state.latestTarget && !Number.isInteger(state.latestTarget.tabId)) state.latestTarget = null;
+  // A navigated or closed document took its audio graph with it.
+  for (const key of Object.keys(state.boostResetPending || {})) if (!state.observations[key]) delete state.boostResetPending[key];
 }
 
 async function saveState(state) {
@@ -408,7 +412,44 @@ async function refreshMediaState(state) {
   }
   if (state.latestTarget && !failedTabs.has(state.latestTarget.tabId) && state.error === "errorPageConnection") state.error = "";
   if (state.latestTarget && failedTabs.has(state.latestTarget.tabId)) state.error = "errorPageConnection";
+  await retryPendingBoostResets(state);
   return failedTabs;
+}
+
+// Sends BOOST_RESET to one document (never to whatever replaced it), falling
+// back to the registry in the same isolated world. Returns the graph count or null.
+async function resetBoostInDocument(context) {
+  try {
+    const reply = await withTimeout(chrome.tabs.sendMessage(context.tabId, { type: "BOOST_RESET" },
+      { documentId: context.documentId }), 2200);
+    if (reply && Number.isInteger(reply.reset)) return reply.reset;
+  } catch { /* Fall back to direct registry access below. */ }
+  try {
+    const [result] = await withTimeout(chrome.scripting.executeScript({
+      target: { tabId: context.tabId, documentIds: [context.documentId] },
+      func: () => {
+        const registry = globalThis.__mediaShortcutBoost;
+        if (!registry) return 0;
+        for (const graph of registry.graphs.values()) graph.gain.gain.value = 1;
+        clearInterval(registry.watchdog);
+        registry.watchdog = 0;
+        return registry.graphs.size;
+      },
+    }), 2200);
+    if (Number.isInteger(result?.result)) return result.result;
+  } catch { /* Unconfirmed. */ }
+  return null;
+}
+
+async function retryPendingBoostResets(state) {
+  if (settings.boostEnabled) { state.boostResetPending = {}; return; }
+  for (const [key, context] of Object.entries(state.boostResetPending)) {
+    if (!state.connections[key] || state.connections[key].status !== "connected") continue;
+    const reset = await resetBoostInDocument(context);
+    if (reset === null) continue;
+    delete state.boostResetPending[key];
+    diagnose(state, "control", context, { code: "boost-reset-retried", adjustCount: reset });
+  }
 }
 
 async function sendToDocument(state, context, action, items, extra = {}) {
@@ -652,22 +693,36 @@ async function setBoostEnabled(enabled) {
   await settingsReady;
   settings = { boostEnabled: enabled };
   await chrome.storage.local.set({ [SETTINGS_KEY]: settings });
-  let reset = 0;
-  if (!enabled) {
-    const tabs = await chrome.tabs.query({ url: ["http://*/*", "https://*/*"] });
-    const replies = await Promise.all(tabs.filter(tab => !tab.discarded).map(async (tab) => {
-      try {
-        const frames = await withTimeout(chrome.webNavigation.getAllFrames({ tabId: tab.id }), 2200);
-        return await Promise.all(frames.map(frame => withTimeout(
-          chrome.tabs.sendMessage(tab.id, { type: "BOOST_RESET" }, { frameId: frame.frameId }), 2200).catch(() => null)));
-      } catch { return []; }
-    }));
-    reset = replies.flat().reduce((sum, reply) => sum + (reply?.reset || 0), 0);
-  }
   const state = await loadState();
-  diagnose(state, "command", state.latestTarget || {}, { reason: enabled ? "boost-enable" : "boost-disable", code: "success", adjustCount: reset });
+  let reset = 0;
+  let unreached = 0;
+  if (!enabled) {
+    // Drop documents that no longer exist before deciding what must be reset.
+    await refreshMediaState(state);
+    // Every document this extension has observed or controlled may hold a boost.
+    // Each one is addressed by its documentId, so a navigation in between is never touched.
+    const documents = new Map([...Object.values(state.observations), ...Object.values(state.media)]
+      .filter(item => typeof item.documentId === "string")
+      .map(item => [documentKey(item), { tabId: item.tabId, documentId: item.documentId, frameId: item.frameId }]));
+    const outcomes = await Promise.all([...documents.entries()].map(async ([key, context]) =>
+      ({ key, context, reset: await resetBoostInDocument(context) })));
+    state.boostResetPending = {};
+    for (const outcome of outcomes) {
+      if (outcome.reset === null) {
+        // Not "no boost": the reset is unconfirmed and is retried when the document reconnects.
+        unreached++;
+        state.boostResetPending[outcome.key] = outcome.context;
+      } else reset += outcome.reset;
+    }
+  } else {
+    state.boostResetPending = {};
+  }
+  const code = unreached ? "boost-reset-unreached" : "success";
+  diagnose(state, "command", state.latestTarget || {}, { reason: enabled ? "boost-enable" : "boost-disable", code,
+    adjustCount: reset, unreachedCount: unreached });
   await saveState(state);
-  return { boostEnabled: enabled, connectedPaths: reset };
+  return { boostEnabled: enabled, connectedPaths: reset, unreachedFrames: unreached,
+    error: unreached ? t("errorBoostResetUnreached", String(unreached)) : "" };
 }
 
 const ADJUST_COMMANDS = {
@@ -753,6 +808,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (!acceptObservation(state, context, message)) return;
     setConnection(state, context, "connected");
     upsertMedia(state, context, message, sender.tab.title || message.title);
+    if (state.boostResetPending[documentKey(context)]) await retryPendingBoostResets(state);
     diagnose(state, "media-event", { ...context, mediaId: message.mediaId }, { playing: Boolean(message.playing), transitioned: Boolean(message.transitioned),
       playbackVersion: message.playbackVersion, sourceVersion: message.sourceVersion, ended: Boolean(message.ended), hasError: Boolean(message.hasError),
       sequence: message.sequence, origin: message.origin });

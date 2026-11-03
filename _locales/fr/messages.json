@@ -223,5 +223,8 @@
   },
   "errorAdjustPartial": {
     "message": "$1 média(s) sur $2 ont été ajustés."
+  },
+  "errorBoostResetUnreached": {
+    "message": "L'amplification est désactivée, mais sa réinitialisation n'a pas pu être confirmée dans $1 cadres de page. Elle sera retentée lorsqu'ils répondront ; recharger ces pages la supprime aussi."
   }
 }
