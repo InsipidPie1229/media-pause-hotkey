@@ -1,5 +1,5 @@
 (() => {
-  const CONTROLLER_VERSION = "1.1.0";
+  const CONTROLLER_VERSION = "1.2.0";
   const oldController = globalThis.__mediaShortcutController;
   if (oldController?.version === CONTROLLER_VERSION) return oldController.snapshot();
   oldController?.dispose();
@@ -13,6 +13,9 @@
   const prefix = globalThis.crypto?.randomUUID?.() || Date.now().toString(36) + "-" + Math.random().toString(36).slice(2);
   let nextId = 1;
   let sequence = 0;
+  const boost = globalThis.__mediaShortcutBoost || (globalThis.__mediaShortcutBoost = {
+    context: null, graphs: new Map(), watchdog: 0,
+  });
   let controlReceipt = null;
   let controlQueue = Promise.resolve();
 
@@ -62,9 +65,12 @@
       hasError: Boolean(media.error),
       lastStartedAt: meta.lastStartedAt,
       playbackVersion: meta.playbackVersion,
-      volume: media.volume,
+      volume: effectiveVolume(media),
       playbackRate: media.playbackRate,
       muted: media.muted,
+      boosted: gainOf(media) > 1,
+      boostConnected: boost.graphs.has(media),
+      boostLimited: boost.graphs.has(media) && !sourceAllowsBoost(media).ok,
       transitioned,
       origin,
     };
@@ -104,6 +110,7 @@
   }
 
   function handleEvent(event) {
+    if (boost.watchdog && checkInvalidated()) return;
     const media = event.target;
     if (!(media instanceof HTMLMediaElement) || handledEvents.has(event)) return;
     handledEvents.add(event);
@@ -259,6 +266,100 @@
 
   const RATE_MIN = 0.25;
   const RATE_MAX = 4;
+  const VOLUME_MAX_BOOST = 3;
+
+  function gainOf(media) {
+    return boost.graphs.get(media)?.gain.gain.value ?? 1;
+  }
+
+  function effectiveVolume(media) {
+    return Math.round(media.volume * gainOf(media) * 100) / 100;
+  }
+
+  // Estimate only: a CORS-cross-origin source is output as silence once it is
+  // routed through Web Audio. Redirects cannot be seen from here.
+  function sourceAllowsBoost(media) {
+    if (media.srcObject) return { ok: false, code: "boost-refused-source" };
+    const raw = media.currentSrc || media.src;
+    if (!raw) return { ok: false, code: "boost-refused-source" };
+    let url;
+    try { url = new URL(raw, location.href); } catch { return { ok: false, code: "boost-refused-source" }; }
+    if (url.protocol === "blob:") {
+      try { return new URL(url.pathname).origin === location.origin ? { ok: true } : { ok: false, code: "boost-refused-cors" }; }
+      catch { return { ok: false, code: "boost-refused-source" }; }
+    }
+    if (!["http:", "https:"].includes(url.protocol)) return { ok: false, code: "boost-refused-source" };
+    if (url.origin === location.origin || media.crossOrigin) return { ok: true };
+    return { ok: false, code: "boost-refused-cors" };
+  }
+
+  function resetAllGains() {
+    for (const graph of boost.graphs.values()) graph.gain.gain.value = 1;
+    clearInterval(boost.watchdog);
+    boost.watchdog = 0;
+  }
+
+  // Best effort: after an extension reload this world keeps running but can no
+  // longer be controlled, so it drops its own boost. Timers may be delayed in
+  // hidden or paused tabs; media events below provide a second chance.
+  function checkInvalidated() {
+    if (chrome.runtime?.id) return false;
+    resetAllGains();
+    return true;
+  }
+
+  function armWatchdog() {
+    if (boost.watchdog) return;
+    boost.watchdog = setInterval(() => {
+      if (checkInvalidated()) return;
+      if (![...boost.graphs.values()].some((graph) => graph.gain.gain.value > 1)) {
+        clearInterval(boost.watchdog);
+        boost.watchdog = 0;
+      }
+    }, 500);
+  }
+
+  async function connectGraph(media) {
+    if (boost.graphs.has(media)) return { ok: true };
+    const allowed = sourceAllowsBoost(media);
+    if (!allowed.ok) return allowed;
+    if (!navigator.userActivation?.hasBeenActive) return { ok: false, code: "boost-refused-activation" };
+    try {
+      if (!boost.context || boost.context.state === "closed") boost.context = new AudioContext();
+      if (boost.context.state !== "running") {
+        await Promise.race([boost.context.resume(), new Promise((resolve) => setTimeout(resolve, 1000))]);
+      }
+      if (boost.context.state !== "running") return { ok: false, code: "boost-refused-context" };
+      // Re-check after the await: the page may have swapped the source meanwhile.
+      if (!sourceAllowsBoost(media).ok) return { ok: false, code: "boost-refused-cors" };
+      const source = boost.context.createMediaElementSource(media);
+      const gain = boost.context.createGain();
+      source.connect(gain);
+      gain.connect(boost.context.destination);
+      boost.graphs.set(media, { source, gain });
+      return { ok: true };
+    } catch {
+      // InvalidStateError: the page or an older extension world already owns it.
+      return { ok: false, code: "boost-refused-unavailable" };
+    }
+  }
+
+  async function setEffectiveVolume(media, next, boostAllowed) {
+    const target = Math.round(clamp(next, 0, boostAllowed ? VOLUME_MAX_BOOST : 1) * 100) / 100;
+    if (target > 1) {
+      const connected = await connectGraph(media);
+      // Refused boost keeps the current volume untouched.
+      if (!connected.ok) return connected.code;
+      media.volume = 1;
+      boost.graphs.get(media).gain.gain.value = target;
+      armWatchdog();
+      return "";
+    }
+    const graph = boost.graphs.get(media);
+    if (graph) graph.gain.gain.value = 1;
+    media.volume = target;
+    return "";
+  }
 
   function clamp(value, low, high) {
     return Math.min(high, Math.max(low, value));
@@ -266,7 +367,7 @@
 
   // Volume and speed changes never call play()/pause() and never touch playback
   // history; they only set the requested property and report the actual value.
-  function adjustMedia(items, adjust) {
+  async function adjustMedia(items, adjust, boostAllowed = false) {
     snapshot();
     const kind = adjust?.kind;
     const mode = adjust?.mode;
@@ -284,13 +385,21 @@
       }
       try {
         if (kind === "volume") {
-          const next = mode === "set" ? value : media.volume + value;
-          media.volume = clamp(Math.round(next * 100) / 100, 0, 1);
+          const current = effectiveVolume(media);
+          const next = mode === "set" ? value : current + value;
+          // Effective level = media.volume x gain. Without the experimental
+          // boost the result is clamped to 100% (gain 1).
+          const code = await setEffectiveVolume(media, next, boostAllowed === true);
+          if (code) {
+            results.push({ mediaId: item.mediaId, code, volume: effectiveVolume(media) });
+            continue;
+          }
         } else {
           const next = mode === "set" ? value : media.playbackRate + value;
           media.playbackRate = clamp(Math.round(next * 100) / 100, RATE_MIN, RATE_MAX);
         }
-        results.push({ mediaId: item.mediaId, volume: media.volume, playbackRate: media.playbackRate, muted: media.muted });
+        results.push({ mediaId: item.mediaId, volume: effectiveVolume(media), playbackRate: media.playbackRate,
+          muted: media.muted, boosted: gainOf(media) > 1 });
       } catch {
         results.push({ mediaId: item.mediaId, code: "adjust-rejected" });
       }
@@ -337,6 +446,13 @@
       sendResponse({ shown: showOsd(message.text) });
       return false;
     }
+    if (message?.type === "BOOST_RESET") {
+      // Turning the experiment off drops every boost made in this world,
+      // including graphs created by an earlier controller. Paths stay until reload.
+      resetAllGains();
+      sendResponse({ reset: boost.graphs.size });
+      return false;
+    }
     if (message?.type !== "CONTROL") return false;
     if (!["pause", "resume", "adjust"].includes(message.action)) return false;
     const run = async () => {
@@ -344,7 +460,7 @@
         return { ...controlReceipt, ...snapshot() };
       const items = Array.isArray(message.items) ? message.items : [];
       const result = message.action === "pause" ? await pausePlayingMedia() :
-        message.action === "adjust" ? adjustMedia(items, message.adjust) : await resumeMedia(items);
+        message.action === "adjust" ? await adjustMedia(items, message.adjust, message.boostAllowed) : await resumeMedia(items);
       controlReceipt = { requestId: message.requestId, action: message.action,
         paused: result.paused || [], started: result.started || 0, failed: result.failed || 0,
         resumedIds: result.resumedIds || [], invalidIds: result.invalidIds || [], failedIds: result.failedIds || [],

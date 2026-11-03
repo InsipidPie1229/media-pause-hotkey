@@ -196,5 +196,32 @@
   },
   "shortcutsMoreHint": {
     "message": "Pintasan volume dan kecepatan juga dapat diatur di halaman yang sama."
+  },
+  "boostToggle": {
+    "message": "Izinkan volume di atas 100% (eksperimental)"
+  },
+  "boostHint": {
+    "message": "Peningkatan mengarahkan media melalui pemrosesan audio browser hingga halaman dimuat ulang."
+  },
+  "boostActiveNote": {
+    "message": "Ditingkatkan. Suara keras dapat terdistorsi."
+  },
+  "boostLimitedNote": {
+    "message": "Perubahan sumber dapat membatasi output media yang ditingkatkan. Muat ulang halaman jika tidak ada suara."
+  },
+  "boostOffNote": {
+    "message": "Peningkatan mati. Media yang sudah ditingkatkan tetap memakai jalur audio hingga halaman dimuat ulang."
+  },
+  "osdVolumeBoosted": {
+    "message": "Volume $1% (ditingkatkan)"
+  },
+  "osdBoostRefused": {
+    "message": "Tidak bisa meningkatkan di atas 100% di sini"
+  },
+  "errorBoostRefused": {
+    "message": "Volume di atas 100% tidak tersedia untuk media ini. Volume dipertahankan."
+  },
+  "errorAdjustPartial": {
+    "message": "$1 dari $2 item media disesuaikan."
   }
 }

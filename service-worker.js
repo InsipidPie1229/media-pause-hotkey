@@ -6,6 +6,22 @@ const MAX_PAUSED_BATCHES = 50;
 const MAX_DOCUMENT_RECORDS = 1000;
 const t = globalThis.mediaShortcutI18n.message;
 const VERSION = chrome.runtime.getManifest?.().version || "";
+const SETTINGS_KEY = "settings";
+// A single user preference (no site data): the experimental >100% boost. Off by default.
+let settings = { boostEnabled: false };
+const settingsReady = (async () => {
+  try {
+    const stored = (await chrome.storage.local?.get(SETTINGS_KEY))?.[SETTINGS_KEY];
+    settings = { boostEnabled: stored?.boostEnabled === true };
+  } catch { /* Keep the safe default. */ }
+})();
+chrome.storage.onChanged?.addListener((changes, area) => {
+  if (area === "local" && changes[SETTINGS_KEY]) settings = { boostEnabled: changes[SETTINGS_KEY].newValue?.boostEnabled === true };
+});
+
+function isExtensionPage(sender) {
+  return sender.id === chrome.runtime.id && typeof sender.url === "string" && sender.url.startsWith(chrome.runtime.getURL(""));
+}
 let serialQueue = Promise.resolve();
 
 function enqueue(operation) {
@@ -182,6 +198,10 @@ function upsertMedia(state, context, value, title) {
   else if (sameSource && Number.isFinite(previous.playbackRate)) record.playbackRate = previous.playbackRate;
   if (typeof value.muted === "boolean") record.muted = value.muted;
   else if (sameSource && typeof previous.muted === "boolean") record.muted = previous.muted;
+  for (const flag of ["boosted", "boostConnected", "boostLimited"]) {
+    if (typeof value[flag] === "boolean") record[flag] = value[flag];
+    else if (sameSource && typeof previous[flag] === "boolean") record[flag] = previous[flag];
+  }
   if (playingAt > state.lastActivityAt || newPlayback && playingAt === state.lastActivityAt) {
     state.lastActivityAt = playingAt;
     state.latestTarget = { tabId: context.tabId, title: state.media[key].title, playedAt: playingAt, touchedAt: now };
@@ -262,6 +282,9 @@ function levelsFor(items) {
     playbackRate: rate.value, rateMixed: rate.mixed,
     muted: items.length > 0 && items.every(item => item.muted === true),
     someMuted: items.some(item => item.muted === true),
+    boosted: items.some(item => item.boosted === true),
+    boostLimited: items.some(item => item.boostLimited === true),
+    boostEnabled: settings.boostEnabled,
   };
 }
 
@@ -535,7 +558,8 @@ function formatRate(value) {
 function osdText(kind, levels) {
   if (kind === "volume") {
     if (levels.volumeMixed || levels.volume === null) return t("osdVolumeMixed");
-    return t(levels.muted ? "osdVolumeMuted" : "osdVolume", String(Math.round(levels.volume * 100)));
+    const percent = String(Math.round(levels.volume * 100));
+    return t(levels.muted ? "osdVolumeMuted" : levels.volume > 1 ? "osdVolumeBoosted" : "osdVolume", percent);
   }
   if (levels.rateMixed || levels.playbackRate === null) return t("osdSpeedMixed");
   return t("osdSpeed", formatRate(levels.playbackRate));
@@ -544,6 +568,7 @@ function osdText(kind, levels) {
 // adjust = { kind: "volume" | "rate", mode: "delta" | "set", value }.
 // expectedKey (popup only) pins the tab and documents the popup was showing.
 async function performAdjust(adjust, input = "popup", expectedKey = "") {
+  await settingsReady;
   const startedAt = Date.now();
   const state = await loadState();
   const commandId = startedAt.toString(36) + "-" + Math.random().toString(36).slice(2);
@@ -554,6 +579,7 @@ async function performAdjust(adjust, input = "popup", expectedKey = "") {
   const failedTabs = await refreshMediaState(state);
   const target = state.latestTarget;
   let applied = null;
+  let partial = null;
   if (!target) state.error = state.error || "errorNoTarget";
   else if (failedTabs.has(target.tabId)) state.error = "errorPageConnection";
   else {
@@ -568,9 +594,11 @@ async function performAdjust(adjust, input = "popup", expectedKey = "") {
         const context = { tabId: target.tabId, documentId: record.documentId, frameId: record.frameId };
         const items = selection.items.filter(item => item.documentId === record.documentId)
           .map(({ mediaId, signature, sourceVersion }) => ({ mediaId, signature, sourceVersion }));
-        return { context, result: await sendToDocument(state, context, "adjust", items, { adjust }) };
+        return { context, result: await sendToDocument(state, context, "adjust", items,
+          { adjust, boostAllowed: settings.boostEnabled }) };
       }));
       const adjusted = [];
+      const failureCodes = [];
       let failed = 0;
       for (const { context, result } of results) {
         // A lost reply is never retried: a repeated delta would apply twice.
@@ -578,16 +606,23 @@ async function performAdjust(adjust, input = "popup", expectedKey = "") {
         applyDocumentSnapshot(state, context, result, target.title);
         adjusted.push(...(result.adjusted || []));
         failed += result.failed || 0;
-        for (const failure of result.failures || [])
+        for (const failure of result.failures || []) {
+          failureCodes.push(failure.code);
           diagnose(state, "control", { ...context, mediaId: failure.mediaId }, { code: failure.code, action: "adjust", commandId });
+        }
       }
-      applied = levelsFor(adjusted);
+      applied = { ...levelsFor(adjusted), total: selection.items.length };
+      const boostRefused = failureCodes.length > 0 && failureCodes.every(code => String(code).startsWith("boost-refused"));
       if (results.some(({ result }) => !result)) state.error = "errorPageConnection";
-      else if (!adjusted.length) state.error = "errorControl";
-      else if (failed) state.error = "errorAdjustSome";
-      if (adjusted.length && input === "keyboard") {
+      else if (!adjusted.length) state.error = boostRefused ? "errorBoostRefused" : "errorControl";
+      else if (failed) {
+        state.error = "errorAdjustSome";
+        partial = [String(adjusted.length), String(selection.items.length)];
+      }
+      const osd = adjusted.length ? osdText(adjust.kind, applied) : boostRefused ? t("osdBoostRefused") : "";
+      if (osd && input === "keyboard") {
         try {
-          await withTimeout(chrome.tabs.sendMessage(target.tabId, { type: "OSD", text: osdText(adjust.kind, applied) }, { frameId: 0 }), 1500);
+          await withTimeout(chrome.tabs.sendMessage(target.tabId, { type: "OSD", text: osd }, { frameId: 0 }), 1500);
         } catch { /* The on-page indicator is optional feedback. */ }
       }
     }
@@ -596,6 +631,8 @@ async function performAdjust(adjust, input = "popup", expectedKey = "") {
     adjustCount: applied?.count || 0, durationMs: Date.now() - startedAt });
   await saveState(state);
   const view = publicState(state);
+  // The stored error stays generic; this reply also says how many items changed.
+  if (partial && state.error === "errorAdjustSome") view.error = t("errorAdjustPartial", partial);
   updateBadge(view);
   return { ...view, applied };
 }
@@ -607,6 +644,30 @@ function validAdjust(value) {
 
 function runAdjust(adjust, input, expectedKey) {
   return enqueue(() => performAdjust(adjust, input, expectedKey));
+}
+
+// Turning the experiment off sets every gain back to 1 in all reachable frames
+// and forbids new boosts; Web Audio paths already created stay until reload.
+async function setBoostEnabled(enabled) {
+  await settingsReady;
+  settings = { boostEnabled: enabled };
+  await chrome.storage.local.set({ [SETTINGS_KEY]: settings });
+  let reset = 0;
+  if (!enabled) {
+    const tabs = await chrome.tabs.query({ url: ["http://*/*", "https://*/*"] });
+    const replies = await Promise.all(tabs.filter(tab => !tab.discarded).map(async (tab) => {
+      try {
+        const frames = await withTimeout(chrome.webNavigation.getAllFrames({ tabId: tab.id }), 2200);
+        return await Promise.all(frames.map(frame => withTimeout(
+          chrome.tabs.sendMessage(tab.id, { type: "BOOST_RESET" }, { frameId: frame.frameId }), 2200).catch(() => null)));
+      } catch { return []; }
+    }));
+    reset = replies.flat().reduce((sum, reply) => sum + (reply?.reset || 0), 0);
+  }
+  const state = await loadState();
+  diagnose(state, "command", state.latestTarget || {}, { reason: enabled ? "boost-enable" : "boost-disable", code: "success", adjustCount: reset });
+  await saveState(state);
+  return { boostEnabled: enabled, connectedPaths: reset };
 }
 
 const ADJUST_COMMANDS = {
@@ -662,9 +723,13 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     }).then(sendResponse).catch(() => sendResponse({ status: "idle", error: t("errorStateRead") }));
     return true;
   }
+  if (message?.type === "SET_BOOST" && isExtensionPage(sender)) {
+    enqueue(() => setBoostEnabled(message.enabled === true)).then(sendResponse)
+      .catch(() => sendResponse({ boostEnabled: settings.boostEnabled, error: t("errorControl") }));
+    return true;
+  }
   // Only extension pages (the popup) may adjust; content scripts report state only.
-  if (message?.type === "ADJUST" && sender.id === chrome.runtime.id &&
-      typeof sender.url === "string" && sender.url.startsWith(chrome.runtime.getURL(""))) {
+  if (message?.type === "ADJUST" && isExtensionPage(sender)) {
     if (!validAdjust(message.adjust)) {
       sendResponse({ status: "idle", error: t("errorControl") });
       return false;

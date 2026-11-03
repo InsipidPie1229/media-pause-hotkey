@@ -196,5 +196,32 @@
   },
   "shortcutsMoreHint": {
     "message": "音量与速度快捷键也可在同一页面中设置。"
+  },
+  "boostToggle": {
+    "message": "允许音量超过 100%（实验性）"
+  },
+  "boostHint": {
+    "message": "增强后，媒体会经过浏览器的音频处理，直到页面重新加载。"
+  },
+  "boostActiveNote": {
+    "message": "已增强。大音量可能会失真。"
+  },
+  "boostLimitedNote": {
+    "message": "切换源可能会限制已增强媒体的输出。如果听不到声音，请重新加载页面。"
+  },
+  "boostOffNote": {
+    "message": "增强已关闭。已增强的媒体会保持音频路径，直到页面重新加载。"
+  },
+  "osdVolumeBoosted": {
+    "message": "音量 $1%（增强）"
+  },
+  "osdBoostRefused": {
+    "message": "此处无法增强到 100% 以上"
+  },
+  "errorBoostRefused": {
+    "message": "此媒体无法使用超过 100% 的音量。音量已保持不变。"
+  },
+  "errorAdjustPartial": {
+    "message": "已调整 $2 个媒体中的 $1 个。"
   }
 }

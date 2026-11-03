@@ -196,5 +196,32 @@
   },
   "shortcutsMoreHint": {
     "message": "Le scorciatoie per volume e velocità si possono impostare nella stessa pagina."
+  },
+  "boostToggle": {
+    "message": "Consenti volume oltre il 100% (sperimentale)"
+  },
+  "boostHint": {
+    "message": "Il potenziamento instrada il contenuto tramite l'elaborazione audio del browser finché la pagina non viene ricaricata."
+  },
+  "boostActiveNote": {
+    "message": "Potenziato. Un suono forte può distorcersi."
+  },
+  "boostLimitedNote": {
+    "message": "Un cambio di sorgente può limitare l'uscita dei contenuti potenziati. Ricarica la pagina se non senti nulla."
+  },
+  "boostOffNote": {
+    "message": "Il potenziamento è disattivato. I contenuti già potenziati mantengono il percorso audio finché la pagina non viene ricaricata."
+  },
+  "osdVolumeBoosted": {
+    "message": "Volume $1% (potenziato)"
+  },
+  "osdBoostRefused": {
+    "message": "Qui non è possibile potenziare oltre il 100%"
+  },
+  "errorBoostRefused": {
+    "message": "Un volume oltre il 100% non è disponibile per questo contenuto. Il volume è stato mantenuto."
+  },
+  "errorAdjustPartial": {
+    "message": "Sono stati regolati $1 contenuti su $2."
   }
 }

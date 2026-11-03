@@ -196,5 +196,32 @@
   },
   "shortcutsMoreHint": {
     "message": "音量與速度快速鍵也可在同一頁面設定。"
+  },
+  "boostToggle": {
+    "message": "允許音量超過 100%（實驗性）"
+  },
+  "boostHint": {
+    "message": "增強後，媒體會經過瀏覽器的音訊處理，直到頁面重新載入。"
+  },
+  "boostActiveNote": {
+    "message": "已增強。大音量可能會失真。"
+  },
+  "boostLimitedNote": {
+    "message": "切換來源可能會限制已增強媒體的輸出。如果聽不到聲音，請重新載入頁面。"
+  },
+  "boostOffNote": {
+    "message": "增強已關閉。已增強的媒體會保持音訊路徑，直到頁面重新載入。"
+  },
+  "osdVolumeBoosted": {
+    "message": "音量 $1%（增強）"
+  },
+  "osdBoostRefused": {
+    "message": "此處無法增強到 100% 以上"
+  },
+  "errorBoostRefused": {
+    "message": "此媒體無法使用超過 100% 的音量。音量已保持不變。"
+  },
+  "errorAdjustPartial": {
+    "message": "已調整 $2 個媒體中的 $1 個。"
   }
 }

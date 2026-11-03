@@ -196,5 +196,32 @@
   },
   "shortcutsMoreHint": {
     "message": "音量と再生速度のショートカットも同じ画面で設定できます。"
+  },
+  "boostToggle": {
+    "message": "100%を超える音量を許可（実験的）"
+  },
+  "boostHint": {
+    "message": "ブーストすると、ページを再読み込みするまでメディアがブラウザの音声処理を経由します。"
+  },
+  "boostActiveNote": {
+    "message": "ブースト中です。大きな音は歪むことがあります。"
+  },
+  "boostLimitedNote": {
+    "message": "ソースが変わると、ブーストしたメディアの出力が制限されることがあります。音が出ない場合はページを再読み込みしてください。"
+  },
+  "boostOffNote": {
+    "message": "ブーストはオフです。すでにブーストしたメディアは、ページを再読み込みするまで音声経路が維持されます。"
+  },
+  "osdVolumeBoosted": {
+    "message": "音量 $1%（ブースト）"
+  },
+  "osdBoostRefused": {
+    "message": "ここでは100%を超えるブーストはできません"
+  },
+  "errorBoostRefused": {
+    "message": "このメディアでは100%を超える音量は利用できません。音量はそのままにしました。"
+  },
+  "errorAdjustPartial": {
+    "message": "$2個のメディアのうち$1個を調整しました。"
   }
 }

@@ -1,7 +1,7 @@
 Purpose: Let the user pause or resume HTML audio and video in the most recently playing Chrome tab, and adjust its volume and playback speed, with optional global keyboard shortcuts.
 
 Permissions:
-- storage: Keep temporary tab, document, media playback and pause state for the current browser session so the shortcut works if the Manifest V3 service worker restarts.
+- storage: Keep temporary tab, document, media playback and pause state for the current browser session so the shortcut works if the Manifest V3 service worker restarts, and one local preference (whether the experimental volume boost above 100% is allowed).
 - webNavigation: Forget a tab's old media records after its main document navigates.
 - scripting: Inject the same content observer into already-open HTTP and HTTPS tabs at install, browser startup, and before reading or controlling media. This recovers missed events and checks actual playback without requiring a page refresh.
 - HTTP and HTTPS content script matches: Observe standard HTMLMediaElement playback events and pause/resume media or set its volume and playback speed in the page the user is currently using.

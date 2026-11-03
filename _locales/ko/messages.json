@@ -196,5 +196,32 @@
   },
   "shortcutsMoreHint": {
     "message": "같은 화면에서 볼륨·배속 단축키도 지정할 수 있습니다."
+  },
+  "boostToggle": {
+    "message": "100% 초과 볼륨 허용 (실험)"
+  },
+  "boostHint": {
+    "message": "증폭한 미디어는 페이지를 새로고침할 때까지 브라우저 오디오 처리를 거칩니다."
+  },
+  "boostActiveNote": {
+    "message": "증폭 중입니다. 큰 소리는 찌그러질 수 있습니다."
+  },
+  "boostLimitedNote": {
+    "message": "소스가 바뀌어 증폭한 미디어의 출력이 제한될 수 있습니다. 소리가 나지 않으면 페이지를 새로고침하세요."
+  },
+  "boostOffNote": {
+    "message": "증폭이 꺼졌습니다. 이미 증폭한 미디어는 페이지를 새로고침할 때까지 오디오 처리 경로가 유지됩니다."
+  },
+  "osdVolumeBoosted": {
+    "message": "볼륨 $1% (증폭)"
+  },
+  "osdBoostRefused": {
+    "message": "이 미디어는 100% 초과 증폭 불가"
+  },
+  "errorBoostRefused": {
+    "message": "이 미디어는 100%를 넘게 증폭할 수 없습니다. 볼륨은 그대로 두었습니다."
+  },
+  "errorAdjustPartial": {
+    "message": "미디어 $2개 중 $1개를 조절했습니다."
   }
 }

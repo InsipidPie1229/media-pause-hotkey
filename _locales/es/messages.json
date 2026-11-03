@@ -196,5 +196,32 @@
   },
   "shortcutsMoreHint": {
     "message": "Los atajos de volumen y velocidad también se pueden configurar en la misma página."
+  },
+  "boostToggle": {
+    "message": "Permitir volumen por encima del 100% (experimental)"
+  },
+  "boostHint": {
+    "message": "La amplificación envía el contenido por el procesamiento de audio del navegador hasta que se recarga la página."
+  },
+  "boostActiveNote": {
+    "message": "Amplificado. El sonido alto puede distorsionarse."
+  },
+  "boostLimitedNote": {
+    "message": "Un cambio de fuente puede limitar la salida del contenido amplificado. Recarga la página si no oyes nada."
+  },
+  "boostOffNote": {
+    "message": "La amplificación está desactivada. El contenido ya amplificado mantiene la ruta de audio hasta que se recargue la página."
+  },
+  "osdVolumeBoosted": {
+    "message": "Volumen $1% (amplificado)"
+  },
+  "osdBoostRefused": {
+    "message": "Aquí no se puede amplificar por encima del 100%"
+  },
+  "errorBoostRefused": {
+    "message": "El volumen por encima del 100% no está disponible para este contenido. Se mantuvo el volumen."
+  },
+  "errorAdjustPartial": {
+    "message": "Se ajustaron $1 de $2 elementos multimedia."
   }
 }

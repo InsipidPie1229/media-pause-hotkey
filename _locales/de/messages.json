@@ -196,5 +196,32 @@
   },
   "shortcutsMoreHint": {
     "message": "Lautstärke- und Geschwindigkeits-Tastenkürzel lassen sich auf derselben Seite festlegen."
+  },
+  "boostToggle": {
+    "message": "Lautstärke über 100% zulassen (experimentell)"
+  },
+  "boostHint": {
+    "message": "Beim Verstärken wird das Medium bis zum Neuladen der Seite über die Audioverarbeitung des Browsers geleitet."
+  },
+  "boostActiveNote": {
+    "message": "Verstärkt. Laute Töne können verzerren."
+  },
+  "boostLimitedNote": {
+    "message": "Ein Quellenwechsel kann die Ausgabe verstärkter Medien begrenzen. Lade die Seite neu, wenn du nichts hörst."
+  },
+  "boostOffNote": {
+    "message": "Verstärkung ist aus. Bereits verstärkte Medien behalten den Audiopfad bis zum Neuladen der Seite."
+  },
+  "osdVolumeBoosted": {
+    "message": "Lautstärke $1% (verstärkt)"
+  },
+  "osdBoostRefused": {
+    "message": "Hier ist keine Verstärkung über 100% möglich"
+  },
+  "errorBoostRefused": {
+    "message": "Lautstärke über 100% ist für dieses Medium nicht verfügbar. Die Lautstärke wurde beibehalten."
+  },
+  "errorAdjustPartial": {
+    "message": "$1 von $2 Medienelementen wurden angepasst."
   }
 }

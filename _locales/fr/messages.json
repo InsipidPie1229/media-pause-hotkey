@@ -196,5 +196,32 @@
   },
   "shortcutsMoreHint": {
     "message": "Les raccourcis de volume et de vitesse peuvent aussi être définis sur la même page."
+  },
+  "boostToggle": {
+    "message": "Autoriser un volume supérieur à 100% (expérimental)"
+  },
+  "boostHint": {
+    "message": "L'amplification fait passer le média par le traitement audio du navigateur jusqu'au rechargement de la page."
+  },
+  "boostActiveNote": {
+    "message": "Amplifié. Un son fort peut être déformé."
+  },
+  "boostLimitedNote": {
+    "message": "Un changement de source peut limiter la sortie des médias amplifiés. Rechargez la page si vous n'entendez rien."
+  },
+  "boostOffNote": {
+    "message": "L'amplification est désactivée. Les médias déjà amplifiés conservent le chemin audio jusqu'au rechargement de la page."
+  },
+  "osdVolumeBoosted": {
+    "message": "Volume $1% (amplifié)"
+  },
+  "osdBoostRefused": {
+    "message": "Impossible d'amplifier au-delà de 100% ici"
+  },
+  "errorBoostRefused": {
+    "message": "Un volume supérieur à 100% n'est pas disponible pour ce média. Le volume a été conservé."
+  },
+  "errorAdjustPartial": {
+    "message": "$1 média(s) sur $2 ont été ajustés."
   }
 }

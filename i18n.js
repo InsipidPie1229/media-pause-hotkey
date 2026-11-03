@@ -49,6 +49,15 @@
     errorAdjustSome: "Some media could not be adjusted.",
     errorTargetChanged: "The latest media tab changed. Check the popup and try again.",
     shortcutsMoreHint: "Volume and speed shortcuts can also be set on the same page.",
+    boostToggle: "Allow volume above 100% (experimental)",
+    boostHint: "Boosting routes that media through the browser's audio processing until the page is reloaded.",
+    boostActiveNote: "Boosted. Loud sound may distort.",
+    boostLimitedNote: "A source change may limit output for boosted media. Reload the page if you hear nothing.",
+    boostOffNote: "Boost is off. Media that was boosted keeps the audio path until the page is reloaded.",
+    osdVolumeBoosted: "Volume $1% (boosted)",
+    osdBoostRefused: "Can't boost above 100% here",
+    errorBoostRefused: "Volume above 100% isn't available for this media. The volume was kept.",
+    errorAdjustPartial: "$1 of $2 media items were adjusted.",
   };
 
   function message(key, substitutions) {

@@ -12,14 +12,11 @@
     <main class="panel">
       <header class="heading">
         <div class="mark" aria-hidden="true">Ⅱ</div>
-        <div>
-          <p class="eyebrow" data-i18n="popupEyebrow">CHROME MEDIA</p>
-          <h1 data-i18n="extName">Media Shortcut</h1>
-        </div>
+        <h1 data-i18n="extName">Media Shortcut</h1>
         <span class="status-dot" id="statusDot" data-i18n-aria-label="statusLabel" aria-label="Media status"></span>
       </header>
 
-      <section class="target-card" aria-live="polite">
+      <section class="now" aria-live="polite">
         <p class="label" data-i18n="recentTab">Most recently playing tab</p>
         <p class="target-title" id="targetTitle" data-i18n="stateChecking">Checking media status…</p>
         <p class="target-state" id="targetState" data-i18n="stateChecking">Checking media status…</p>
@@ -33,39 +30,66 @@
         </div>
       </div>
 
-      <section class="levels-card">
-        <div class="level-row">
-          <span class="label" data-i18n="volumeHeading">Volume</span>
-          <input type="range" id="volumeSlider" min="0" max="100" step="5" data-i18n-aria-label="volumeHeading" aria-label="Volume">
-          <span class="level-value" id="volumeValue">–</span>
+      <section class="mixer" id="mixer">
+        <div class="mixer-row">
+          <label class="label" for="volumeSlider" data-i18n="volumeHeading">Volume</label>
+          <output class="readout" id="volumeValue" for="volumeSlider">–</output>
         </div>
-        <div class="level-row">
-          <span class="label" data-i18n="speedHeading">Speed</span>
-          <div class="speed-controls">
-            <button class="speed-button" id="speedDownButton" type="button" data-i18n-aria-label="buttonSpeedDown" aria-label="Slower">−</button>
-            <span class="level-value" id="speedValue">–</span>
-            <button class="speed-button" id="speedUpButton" type="button" data-i18n-aria-label="buttonSpeedUp" aria-label="Faster">+</button>
-            <button class="speed-button" id="speedResetButton" type="button" data-i18n="buttonSpeedReset">1×</button>
-          </div>
+        <!-- Volume always increases left to right, also in RTL locales. -->
+        <div class="fader" id="fader" dir="ltr">
+          <input type="range" id="volumeSlider" min="0" max="100" step="5" value="100">
+          <span class="detent" aria-hidden="true"></span>
         </div>
-        <p class="hint" id="mutedNote" data-i18n="levelMutedNote" hidden>Muted on the page. Volume changes do not unmute.</p>
+        <div class="scale" id="volumeScale" dir="ltr" aria-hidden="true" hidden>
+          <span>0%</span><span class="scale-mid">100%</span><span>300%</span>
+        </div>
+
+        <div class="mixer-row speed-head">
+          <span class="label" id="speedLabel" data-i18n="speedHeading">Speed</span>
+          <output class="readout small" id="speedValue">–</output>
+        </div>
+        <div class="speed" role="group" aria-labelledby="speedLabel">
+          <button class="step" id="speedDownButton" type="button" data-i18n-aria-label="buttonSpeedDown" aria-label="Slower">−</button>
+          <button class="chip" type="button" data-rate="0.75" aria-pressed="false">0.75</button>
+          <button class="chip" id="speedResetButton" type="button" data-rate="1" aria-pressed="false">1</button>
+          <button class="chip" type="button" data-rate="1.25" aria-pressed="false">1.25</button>
+          <button class="chip" type="button" data-rate="1.5" aria-pressed="false">1.5</button>
+          <button class="chip" type="button" data-rate="2" aria-pressed="false">2</button>
+          <button class="step" id="speedUpButton" type="button" data-i18n-aria-label="buttonSpeedUp" aria-label="Faster">+</button>
+        </div>
+
+        <p class="note" id="mutedNote" data-i18n="levelMutedNote" hidden>Muted on the page. Volume changes do not unmute.</p>
+        <p class="note boost-note" id="boostNote" hidden></p>
+
+        <div class="boost">
+          <label class="switch">
+            <input type="checkbox" id="boostToggle" role="switch">
+            <span class="switch-track" aria-hidden="true"></span>
+            <span data-i18n="boostToggle">Allow volume above 100% (experimental)</span>
+          </label>
+          <p class="hint boost-hint" data-i18n="boostHint">Boosting routes that media through the browser's audio processing until the page is reloaded.</p>
+        </div>
       </section>
 
       <p class="error" id="errorMessage" role="status" hidden></p>
 
-      <section class="shortcut-card">
-        <p class="label" data-i18n="shortcutHeading">Global shortcut</p>
+      <section class="shortcuts">
+        <div class="mixer-row">
+          <p class="label" data-i18n="shortcutHeading">Global shortcut</p>
+          <a href="chrome://extensions/shortcuts" id="shortcutLink" data-i18n="shortcutSettings">Open shortcut settings</a>
+        </div>
         <p class="shortcut-value" id="shortcutValue" data-i18n="shortcutNotSet">Not set</p>
-        <a href="chrome://extensions/shortcuts" id="shortcutLink"><span data-i18n="shortcutSettings">Open shortcut settings</span> <span aria-hidden="true">↗</span></a>
         <p class="hint" data-i18n="shortcutHint">Global by default. Change the scope to Chrome if you prefer.</p>
         <p class="hint" data-i18n="shortcutsMoreHint">Volume and speed shortcuts can also be set on the same page.</p>
       </section>
 
-      <button class="diagnostics-button" id="diagnosticsButton" type="button" data-i18n="buttonDiagnostics">Copy diagnostics</button>
-      <p class="hint" id="extensionVersion"></p>
+      <footer class="foot">
+        <button class="text-button" id="diagnosticsButton" type="button" data-i18n="buttonDiagnostics">Copy diagnostics</button>
+        <span class="hint" id="extensionVersion"></span>
+      </footer>
       <p id="diagnosticsStatus" role="status" class="hint"></p>
       <textarea id="diagnosticsText" readonly hidden aria-label="Diagnostics"></textarea>
-      <footer data-i18n="footer">Controls video and audio on HTTP and HTTPS pages.</footer>
+      <p class="hint fine" data-i18n="footer">Controls video and audio on HTTP and HTTPS pages.</p>
     </main>
   </body>
 </html>

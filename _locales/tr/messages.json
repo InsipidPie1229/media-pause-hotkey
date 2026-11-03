@@ -196,5 +196,32 @@
   },
   "shortcutsMoreHint": {
     "message": "Ses ve hız kısayolları aynı sayfadan da ayarlanabilir."
+  },
+  "boostToggle": {
+    "message": "100% üzerinde sese izin ver (deneysel)"
+  },
+  "boostHint": {
+    "message": "Yükseltme, sayfa yeniden yüklenene kadar medyayı tarayıcının ses işlemesinden geçirir."
+  },
+  "boostActiveNote": {
+    "message": "Yükseltildi. Yüksek ses bozulabilir."
+  },
+  "boostLimitedNote": {
+    "message": "Kaynak değişikliği yükseltilmiş medyanın çıkışını sınırlayabilir. Ses duymuyorsanız sayfayı yenileyin."
+  },
+  "boostOffNote": {
+    "message": "Yükseltme kapalı. Daha önce yükseltilen medya, sayfa yenilenene kadar ses yolunu korur."
+  },
+  "osdVolumeBoosted": {
+    "message": "Ses $1% (yükseltildi)"
+  },
+  "osdBoostRefused": {
+    "message": "Burada 100% üzerine yükseltilemez"
+  },
+  "errorBoostRefused": {
+    "message": "Bu medya için 100% üzerinde ses kullanılamıyor. Ses düzeyi korundu."
+  },
+  "errorAdjustPartial": {
+    "message": "$2 medya öğesinden $1 tanesi ayarlandı."
   }
 }

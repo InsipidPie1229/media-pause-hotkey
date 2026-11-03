@@ -196,5 +196,32 @@
   },
   "shortcutsMoreHint": {
     "message": "Bạn cũng có thể đặt phím tắt âm lượng và tốc độ trên cùng trang."
+  },
+  "boostToggle": {
+    "message": "Cho phép âm lượng trên 100% (thử nghiệm)"
+  },
+  "boostHint": {
+    "message": "Tăng cường sẽ đưa nội dung qua xử lý âm thanh của trình duyệt cho đến khi tải lại trang."
+  },
+  "boostActiveNote": {
+    "message": "Đã tăng cường. Âm thanh lớn có thể bị méo."
+  },
+  "boostLimitedNote": {
+    "message": "Thay đổi nguồn có thể giới hạn đầu ra của nội dung đã tăng cường. Hãy tải lại trang nếu không nghe thấy gì."
+  },
+  "boostOffNote": {
+    "message": "Đã tắt tăng cường. Nội dung đã tăng cường vẫn giữ đường âm thanh cho đến khi tải lại trang."
+  },
+  "osdVolumeBoosted": {
+    "message": "Âm lượng $1% (tăng cường)"
+  },
+  "osdBoostRefused": {
+    "message": "Không thể tăng cường trên 100% ở đây"
+  },
+  "errorBoostRefused": {
+    "message": "Âm lượng trên 100% không khả dụng cho nội dung này. Âm lượng được giữ nguyên."
+  },
+  "errorAdjustPartial": {
+    "message": "Đã điều chỉnh $1 trong $2 mục nội dung."
   }
 }
