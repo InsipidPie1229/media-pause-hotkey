@@ -1,6 +1,6 @@
 # Media Shortcut
 
-Pause and resume standard HTML video and audio in the most recently playing Chrome tab, and adjust its volume and playback speed, including while another app is focused. The Manifest V3 extension supports 17 Chrome UI locales: English, Korean, Simplified and Traditional Chinese, Spanish, Hindi, Arabic, Brazilian Portuguese, French, Japanese, German, Russian, Indonesian, Turkish, Vietnamese, Italian, and Bengali. It follows Chrome's display language and falls back to English.
+Pause and resume standard HTML video and audio in the most recently playing Chrome tab, and adjust its playback speed and an optional extension volume, including while another app is focused. The Manifest V3 extension supports 17 Chrome UI locales: English, Korean, Simplified and Traditional Chinese, Spanish, Hindi, Arabic, Brazilian Portuguese, French, Japanese, German, Russian, Indonesian, Turkish, Vietnamese, Italian, and Bengali. It follows Chrome's display language and falls back to English.
 
 ## Install
 
@@ -23,7 +23,7 @@ To change it:
 
 The popup shows the key actually assigned (or **Not set**), and its pause/resume buttons work without any key.
 
-The same page also lists five optional volume and speed shortcuts (volume up/down 10%, speed up/down 0.25×, reset speed to 1×). These have no default key.
+The same page also lists five optional shortcuts (extension volume up/down 10%, speed up/down 0.25×, reset speed to 1×). These have no default key.
 
 ## Behavior and limitations
 
@@ -34,26 +34,24 @@ The same page also lists five optional volume and speed shortcuts (volume up/dow
 - The page title and media state are stored only in Chrome's session storage. No data is sent to an external server.
 - Read the [privacy policy](privacy.html) for details about temporary local processing.
 
-## Volume and speed (1.1.0)
+## Speed
 
-- Volume and speed act on the same media the pause/resume shortcut would control: media playing in the most recently playing tab, or, if none is playing, the media a resume would restart.
-- Shortcuts change volume by 10% (0–100%) and speed by 0.25× (0.25×–4×), relative to each media item's current value. The popup slider and the 1× button set the same absolute value on every item.
-- If the targeted items have different values, the popup shows **Mixed**.
-- Adjusting never plays, pauses, or changes which tab or media is the control target. Volume changes do not unmute media that the page muted; the popup shows a note instead.
-- Using a shortcut shows a small indicator with the applied value at the top of the page for one second. It does not block clicks. Native video fullscreen can hide it.
-- If a reply from the page is lost, the change is not sent again, so a step is never applied twice.
-- Limitations: sites with their own volume control (for example YouTube) do not update their slider, and a site may reset speed when the next video starts.
+- Speed acts on the same media the pause/resume shortcut would control: media playing in the most recently playing tab, or, if none is playing, the media a resume would restart.
+- Shortcuts change speed by 0.25× (0.25×–4×) relative to each item; the popup presets (0.75–2×) set the same value on every item. Different values show as **Mixed**.
+- Adjusting never plays, pauses, or changes which tab or media is the control target. Shortcuts show the applied value at the top of the page for one second without blocking clicks; native video fullscreen can hide it.
+- If a reply from the page is lost, the change is not sent again, so a step is never applied twice. A site may reset speed when the next video starts.
 
-## Volume above 100% (experimental, 1.2.0)
+## Extension volume (experimental, 1.3.0)
 
-- Off by default. Turn on **Allow volume above 100% (experimental)** in the popup to use 0–300%. While it is off, volume stays within 0–100%. Web Audio processing is not used until a media item is boosted for the first time; media boosted earlier keeps its audio path until the page is reloaded, even after the option is turned off.
-- Turning it on connects nothing by itself. Only a request above 100% connects that media item to a Web Audio gain node (gain only, no compressor). Other tabs and new media are never boosted automatically.
-- Once connected, that media item uses the browser's audio processing until the page is reloaded, also when you later go back to 100% or below.
-- Boost is refused, and the current volume is kept, when the media comes from another site without CORS permission, when the page has not been interacted with yet, when the page or an earlier extension instance already uses Web Audio for it, or when audio processing cannot start. The popup reports how many items were adjusted.
-- If a boosted item later switches to a source from another site, its output may be limited (often silent). The popup shows this as an estimate; reload the page if you hear nothing. The extension never changes the source or starts playback to recover.
-- Turning the option off sets every boost back to 100% gain and blocks new boosts, including requests still in progress; the audio path stays until reload. If a page frame does not respond, the popup says the reset could not be confirmed there. It is retried when that page responds again, and reloading the page also removes the boost.
-- After an extension update or reload, an older instance drops its own boost on a best-effort basis (a timer plus media events; timers can be delayed in hidden tabs).
-- Loud boosted sound can distort.
+- The extension has its own volume, separate from the site's volume control. It never changes the site's volume or mute state, so the site's slider (for example YouTube's) stays as you set it. What you hear is roughly *site volume × extension volume*: site 60% with extension 200% plays louder than the site alone, and 100% keeps the site's own sound.
+- Range 0–500%, in 10% steps with the shortcuts. Every media item starts at 100%. If the site is at 0% or muted, the extension does not bring the sound back.
+- Off by default. Turn on **Use extension volume (experimental)** in the popup. While it is off, volume requests change nothing; speed controls always work.
+- Turning it on connects nothing by itself, and a 100% request on untouched media succeeds without Web Audio. Any other value connects that media item to a Web Audio gain node (gain only, no compressor). Other tabs and new media are never adjusted automatically. Once connected, that media item uses the browser's audio processing until the page is reloaded.
+- A request is refused, and the current level is kept, when the media comes from another site without CORS permission, when the page has not been interacted with yet, when the page or an earlier extension instance already uses Web Audio for it, or when audio processing cannot start. The popup reports how many items were adjusted.
+- If an adjusted item later switches to a source from another site, its output may be limited (often silent). The popup shows this as an estimate; reload the page if you hear nothing. The extension never changes the source or starts playback to recover.
+- Turning the option off returns every item to 100% (the site's own sound) and blocks further changes, including requests still in progress. Web Audio paths already created stay until reload; "no Web Audio" only holds before the first adjustment. If a page frame does not respond, the popup says the reset could not be confirmed there; it is retried when the page responds again, and reloading the page also removes it.
+- After an extension update or reload, an older instance returns its items to 100% on a best-effort basis (a timer plus media events; timers can be delayed in hidden tabs).
+- Levels above 100% can distort.
 
 ## Updating to 1.0.6
 

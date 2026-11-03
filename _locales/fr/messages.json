@@ -198,10 +198,10 @@
     "message": "Les raccourcis de volume et de vitesse peuvent aussi être définis sur la même page."
   },
   "boostToggle": {
-    "message": "Autoriser un volume supérieur à 100% (expérimental)"
+    "message": "Utiliser le volume de l'extension (expérimental)"
   },
   "boostHint": {
-    "message": "L'amplification fait passer le média par le traitement audio du navigateur jusqu'au rechargement de la page."
+    "message": "Ajoute son propre volume de 0–500% par-dessus le volume du site. Les médias que vous réglez passent par le traitement audio du navigateur jusqu'au rechargement de la page."
   },
   "boostActiveNote": {
     "message": "Amplifié. Un son fort peut être déformé."
@@ -210,21 +210,33 @@
     "message": "Un changement de source peut limiter la sortie des médias amplifiés. Rechargez la page si vous n'entendez rien."
   },
   "boostOffNote": {
-    "message": "L'amplification est désactivée. Les médias déjà amplifiés conservent le chemin audio jusqu'au rechargement de la page."
+    "message": "Le volume de l'extension est désactivé et revient à 100%. Les médias déjà réglés conservent le chemin audio jusqu'au rechargement de la page."
   },
   "osdVolumeBoosted": {
     "message": "Volume $1% (amplifié)"
   },
   "osdBoostRefused": {
-    "message": "Impossible d'amplifier au-delà de 100% ici"
+    "message": "Volume de l'extension indisponible ici"
   },
   "errorBoostRefused": {
-    "message": "Un volume supérieur à 100% n'est pas disponible pour ce média. Le volume a été conservé."
+    "message": "Le volume de l'extension n'est pas disponible pour ce média. Le volume a été conservé."
   },
   "errorAdjustPartial": {
     "message": "$1 média(s) sur $2 ont été ajustés."
   },
   "errorBoostResetUnreached": {
-    "message": "L'amplification est désactivée, mais sa réinitialisation n'a pas pu être confirmée dans $1 cadres de page. Elle sera retentée lorsqu'ils répondront ; recharger ces pages la supprime aussi."
+    "message": "Le volume de l'extension est désactivé, mais sa réinitialisation n'a pas pu être confirmée dans $1 cadres de page. Elle sera retentée lorsqu'ils répondront ; recharger ces pages la supprime aussi."
+  },
+  "siteVolumeNote": {
+    "message": "Volume du site $1%"
+  },
+  "extVolumeHint": {
+    "message": "100% conserve le son propre du site. Si le site est à 0% ou coupé, l'extension ne rétablit pas le son."
+  },
+  "errorExtVolumeOff": {
+    "message": "Le volume de l'extension est désactivé. Activez-le dans la fenêtre contextuelle pour changer le volume."
+  },
+  "osdExtVolumeOff": {
+    "message": "Volume de l'extension désactivé"
   }
 }

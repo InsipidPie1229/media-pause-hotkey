@@ -27,7 +27,7 @@
     <p>To provide this feature, the extension processes the page title, the source URL of standard audio and video elements, their playback state, and temporary Chrome tab, document, frame, and media identifiers. It does not read the media stream or the page body.</p>
 
     <h2>How information is used and stored</h2>
-    <p>This information is used only to identify the tab with the most recently active media and to pause, resume, or adjust the volume and speed of the relevant media when you use a shortcut or the popup. Volume and speed values are read from the page only to show and apply them. Temporary state is kept locally in Chrome's <code>storage.session</code> for the current browser session. One preference, whether the experimental volume boost above 100% is allowed, is kept in <code>storage.local</code>; it contains no page or site information. Records for navigated or closed tabs are removed, and session data is cleared by Chrome's session lifecycle.</p>
+    <p>This information is used only to identify the tab with the most recently active media and to pause, resume, or adjust the volume and speed of the relevant media when you use a shortcut or the popup. Volume and speed values are read from the page only to show and apply them. Temporary state is kept locally in Chrome's <code>storage.session</code> for the current browser session. One preference, whether the experimental extension volume is turned on, is kept in <code>storage.local</code>; it contains no page or site information. Records for navigated or closed tabs are removed, and session data is cleared by Chrome's session lifecycle.</p>
 
     <h2>Local diagnostics</h2>
     <p>The extension keeps up to 200 recent diagnostic records (100 command/error records and 100 observation records) locally in storage.session to help investigate missed media detection. They contain temporary tab/document/frame/media identifiers, event and playback-transition information, error codes, and durations, but no page titles or URLs. Records are not sent to any server. The popup copies them to your clipboard only when you choose Copy diagnostics; if copying is unavailable, the text is shown for manual copying.</p>
@@ -56,7 +56,7 @@
     <p>기능 제공을 위해 페이지 제목, 표준 오디오·비디오 요소의 소스 URL과 재생 상태, 임시 Chrome 탭·문서·프레임·미디어 식별자를 처리합니다. 미디어 스트림이나 페이지 본문은 읽지 않습니다.</p>
 
     <h2>정보 이용과 저장</h2>
-    <p>이 정보는 최근 재생 미디어가 있는 탭을 찾고, 사용자가 단축키나 팝업을 사용할 때 해당 미디어를 일시정지·재개하거나 볼륨과 배속을 조절하는 데만 사용합니다. 볼륨과 배속 값은 표시하고 적용하기 위해서만 페이지에서 읽습니다. 임시 상태는 현재 브라우저 세션 동안 Chrome의 <code>storage.session</code>에 로컬로 보관합니다. 100% 초과 볼륨(실험) 허용 여부 설정 하나만 <code>storage.local</code>에 보관하며, 페이지나 사이트 정보는 포함하지 않습니다. 이동했거나 닫힌 탭의 기록은 제거되며, 세션 데이터는 Chrome 세션이 끝날 때 삭제됩니다.</p>
+    <p>이 정보는 최근 재생 미디어가 있는 탭을 찾고, 사용자가 단축키나 팝업을 사용할 때 해당 미디어를 일시정지·재개하거나 볼륨과 배속을 조절하는 데만 사용합니다. 볼륨과 배속 값은 표시하고 적용하기 위해서만 페이지에서 읽습니다. 임시 상태는 현재 브라우저 세션 동안 Chrome의 <code>storage.session</code>에 로컬로 보관합니다. 확장 볼륨(실험) 사용 여부 설정 하나만 <code>storage.local</code>에 보관하며, 페이지나 사이트 정보는 포함하지 않습니다. 이동했거나 닫힌 탭의 기록은 제거되며, 세션 데이터는 Chrome 세션이 끝날 때 삭제됩니다.</p>
 
     <h2>로컬 진단 기록</h2>
     <p>미디어 인식 누락을 조사하기 위해 최근 진단 기록 최대 200건(명령·오류 100건, 관측 100건)을 storage.session에 로컬로 보관합니다. 임시 탭·문서·프레임·미디어 식별자, 이벤트와 재생 상태 전환, 오류 코드, 소요 시간을 포함하며 페이지 제목과 URL은 포함하지 않습니다. 서버로 전송하지 않습니다. 사용자가 팝업에서 ‘진단 기록 복사’를 누른 경우에만 클립보드로 복사하며, 복사할 수 없으면 직접 복사할 텍스트를 표시합니다.</p>

@@ -198,10 +198,10 @@
     "message": "Ses ve hız kısayolları aynı sayfadan da ayarlanabilir."
   },
   "boostToggle": {
-    "message": "100% üzerinde sese izin ver (deneysel)"
+    "message": "Uzantı ses düzeyini kullan (deneysel)"
   },
   "boostHint": {
-    "message": "Yükseltme, sayfa yeniden yüklenene kadar medyayı tarayıcının ses işlemesinden geçirir."
+    "message": "Site ses düzeyinin üzerine kendi 0–500% ses düzeyini ekler. Ayarladığınız medya, sayfa yeniden yüklenene kadar tarayıcının ses işlemesinden geçer."
   },
   "boostActiveNote": {
     "message": "Yükseltildi. Yüksek ses bozulabilir."
@@ -210,21 +210,33 @@
     "message": "Kaynak değişikliği yükseltilmiş medyanın çıkışını sınırlayabilir. Ses duymuyorsanız sayfayı yenileyin."
   },
   "boostOffNote": {
-    "message": "Yükseltme kapalı. Daha önce yükseltilen medya, sayfa yenilenene kadar ses yolunu korur."
+    "message": "Uzantı ses düzeyi kapalı ve 100%'e döndü. Daha önce ayarlanan medya, sayfa yenilenene kadar ses yolunu korur."
   },
   "osdVolumeBoosted": {
     "message": "Ses $1% (yükseltildi)"
   },
   "osdBoostRefused": {
-    "message": "Burada 100% üzerine yükseltilemez"
+    "message": "Uzantı ses düzeyi burada kullanılamıyor"
   },
   "errorBoostRefused": {
-    "message": "Bu medya için 100% üzerinde ses kullanılamıyor. Ses düzeyi korundu."
+    "message": "Bu medya için uzantı ses düzeyi kullanılamıyor. Ses düzeyi korundu."
   },
   "errorAdjustPartial": {
     "message": "$2 medya öğesinden $1 tanesi ayarlandı."
   },
   "errorBoostResetUnreached": {
-    "message": "Güçlendirme kapalı, ancak sıfırlama $1 sayfa çerçevesinde doğrulanamadı. Yanıt verdiklerinde yeniden denenecek; bu sayfaları yeniden yüklemek de güçlendirmeyi kaldırır."
+    "message": "Uzantı ses düzeyi kapalı, ancak sıfırlama $1 sayfa çerçevesinde doğrulanamadı. Yanıt verdiklerinde yeniden denenecek; bu sayfaları yeniden yüklemek de onu kaldırır."
+  },
+  "siteVolumeNote": {
+    "message": "Site ses düzeyi $1%"
+  },
+  "extVolumeHint": {
+    "message": "100%, sitenin kendi sesini olduğu gibi korur. Site 0% veya sessizse uzantı sesi geri getirmez."
+  },
+  "errorExtVolumeOff": {
+    "message": "Uzantı ses düzeyi kapalı. Ses düzeyini değiştirmek için açılır pencereden açın."
+  },
+  "osdExtVolumeOff": {
+    "message": "Uzantı ses düzeyi kapalı"
   }
 }

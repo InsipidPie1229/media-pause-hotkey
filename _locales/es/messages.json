@@ -198,10 +198,10 @@
     "message": "Los atajos de volumen y velocidad también se pueden configurar en la misma página."
   },
   "boostToggle": {
-    "message": "Permitir volumen por encima del 100% (experimental)"
+    "message": "Usar el volumen de la extensión (experimental)"
   },
   "boostHint": {
-    "message": "La amplificación envía el contenido por el procesamiento de audio del navegador hasta que se recarga la página."
+    "message": "Añade su propio volumen del 0–500% sobre el volumen del sitio. Los medios que ajustes usan el procesamiento de audio del navegador hasta que se recargue la página."
   },
   "boostActiveNote": {
     "message": "Amplificado. El sonido alto puede distorsionarse."
@@ -210,21 +210,33 @@
     "message": "Un cambio de fuente puede limitar la salida del contenido amplificado. Recarga la página si no oyes nada."
   },
   "boostOffNote": {
-    "message": "La amplificación está desactivada. El contenido ya amplificado mantiene la ruta de audio hasta que se recargue la página."
+    "message": "El volumen de la extensión está desactivado y vuelve al 100%. Los medios ya ajustados mantienen la ruta de audio hasta que se recargue la página."
   },
   "osdVolumeBoosted": {
     "message": "Volumen $1% (amplificado)"
   },
   "osdBoostRefused": {
-    "message": "Aquí no se puede amplificar por encima del 100%"
+    "message": "Volumen de la extensión no disponible aquí"
   },
   "errorBoostRefused": {
-    "message": "El volumen por encima del 100% no está disponible para este contenido. Se mantuvo el volumen."
+    "message": "El volumen de la extensión no está disponible para este contenido. Se mantuvo el volumen."
   },
   "errorAdjustPartial": {
     "message": "Se ajustaron $1 de $2 elementos multimedia."
   },
   "errorBoostResetUnreached": {
-    "message": "El refuerzo está desactivado, pero no se pudo confirmar el restablecimiento en $1 marcos de página. Se volverá a intentar cuando respondan; recargar esas páginas también lo elimina."
+    "message": "El volumen de la extensión está desactivado, pero no se pudo confirmar el restablecimiento en $1 marcos de página. Se volverá a intentar cuando respondan; recargar esas páginas también lo elimina."
+  },
+  "siteVolumeNote": {
+    "message": "Volumen del sitio $1%"
+  },
+  "extVolumeHint": {
+    "message": "100% mantiene el sonido propio del sitio. Si el sitio está al 0% o silenciado, la extensión no recupera el sonido."
+  },
+  "errorExtVolumeOff": {
+    "message": "El volumen de la extensión está desactivado. Actívalo en la ventana emergente para cambiar el volumen."
+  },
+  "osdExtVolumeOff": {
+    "message": "Volumen de la extensión desactivado"
   }
 }

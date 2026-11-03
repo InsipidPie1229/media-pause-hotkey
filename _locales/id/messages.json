@@ -198,10 +198,10 @@
     "message": "Pintasan volume dan kecepatan juga dapat diatur di halaman yang sama."
   },
   "boostToggle": {
-    "message": "Izinkan volume di atas 100% (eksperimental)"
+    "message": "Gunakan volume ekstensi (eksperimental)"
   },
   "boostHint": {
-    "message": "Peningkatan mengarahkan media melalui pemrosesan audio browser hingga halaman dimuat ulang."
+    "message": "Menambahkan volume 0–500% miliknya sendiri di atas volume situs. Media yang Anda sesuaikan memakai pemrosesan audio browser hingga halaman dimuat ulang."
   },
   "boostActiveNote": {
     "message": "Ditingkatkan. Suara keras dapat terdistorsi."
@@ -210,21 +210,33 @@
     "message": "Perubahan sumber dapat membatasi output media yang ditingkatkan. Muat ulang halaman jika tidak ada suara."
   },
   "boostOffNote": {
-    "message": "Peningkatan mati. Media yang sudah ditingkatkan tetap memakai jalur audio hingga halaman dimuat ulang."
+    "message": "Volume ekstensi mati dan kembali ke 100%. Media yang sudah disesuaikan tetap memakai jalur audio hingga halaman dimuat ulang."
   },
   "osdVolumeBoosted": {
     "message": "Volume $1% (ditingkatkan)"
   },
   "osdBoostRefused": {
-    "message": "Tidak bisa meningkatkan di atas 100% di sini"
+    "message": "Volume ekstensi tidak tersedia di sini"
   },
   "errorBoostRefused": {
-    "message": "Volume di atas 100% tidak tersedia untuk media ini. Volume dipertahankan."
+    "message": "Volume ekstensi tidak tersedia untuk media ini. Volume dipertahankan."
   },
   "errorAdjustPartial": {
     "message": "$1 dari $2 item media disesuaikan."
   },
   "errorBoostResetUnreached": {
-    "message": "Penguatan dimatikan, tetapi pengaturan ulang tidak dapat dikonfirmasi di $1 bingkai halaman. Akan dicoba lagi saat merespons; memuat ulang halaman tersebut juga menghapusnya."
+    "message": "Volume ekstensi dimatikan, tetapi pengaturan ulang tidak dapat dikonfirmasi di $1 bingkai halaman. Akan dicoba lagi saat merespons; memuat ulang halaman tersebut juga menghapusnya."
+  },
+  "siteVolumeNote": {
+    "message": "Volume situs $1%"
+  },
+  "extVolumeHint": {
+    "message": "100% mempertahankan suara situs apa adanya. Jika situs berada di 0% atau dibisukan, ekstensi tidak mengembalikan suara."
+  },
+  "errorExtVolumeOff": {
+    "message": "Volume ekstensi mati. Aktifkan di popup untuk mengubah volume."
+  },
+  "osdExtVolumeOff": {
+    "message": "Volume ekstensi mati"
   }
 }

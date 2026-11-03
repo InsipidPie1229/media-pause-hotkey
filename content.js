@@ -1,5 +1,5 @@
 (() => {
-  const CONTROLLER_VERSION = "1.2.0";
+  const CONTROLLER_VERSION = "1.3.0";
   const oldController = globalThis.__mediaShortcutController;
   if (oldController?.version === CONTROLLER_VERSION) return oldController.snapshot();
   oldController?.dispose();
@@ -65,7 +65,9 @@
       hasError: Boolean(media.error),
       lastStartedAt: meta.lastStartedAt,
       playbackVersion: meta.playbackVersion,
-      volume: effectiveVolume(media),
+      // Extension volume is a gain layer on top of the site's own volume.
+      volume: extensionVolume(media),
+      siteVolume: Math.round(media.volume * 100) / 100,
       playbackRate: media.playbackRate,
       muted: media.muted,
       boosted: gainOf(media) > 1,
@@ -266,14 +268,15 @@
 
   const RATE_MIN = 0.25;
   const RATE_MAX = 4;
-  const VOLUME_MAX_BOOST = 3;
+  const EXTENSION_VOLUME_MAX = 5;
 
   function gainOf(media) {
     return boost.graphs.get(media)?.gain.gain.value ?? 1;
   }
 
-  function effectiveVolume(media) {
-    return Math.round(media.volume * gainOf(media) * 100) / 100;
+  // The extension's own level (gain), independent of media.volume set by the site.
+  function extensionVolume(media) {
+    return Math.round(gainOf(media) * 100) / 100;
   }
 
   // Estimate only: a CORS-cross-origin source is output as silence once it is
@@ -321,7 +324,7 @@
     if (boost.watchdog) return;
     boost.watchdog = setInterval(() => {
       if (checkInvalidated()) return;
-      if (![...boost.graphs.values()].some((graph) => graph.gain.gain.value > 1)) {
+      if (![...boost.graphs.values()].some((graph) => graph.gain.gain.value !== 1)) {
         clearInterval(boost.watchdog);
         boost.watchdog = 0;
       }
@@ -374,24 +377,27 @@
     }
   }
 
-  async function setEffectiveVolume(media, item, next, boostAllowed, generation) {
-    const target = Math.round(clamp(next, 0, boostAllowed ? VOLUME_MAX_BOOST : 1) * 100) / 100;
-    if (target > 1) {
-      if (!boostAuthorized(generation)) return "boost-reset-superseded";
-      const connected = await connectGraph(media, item, generation);
-      // Refused boost keeps the current volume untouched.
-      if (!connected.ok) return connected.code;
-      if (!boostAuthorized(generation)) return "boost-reset-superseded";
-      if (!matches(media, item)) return "media-invalid";
-      media.volume = 1;
-      boost.graphs.get(media).gain.gain.value = target;
-      boost.appliedGeneration = Math.max(boost.appliedGeneration || 0, generation);
-      armWatchdog();
+  // Sets the extension volume (gain 0..5). media.volume and muted are never
+  // touched, so the site's own slider stays independent. 100% on an element
+  // that was never connected succeeds without Web Audio.
+  async function setExtensionVolume(media, item, next, enabled, generation) {
+    if (!enabled) return "extension-volume-off";
+    const target = Math.round(clamp(next, 0, EXTENSION_VOLUME_MAX) * 100) / 100;
+    if (target === 1 && !boost.graphs.has(media)) return "";
+    // Every gain change, including attenuation and 0%, needs a current generation.
+    if (!boostAuthorized(generation)) return "boost-reset-superseded";
+    if (target === 1) {
+      boost.graphs.get(media).gain.gain.value = 1;
       return "";
     }
-    const graph = boost.graphs.get(media);
-    if (graph) graph.gain.gain.value = 1;
-    media.volume = target;
+    const connected = await connectGraph(media, item, generation);
+    // A refused request keeps the current level untouched.
+    if (!connected.ok) return connected.code;
+    if (!boostAuthorized(generation)) return "boost-reset-superseded";
+    if (!matches(media, item)) return "media-invalid";
+    boost.graphs.get(media).gain.gain.value = target;
+    boost.appliedGeneration = Math.max(boost.appliedGeneration || 0, generation);
+    armWatchdog();
     return "";
   }
 
@@ -419,20 +425,20 @@
       }
       try {
         if (kind === "volume") {
-          const current = effectiveVolume(media);
+          const current = extensionVolume(media);
           const next = mode === "set" ? value : current + value;
-          // Effective level = media.volume x gain. Without the experimental
-          // boost the result is clamped to 100% (gain 1).
-          const code = await setEffectiveVolume(media, item, next, boostAllowed === true, generation);
+          // Loudness = site volume x extension volume. Off: nothing changes.
+          const code = await setExtensionVolume(media, item, next, boostAllowed === true, generation);
           if (code) {
-            results.push({ mediaId: item.mediaId, code, volume: effectiveVolume(media) });
+            results.push({ mediaId: item.mediaId, code, volume: extensionVolume(media) });
             continue;
           }
         } else {
           const next = mode === "set" ? value : media.playbackRate + value;
           media.playbackRate = clamp(Math.round(next * 100) / 100, RATE_MIN, RATE_MAX);
         }
-        results.push({ mediaId: item.mediaId, volume: effectiveVolume(media), playbackRate: media.playbackRate,
+        results.push({ mediaId: item.mediaId, volume: extensionVolume(media), siteVolume: Math.round(media.volume * 100) / 100,
+          playbackRate: media.playbackRate,
           muted: media.muted, boosted: gainOf(media) > 1 });
       } catch {
         results.push({ mediaId: item.mediaId, code: "adjust-rejected" });

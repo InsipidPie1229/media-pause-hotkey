@@ -236,7 +236,8 @@ button:focus-visible, a:focus-visible, .fader input:focus-visible, .switch input
   pointer-events: none;
 }
 
-.fader:not(.has-boost) .detent { display: none; }
+.fader:not(.has-boost) .detent { opacity: .3; }
+.site-volume { margin-top: 4px; }
 
 .scale {
   position: relative;
@@ -249,7 +250,7 @@ button:focus-visible, a:focus-visible, .fader input:focus-visible, .switch input
 .scale span { position: absolute; top: 0; }
 .scale span:first-child { left: 0; }
 .scale span:last-child { right: 0; }
-.scale .scale-mid { left: calc(9px + (100% - 18px) / 3); transform: translateX(-50%); }
+.scale .scale-mid { left: calc(9px + (100% - 18px) / 5); transform: translateX(-50%); }
 
 .speed-head { margin-top: 10px; }
 

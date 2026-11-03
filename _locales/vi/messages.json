@@ -198,10 +198,10 @@
     "message": "Bạn cũng có thể đặt phím tắt âm lượng và tốc độ trên cùng trang."
   },
   "boostToggle": {
-    "message": "Cho phép âm lượng trên 100% (thử nghiệm)"
+    "message": "Dùng âm lượng tiện ích (thử nghiệm)"
   },
   "boostHint": {
-    "message": "Tăng cường sẽ đưa nội dung qua xử lý âm thanh của trình duyệt cho đến khi tải lại trang."
+    "message": "Thêm âm lượng riêng 0–500% lên trên âm lượng của trang. Nội dung bạn điều chỉnh sẽ dùng xử lý âm thanh của trình duyệt cho đến khi tải lại trang."
   },
   "boostActiveNote": {
     "message": "Đã tăng cường. Âm thanh lớn có thể bị méo."
@@ -210,21 +210,33 @@
     "message": "Thay đổi nguồn có thể giới hạn đầu ra của nội dung đã tăng cường. Hãy tải lại trang nếu không nghe thấy gì."
   },
   "boostOffNote": {
-    "message": "Đã tắt tăng cường. Nội dung đã tăng cường vẫn giữ đường âm thanh cho đến khi tải lại trang."
+    "message": "Đã tắt âm lượng tiện ích và trở về 100%. Nội dung đã điều chỉnh trước đó vẫn giữ đường âm thanh cho đến khi tải lại trang."
   },
   "osdVolumeBoosted": {
     "message": "Âm lượng $1% (tăng cường)"
   },
   "osdBoostRefused": {
-    "message": "Không thể tăng cường trên 100% ở đây"
+    "message": "Âm lượng tiện ích không khả dụng ở đây"
   },
   "errorBoostRefused": {
-    "message": "Âm lượng trên 100% không khả dụng cho nội dung này. Âm lượng được giữ nguyên."
+    "message": "Âm lượng tiện ích không khả dụng cho nội dung này. Âm lượng được giữ nguyên."
   },
   "errorAdjustPartial": {
     "message": "Đã điều chỉnh $1 trong $2 mục nội dung."
   },
   "errorBoostResetUnreached": {
-    "message": "Đã tắt tăng âm lượng, nhưng chưa xác nhận được việc đặt lại ở $1 khung trang. Sẽ thử lại khi chúng phản hồi; tải lại các trang đó cũng gỡ bỏ tăng âm lượng."
+    "message": "Đã tắt âm lượng tiện ích, nhưng chưa xác nhận được việc đặt lại ở $1 khung trang. Sẽ thử lại khi chúng phản hồi; tải lại các trang đó cũng gỡ bỏ nó."
+  },
+  "siteVolumeNote": {
+    "message": "Âm lượng trang $1%"
+  },
+  "extVolumeHint": {
+    "message": "100% giữ nguyên âm thanh của trang. Nếu trang ở 0% hoặc bị tắt tiếng, tiện ích không khôi phục âm thanh."
+  },
+  "errorExtVolumeOff": {
+    "message": "Âm lượng tiện ích đang tắt. Bật trong cửa sổ bật lên để thay đổi âm lượng."
+  },
+  "osdExtVolumeOff": {
+    "message": "Âm lượng tiện ích đã tắt"
   }
 }

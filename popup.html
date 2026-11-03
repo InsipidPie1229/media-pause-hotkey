@@ -37,12 +37,15 @@
         </div>
         <!-- Volume always increases left to right, also in RTL locales. -->
         <div class="fader" id="fader" dir="ltr">
-          <input type="range" id="volumeSlider" min="0" max="100" step="5" value="100">
+          <input type="range" id="volumeSlider" min="0" max="500" step="5" value="100">
           <span class="detent" aria-hidden="true"></span>
         </div>
-        <div class="scale" id="volumeScale" dir="ltr" aria-hidden="true" hidden>
-          <span>0%</span><span class="scale-mid">100%</span><span>300%</span>
+        <div class="scale" id="volumeScale" dir="ltr" aria-hidden="true">
+          <span>0%</span><span class="scale-mid">100%</span><span>500%</span>
         </div>
+
+        <p class="note site-volume" id="siteVolume" hidden></p>
+        <p class="note" id="extVolumeHint" data-i18n="extVolumeHint" hidden>100% keeps the site's own sound.</p>
 
         <div class="mixer-row speed-head">
           <span class="label" id="speedLabel" data-i18n="speedHeading">Speed</span>
@@ -65,9 +68,9 @@
           <label class="switch">
             <input type="checkbox" id="boostToggle" role="switch">
             <span class="switch-track" aria-hidden="true"></span>
-            <span data-i18n="boostToggle">Allow volume above 100% (experimental)</span>
+            <span data-i18n="boostToggle">Use extension volume (experimental)</span>
           </label>
-          <p class="hint boost-hint" data-i18n="boostHint">Boosting routes that media through the browser's audio processing until the page is reloaded.</p>
+          <p class="hint boost-hint" data-i18n="boostHint">Adds its own 0–500% volume on top of the site's volume.</p>
         </div>
       </section>
 

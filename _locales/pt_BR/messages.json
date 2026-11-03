@@ -198,10 +198,10 @@
     "message": "Os atalhos de volume e velocidade também podem ser definidos na mesma página."
   },
   "boostToggle": {
-    "message": "Permitir volume acima de 100% (experimental)"
+    "message": "Usar o volume da extensão (experimental)"
   },
   "boostHint": {
-    "message": "O reforço direciona a mídia pelo processamento de áudio do navegador até a página ser recarregada."
+    "message": "Adiciona um volume próprio de 0–500% sobre o volume do site. A mídia que você ajustar usa o processamento de áudio do navegador até a página ser recarregada."
   },
   "boostActiveNote": {
     "message": "Reforçado. Som alto pode distorcer."
@@ -210,21 +210,33 @@
     "message": "Uma troca de fonte pode limitar a saída da mídia reforçada. Recarregue a página se não ouvir nada."
   },
   "boostOffNote": {
-    "message": "O reforço está desligado. A mídia já reforçada mantém o caminho de áudio até a página ser recarregada."
+    "message": "O volume da extensão está desligado e voltou para 100%. A mídia já ajustada mantém o caminho de áudio até a página ser recarregada."
   },
   "osdVolumeBoosted": {
     "message": "Volume $1% (reforçado)"
   },
   "osdBoostRefused": {
-    "message": "Não é possível reforçar acima de 100% aqui"
+    "message": "Volume da extensão indisponível aqui"
   },
   "errorBoostRefused": {
-    "message": "Volume acima de 100% não está disponível para esta mídia. O volume foi mantido."
+    "message": "O volume da extensão não está disponível para esta mídia. O volume foi mantido."
   },
   "errorAdjustPartial": {
     "message": "$1 de $2 itens de mídia foram ajustados."
   },
   "errorBoostResetUnreached": {
-    "message": "O reforço está desativado, mas não foi possível confirmar a redefinição em $1 quadros de página. Uma nova tentativa será feita quando responderem; recarregar essas páginas também o remove."
+    "message": "O volume da extensão está desativado, mas não foi possível confirmar a redefinição em $1 quadros de página. Uma nova tentativa será feita quando responderem; recarregar essas páginas também o remove."
+  },
+  "siteVolumeNote": {
+    "message": "Volume do site $1%"
+  },
+  "extVolumeHint": {
+    "message": "100% mantém o som próprio do site. Se o site estiver em 0% ou silenciado, a extensão não traz o som de volta."
+  },
+  "errorExtVolumeOff": {
+    "message": "O volume da extensão está desligado. Ative-o no popup para alterar o volume."
+  },
+  "osdExtVolumeOff": {
+    "message": "Volume da extensão desligado"
   }
 }

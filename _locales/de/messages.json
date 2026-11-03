@@ -198,10 +198,10 @@
     "message": "Lautstärke- und Geschwindigkeits-Tastenkürzel lassen sich auf derselben Seite festlegen."
   },
   "boostToggle": {
-    "message": "Lautstärke über 100% zulassen (experimentell)"
+    "message": "Erweiterungslautstärke verwenden (experimentell)"
   },
   "boostHint": {
-    "message": "Beim Verstärken wird das Medium bis zum Neuladen der Seite über die Audioverarbeitung des Browsers geleitet."
+    "message": "Fügt eine eigene Lautstärke von 0–500% zusätzlich zur Lautstärke der Website hinzu. Angepasste Medien werden bis zum Neuladen der Seite über die Audioverarbeitung des Browsers geleitet."
   },
   "boostActiveNote": {
     "message": "Verstärkt. Laute Töne können verzerren."
@@ -210,21 +210,33 @@
     "message": "Ein Quellenwechsel kann die Ausgabe verstärkter Medien begrenzen. Lade die Seite neu, wenn du nichts hörst."
   },
   "boostOffNote": {
-    "message": "Verstärkung ist aus. Bereits verstärkte Medien behalten den Audiopfad bis zum Neuladen der Seite."
+    "message": "Die Erweiterungslautstärke ist aus und wieder bei 100%. Bereits angepasste Medien behalten den Audiopfad bis zum Neuladen der Seite."
   },
   "osdVolumeBoosted": {
     "message": "Lautstärke $1% (verstärkt)"
   },
   "osdBoostRefused": {
-    "message": "Hier ist keine Verstärkung über 100% möglich"
+    "message": "Erweiterungslautstärke hier nicht verfügbar"
   },
   "errorBoostRefused": {
-    "message": "Lautstärke über 100% ist für dieses Medium nicht verfügbar. Die Lautstärke wurde beibehalten."
+    "message": "Die Erweiterungslautstärke ist für dieses Medium nicht verfügbar. Die Lautstärke wurde beibehalten."
   },
   "errorAdjustPartial": {
     "message": "$1 von $2 Medienelementen wurden angepasst."
   },
   "errorBoostResetUnreached": {
-    "message": "Die Verstärkung ist aus, aber das Zurücksetzen konnte in $1 Seitenframes nicht bestätigt werden. Es wird erneut versucht, sobald sie antworten; ein Neuladen dieser Seiten entfernt sie ebenfalls."
+    "message": "Die Erweiterungslautstärke ist aus, aber das Zurücksetzen konnte in $1 Seitenframes nicht bestätigt werden. Es wird erneut versucht, sobald sie antworten; ein Neuladen dieser Seiten entfernt sie ebenfalls."
+  },
+  "siteVolumeNote": {
+    "message": "Website-Lautstärke $1%"
+  },
+  "extVolumeHint": {
+    "message": "100% behält den eigenen Ton der Website bei. Ist die Website bei 0% oder stummgeschaltet, stellt die Erweiterung den Ton nicht wieder her."
+  },
+  "errorExtVolumeOff": {
+    "message": "Die Erweiterungslautstärke ist aus. Schalte sie im Popup ein, um die Lautstärke zu ändern."
+  },
+  "osdExtVolumeOff": {
+    "message": "Erweiterungslautstärke aus"
   }
 }

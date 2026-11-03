@@ -198,10 +198,10 @@
     "message": "Le scorciatoie per volume e velocità si possono impostare nella stessa pagina."
   },
   "boostToggle": {
-    "message": "Consenti volume oltre il 100% (sperimentale)"
+    "message": "Usa il volume dell'estensione (sperimentale)"
   },
   "boostHint": {
-    "message": "Il potenziamento instrada il contenuto tramite l'elaborazione audio del browser finché la pagina non viene ricaricata."
+    "message": "Aggiunge un proprio volume da 0–500% sopra il volume del sito. I contenuti che regoli usano l'elaborazione audio del browser finché la pagina non viene ricaricata."
   },
   "boostActiveNote": {
     "message": "Potenziato. Un suono forte può distorcersi."
@@ -210,21 +210,33 @@
     "message": "Un cambio di sorgente può limitare l'uscita dei contenuti potenziati. Ricarica la pagina se non senti nulla."
   },
   "boostOffNote": {
-    "message": "Il potenziamento è disattivato. I contenuti già potenziati mantengono il percorso audio finché la pagina non viene ricaricata."
+    "message": "Il volume dell'estensione è disattivato e torna al 100%. I contenuti già regolati mantengono il percorso audio finché la pagina non viene ricaricata."
   },
   "osdVolumeBoosted": {
     "message": "Volume $1% (potenziato)"
   },
   "osdBoostRefused": {
-    "message": "Qui non è possibile potenziare oltre il 100%"
+    "message": "Volume dell'estensione non disponibile qui"
   },
   "errorBoostRefused": {
-    "message": "Un volume oltre il 100% non è disponibile per questo contenuto. Il volume è stato mantenuto."
+    "message": "Il volume dell'estensione non è disponibile per questo contenuto. Il volume è stato mantenuto."
   },
   "errorAdjustPartial": {
     "message": "Sono stati regolati $1 contenuti su $2."
   },
   "errorBoostResetUnreached": {
-    "message": "L'amplificazione è disattivata, ma il ripristino non è stato confermato in $1 frame di pagina. Verrà ritentato quando risponderanno; anche ricaricare quelle pagine la rimuove."
+    "message": "Il volume dell'estensione è disattivato, ma il ripristino non è stato confermato in $1 frame di pagina. Verrà ritentato quando risponderanno; anche ricaricare quelle pagine lo rimuove."
+  },
+  "siteVolumeNote": {
+    "message": "Volume del sito $1%"
+  },
+  "extVolumeHint": {
+    "message": "100% mantiene il suono del sito così com'è. Se il sito è allo 0% o disattivato, l'estensione non ripristina il suono."
+  },
+  "errorExtVolumeOff": {
+    "message": "Il volume dell'estensione è disattivato. Attivalo nel popup per cambiare il volume."
+  },
+  "osdExtVolumeOff": {
+    "message": "Volume dell'estensione disattivato"
   }
 }

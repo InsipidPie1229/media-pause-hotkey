@@ -204,6 +204,8 @@ function upsertMedia(state, context, value, title) {
   const record = state.media[key];
   if (Number.isFinite(value.volume)) record.volume = value.volume;
   else if (sameSource && Number.isFinite(previous.volume)) record.volume = previous.volume;
+  if (Number.isFinite(value.siteVolume)) record.siteVolume = value.siteVolume;
+  else if (sameSource && Number.isFinite(previous.siteVolume)) record.siteVolume = previous.siteVolume;
   if (Number.isFinite(value.playbackRate)) record.playbackRate = value.playbackRate;
   else if (sameSource && Number.isFinite(previous.playbackRate)) record.playbackRate = previous.playbackRate;
   if (typeof value.muted === "boolean") record.muted = value.muted;
@@ -285,10 +287,12 @@ function levelsFor(items) {
     return known.every(value => value === known[0]) ? { value: known[0], mixed: false } : { value: null, mixed: true };
   };
   const volume = unique(items.map(item => item.volume));
+  const site = unique(items.map(item => item.siteVolume));
   const rate = unique(items.map(item => item.playbackRate));
   return {
     count: items.length,
     volume: volume.value, volumeMixed: volume.mixed,
+    siteVolume: site.value, siteVolumeMixed: site.mixed,
     playbackRate: rate.value, rateMixed: rate.mixed,
     muted: items.length > 0 && items.every(item => item.muted === true),
     someMuted: items.some(item => item.muted === true),
@@ -638,6 +642,14 @@ async function performAdjust(adjust, input = "popup", expectedKey = "") {
     diagnose(state, "adjust-selection", target, { commandId, reason: selection.reason, adjustCount: selection.items.length });
     if (!selection.items.length) state.error = "errorAdjustNothing";
     else if (expectedKey && expectedKey !== key) state.error = "errorTargetChanged";
+    else if (adjust.kind === "volume" && !settings.boostEnabled) {
+      // The extension volume is opt-in; the site's own volume is never changed.
+      state.error = "errorExtVolumeOff";
+      if (input === "keyboard") {
+        try { await withTimeout(chrome.tabs.sendMessage(target.tabId, { type: "OSD", text: t("osdExtVolumeOff") }, { frameId: 0 }), 1500); }
+        catch { /* Optional feedback. */ }
+      }
+    }
     else {
       const documents = new Map(selection.items.map(item => [item.documentId, item]));
       const results = await Promise.all([...documents.values()].map(async (record) => {

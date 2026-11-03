@@ -17,6 +17,8 @@ const elements = {
   speedUpButton: document.getElementById("speedUpButton"),
   speedResetButton: document.getElementById("speedResetButton"),
   mutedNote: document.getElementById("mutedNote"),
+  siteVolume: document.getElementById("siteVolume"),
+  extVolumeHint: document.getElementById("extVolumeHint"),
   boostNote: document.getElementById("boostNote"),
   boostToggle: document.getElementById("boostToggle"),
 };
@@ -60,15 +62,14 @@ function paintFader() {
   elements.fader.style.setProperty("--fill", (value / max) * 100 + "%");
   elements.fader.style.setProperty("--detent", (100 / max) * 100 + "%");
   elements.fader.style.setProperty("--detent-ratio", String(100 / max));
-  elements.fader.classList.toggle("has-boost", max > 100);
-  elements.volumeScale.hidden = max <= 100;
+  elements.fader.classList.toggle("has-boost", boostEnabled);
 }
 
 function setBoostRange(enabled) {
   boostEnabled = enabled;
   elements.boostToggle.checked = enabled;
   document.getElementById("boostSection").classList.toggle("is-on", enabled);
-  elements.volumeSlider.max = enabled ? "300" : "100";
+  // The extension volume (0-500%) only works while the experiment is on.
   elements.volumeSlider.setAttribute("aria-valuetext", Math.round(elements.volumeSlider.valueAsNumber) + "%");
   paintFader();
 }
@@ -87,6 +88,7 @@ function showLevels(state) {
   if (typeof levels?.boostEnabled === "boolean") setBoostRange(levels.boostEnabled);
   const hasLevels = Boolean(levels && levels.count > 0);
   for (const control of adjustControls) control.disabled = !hasLevels || adjusting;
+  if (!boostEnabled) elements.volumeSlider.disabled = true;
   if (!hasLevels) {
     elements.volumeValue.textContent = "–";
     elements.speedValue.textContent = "–";
@@ -107,6 +109,12 @@ function showLevels(state) {
   }
   elements.mixer.classList.toggle("is-boosted", Boolean(levels?.boosted));
   elements.mutedNote.hidden = !levels?.someMuted;
+  // The site's own volume, read only; hidden when items differ or it is unknown.
+  const siteKnown = hasLevels && !levels.siteVolumeMixed && Number.isFinite(levels.siteVolume);
+  elements.siteVolume.textContent = siteKnown ? t("siteVolumeNote", String(Math.round(levels.siteVolume * 100))) : "";
+  elements.siteVolume.hidden = !siteKnown;
+  // Only relevant when the site itself is silent: the extension cannot undo that.
+  elements.extVolumeHint.hidden = !(boostEnabled && hasLevels && (levels.siteVolume === 0 || levels.someMuted));
   showBoostNote(levels);
   paintFader();
   adjustKey = typeof state.adjustKey === "string" ? state.adjustKey : "";

@@ -198,10 +198,10 @@
     "message": "音量与速度快捷键也可在同一页面中设置。"
   },
   "boostToggle": {
-    "message": "允许音量超过 100%（实验性）"
+    "message": "使用扩展音量（实验性）"
   },
   "boostHint": {
-    "message": "增强后，媒体会经过浏览器的音频处理，直到页面重新加载。"
+    "message": "在网站音量之上增加独立的 0–500% 音量。你调整的媒体会经过浏览器的音频处理，直到页面重新加载。"
   },
   "boostActiveNote": {
     "message": "已增强。大音量可能会失真。"
@@ -210,21 +210,33 @@
     "message": "切换源可能会限制已增强媒体的输出。如果听不到声音，请重新加载页面。"
   },
   "boostOffNote": {
-    "message": "增强已关闭。已增强的媒体会保持音频路径，直到页面重新加载。"
+    "message": "扩展音量已关闭并恢复到 100%。此前调整过的媒体会保持音频路径，直到页面重新加载。"
   },
   "osdVolumeBoosted": {
     "message": "音量 $1%（增强）"
   },
   "osdBoostRefused": {
-    "message": "此处无法增强到 100% 以上"
+    "message": "此处无法使用扩展音量"
   },
   "errorBoostRefused": {
-    "message": "此媒体无法使用超过 100% 的音量。音量已保持不变。"
+    "message": "此媒体无法使用扩展音量。音量已保持不变。"
   },
   "errorAdjustPartial": {
     "message": "已调整 $2 个媒体中的 $1 个。"
   },
   "errorBoostResetUnreached": {
-    "message": "已关闭增强，但未能在 $1 个页面框架中确认重置。它们响应后会重试；重新加载这些页面也会解除增强。"
+    "message": "扩展音量已关闭，但未能在 $1 个页面框架中确认重置。它们响应后会重试；重新加载这些页面也会解除。"
+  },
+  "siteVolumeNote": {
+    "message": "网站音量 $1%"
+  },
+  "extVolumeHint": {
+    "message": "100% 会保持网站原本的声音。如果网站音量为 0% 或已静音，扩展不会恢复声音。"
+  },
+  "errorExtVolumeOff": {
+    "message": "扩展音量已关闭。请在弹窗中开启以更改音量。"
+  },
+  "osdExtVolumeOff": {
+    "message": "扩展音量已关闭"
   }
 }
