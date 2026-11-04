@@ -63,8 +63,9 @@
       playing: media.isConnected && !media.paused && !media.ended && !media.error,
       ended: media.ended,
       hasError: Boolean(media.error),
-      // Paused, audible media with real played ranges (seeking alone does not
-      // count; played resets on a new source). Only used for a sole candidate.
+      // Paused media that is currently unmuted with volume > 0 and has played
+      // ranges (seeking alone adds none; a new source resets them). This does
+      // not prove past user intent; it only gates a sole cold-start candidate.
       progressed: media.played.length > 0 && !media.ended && !media.error && !media.muted && media.volume > 0,
       lastStartedAt: meta.lastStartedAt,
       playbackVersion: meta.playbackVersion,

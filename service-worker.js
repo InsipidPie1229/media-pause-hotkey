@@ -75,7 +75,7 @@ function diagnose(state, type, context = {}, details = {}) {
   const entry = { at: Date.now(), type };
   for (const key of ["tabId", "frameId", "documentId", "mediaId"]) if (context[key] !== undefined) entry[key] = context[key];
   // Explicit fields only: diagnostics never contain page titles, URLs, or raw errors.
-  for (const key of ["playing", "transitioned", "playbackVersion", "sequence", "durationMs", "code", "reason", "mediaCount", "playingCount", "resumeCount", "adjustCount", "unreachedCount", "action", "input", "commandId", "requestId", "sourceVersion", "ended", "hasError"])
+  for (const key of ["playing", "transitioned", "playbackVersion", "sequence", "durationMs", "code", "reason", "mediaCount", "playingCount", "resumeCount", "adjustCount", "unreachedCount", "action", "input", "commandId", "requestId", "sourceVersion", "ended", "hasError", "restricted"])
     if (details[key] !== undefined) entry[key] = details[key];
   if (["play", "playing", "pause", "ended", "error", "emptied", "loadstart", "timeupdate", "snapshot", "event"].includes(details.origin)) entry.origin = details.origin;
   state.diagnostics.push(entry);
@@ -248,7 +248,18 @@ function coldEligible(item) {
 }
 
 // Global rule shared by discovery and resume: nothing anywhere was seen playing,
-// no tab holding known media is unreachable, and exactly one media qualifies.
+// no scannable page failed (see restrictedPage), and exactly one media qualifies.
+// HTTP(S) pages Chrome never lets extensions script (Web Store, Google's remote
+// New Tab page) are expected to fail and hide no media we could control.
+function restrictedPage(url) {
+  try {
+    const { hostname, pathname } = new URL(url || "");
+    return hostname === "chromewebstore.google.com" ||
+      hostname === "chrome.google.com" && pathname.startsWith("/webstore") ||
+      /^www\.google\.[a-z.]+$/.test(hostname) && pathname.startsWith("/_/chrome/newtab");
+  } catch { return false; }
+}
+
 function chooseColdCandidate(state, failedTabs) {
   const records = Object.entries(state.media);
   if (records.some(([, item]) => item.observedPlaying || item.playing || failedTabs.has(item.tabId))) return "";
@@ -389,6 +400,8 @@ async function refreshMediaState(state) {
     }
   }));
   const failedTabs = new Set();
+  // Failed scans of pages extensions may run on: their media is unknown.
+  const unsupportedFailures = new Set();
   for (const { tab, frames, topology } of scans) {
     // Only a confirmed frame tree can prove that a document disappeared.
     if (Array.isArray(topology)) {
@@ -419,7 +432,9 @@ async function refreshMediaState(state) {
       } catch {
         if (context.documentId) setConnection(state, context, "unknown");
         failedTabs.add(tab.id);
-        diagnose(state, "reconnect", context, { durationMs: Date.now() - start, code: "unreachable" });
+        const restricted = restrictedPage(tab.url);
+        if (!restricted) unsupportedFailures.add(tab.id);
+        diagnose(state, "reconnect", context, { durationMs: Date.now() - start, code: "unreachable", restricted });
       }
     }
     for (const frame of frames) applyDocumentSnapshot(state,
@@ -427,7 +442,7 @@ async function refreshMediaState(state) {
       frame.result, tab.title || frame.result.title);
   }
   pruneState(state);
-  state.coldCandidate = chooseColdCandidate(state, failedTabs);
+  state.coldCandidate = unsupportedFailures.size ? "" : chooseColdCandidate(state, failedTabs);
   if (state.latestTarget && !failedTabs.has(state.latestTarget.tabId) &&
       !Object.values(state.media).some((item) => item.tabId === state.latestTarget.tabId)) {
     state.latestTarget = null;
