@@ -33,6 +33,12 @@ let adjusting = false;
 let sliderActive = false;
 let boostEnabled = false;
 let boostOffPaths = 0;
+let tabVolumePending = false;
+// A slider drag: the target key is pinned when it starts, values are coalesced
+// (one request in flight plus the latest waiting one) and sent while dragging.
+let slide = null;
+let adjustSeq = 0;
+const SLIDE_INTERVAL_MS = 80;
 
 function localizePopup() {
   document.documentElement.lang = chrome.i18n.getUILanguage() || "en";
@@ -74,8 +80,13 @@ function setBoostRange(enabled) {
   paintFader();
 }
 
-function showBoostNote(levels) {
+function showBoostNote(levels, tabVolume) {
   let key = "";
+  if (tabVolume?.pending) {
+    elements.boostNote.textContent = t("volumePendingNote", String(Math.round(tabVolume.value * 100)));
+    elements.boostNote.hidden = false;
+    return;
+  }
   if (levels?.boostLimited) key = "boostLimitedNote";
   else if (levels?.boosted) key = "boostActiveNote";
   else if (!boostEnabled && boostOffPaths > 0) key = "boostOffNote";
@@ -94,12 +105,14 @@ function showLevels(state) {
     elements.speedValue.textContent = "–";
     for (const chip of speedChips) chip.setAttribute("aria-pressed", "false");
   } else {
-    if (levels.volumeMixed || levels.volume === null) {
+    // The tab's remembered level is what new media in this tab will get.
+    const remembered = Number.isFinite(state.tabVolume?.value) ? state.tabVolume.value : null;
+    if (remembered === null && (levels.volumeMixed || levels.volume === null)) {
       elements.volumeValue.textContent = t("levelMixed");
     } else {
-      elements.volumeValue.textContent = Math.round(levels.volume * 100) + "%";
-      if (!sliderActive) {
-        elements.volumeSlider.value = String(Math.round(levels.volume * 100));
+      elements.volumeValue.textContent = Math.round((remembered ?? levels.volume) * 100) + "%";
+      if (!sliderActive && !slide) {
+        elements.volumeSlider.value = String(Math.round((remembered ?? levels.volume) * 100));
         elements.volumeSlider.setAttribute("aria-valuetext", elements.volumeValue.textContent);
       }
     }
@@ -115,7 +128,8 @@ function showLevels(state) {
   elements.siteVolume.hidden = !siteKnown;
   // Only relevant when the site itself is silent: the extension cannot undo that.
   elements.extVolumeHint.hidden = !(boostEnabled && hasLevels && (levels.siteVolume === 0 || levels.someMuted));
-  showBoostNote(levels);
+  tabVolumePending = Boolean(state.tabVolume?.pending);
+  showBoostNote(levels, state.tabVolume);
   paintFader();
   adjustKey = typeof state.adjustKey === "string" ? state.adjustKey : "";
 }
@@ -167,6 +181,7 @@ async function run(action) {
 }
 
 async function runAdjust(adjust) {
+  ++adjustSeq;
   adjusting = true;
   for (const control of [...adjustControls, ...actionButtons]) control.disabled = true;
   try {
@@ -191,7 +206,67 @@ elements.toggleButton.addEventListener("click", () => run("TOGGLE"));
 elements.pauseButton.addEventListener("click", () => run("PAUSE"));
 elements.resumeButton.addEventListener("click", () => run("RESUME"));
 
-elements.volumeSlider.addEventListener("pointerdown", () => { sliderActive = true; });
+function showError(message) {
+  elements.errorMessage.textContent = message;
+  elements.errorMessage.hidden = !message;
+  if (message) elements.statusDot.className = "status-dot error";
+}
+
+// Sends the coalesced slider values in order. Live values skip the worker's full
+// page scan; the final value (on release) does not. A changed target or a lost
+// page stops this drag: nothing is sent to a new target automatically.
+async function pumpSlide(session) {
+  if (session.running) return;
+  session.running = true;
+  while (session.next && !session.stopped) {
+    const wait = SLIDE_INTERVAL_MS - (Date.now() - session.sentAt);
+    if (session.next.live && wait > 0) await new Promise((resolve) => setTimeout(resolve, wait));
+    const { value, live } = session.next;
+    session.next = null;
+    if (!live && session.confirmed === value && !tabVolumePending) {
+      finishSlide(session, "");
+      break;
+    }
+    const seq = ++adjustSeq;
+    session.sentAt = Date.now();
+    let state;
+    try {
+      state = await chrome.runtime.sendMessage({ type: "ADJUST", adjust: { kind: "volume", mode: "set", value: value / 100 },
+        expectedKey: session.key, live });
+    } catch {
+      state = { status: "idle", error: t("errorControl") };
+    }
+    // A reply older than the latest popup adjustment never overwrites it.
+    if (seq !== adjustSeq || slide !== session) continue;
+    const error = typeof state?.error === "string" ? state.error : "";
+    if (!error) session.confirmed = value;
+    if (error === t("errorTargetChanged") || error === t("errorPageConnection") || error === t("errorExtVolumeOff")) {
+      session.stopped = true;
+    }
+    session.error = error;
+    if (!live) {
+      finishSlide(session, error);
+      break;
+    }
+    showError(error);
+  }
+  session.running = false;
+  if (session.stopped && session.released) finishSlide(session, session.error);
+}
+
+async function finishSlide(session, message) {
+  if (slide !== session) return;
+  slide = null;
+  await loadState();
+  if (message) showError(message);
+}
+
+function slideSession() {
+  if (!slide) slide = { key: adjustKey, next: null, running: false, stopped: false, released: false, confirmed: null, sentAt: 0, error: "" };
+  return slide;
+}
+
+elements.volumeSlider.addEventListener("pointerdown", () => { sliderActive = true; slideSession(); });
 elements.volumeSlider.addEventListener("input", () => {
   sliderActive = true;
   const value = Math.round(elements.volumeSlider.valueAsNumber);
@@ -199,14 +274,31 @@ elements.volumeSlider.addEventListener("input", () => {
   elements.volumeSlider.setAttribute("aria-valuetext", value + "%");
   elements.mixer.classList.toggle("is-boosted", value > 100);
   paintFader();
+  const session = slideSession();
+  if (session.stopped) return;
+  session.next = { value, live: true };
+  pumpSlide(session);
 });
 elements.volumeSlider.addEventListener("change", () => {
   sliderActive = false;
-  runAdjust({ kind: "volume", mode: "set", value: elements.volumeSlider.valueAsNumber / 100 });
+  const session = slideSession();
+  session.released = true;
+  if (session.stopped) {
+    if (!session.running) finishSlide(session, session.error);
+    return;
+  }
+  session.next = { value: Math.round(elements.volumeSlider.valueAsNumber), live: false };
+  pumpSlide(session);
 });
-elements.volumeSlider.addEventListener("pointerup", () => { sliderActive = false; });
+// A press that changed nothing ends the drag without sending anything.
+function dropIdleSlide() {
+  setTimeout(() => {
+    if (slide && !slide.released && !slide.running && !slide.next && slide.confirmed === null) slide = null;
+  }, 0);
+}
+elements.volumeSlider.addEventListener("pointerup", () => { sliderActive = false; dropIdleSlide(); });
 elements.volumeSlider.addEventListener("pointercancel", () => { sliderActive = false; });
-elements.volumeSlider.addEventListener("blur", () => { sliderActive = false; });
+elements.volumeSlider.addEventListener("blur", () => { sliderActive = false; dropIdleSlide(); });
 
 elements.speedDownButton.addEventListener("click", () => runAdjust({ kind: "rate", mode: "delta", value: -0.25 }));
 elements.speedUpButton.addEventListener("click", () => runAdjust({ kind: "rate", mode: "delta", value: 0.25 }));

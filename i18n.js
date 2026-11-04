@@ -62,6 +62,8 @@
     extVolumeHint: "100% keeps the site's own sound. If the site is at 0% or muted, the extension does not bring the sound back.",
     errorExtVolumeOff: "Extension volume is off. Turn it on in the popup to change volume.",
     osdExtVolumeOff: "Extension volume is off",
+    osdVolumePending: "Extension volume $1% \u00b7 click the page to apply",
+    volumePendingNote: "This tab's extension volume is $1%. Click the page once to apply it to new media.",
     errorBoostResetUnreached: "Extension volume is off, but resetting it could not be confirmed in $1 page frames. It will be retried when they respond; reloading those pages also removes it.",
   };
 

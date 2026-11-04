@@ -58,6 +58,10 @@ function normalizeState(value) {
     error: state.version >= 2 && typeof state.error === "string" ? state.error : "",
     // Key of the single cold-start resume candidate chosen by the last full scan.
     coldCandidate: typeof state.coldCandidate === "string" ? state.coldCandidate : "",
+    // 1.4.0: remembered extension volume per tab ({ value, revision, generation }).
+    // revision increases on every user volume command, across all tabs.
+    tabVolumes: state.tabVolumes && typeof state.tabVolumes === "object" ? state.tabVolumes : {},
+    volumeRevision: Number.isInteger(state.volumeRevision) ? state.volumeRevision : 0,
   };
 }
 
@@ -212,7 +216,7 @@ function upsertMedia(state, context, value, title) {
   else if (sameSource && Number.isFinite(previous.playbackRate)) record.playbackRate = previous.playbackRate;
   if (typeof value.muted === "boolean") record.muted = value.muted;
   else if (sameSource && typeof previous.muted === "boolean") record.muted = previous.muted;
-  for (const flag of ["boosted", "boostConnected", "boostLimited"]) {
+  for (const flag of ["boosted", "boostConnected", "boostLimited", "volumePending"]) {
     if (typeof value[flag] === "boolean") record[flag] = value[flag];
     else if (sameSource && typeof previous[flag] === "boolean") record[flag] = previous[flag];
   }
@@ -349,7 +353,35 @@ function publicState(state) {
     target: target ? { tabId: target.tabId, title: target.title || t("targetEmpty") } : null,
     status: target && targetUnknown(state, target.tabId) ? "unknown" : playingCount ? "playing" : pausedCount ? "paused" : "idle",
     playingCount, pausedCount, error: globalThis.mediaShortcutI18n.userError(state.error),
+    tabVolume: target ? tabVolumeView(state, target.tabId) : null,
   };
+}
+
+// The tab's remembered extension volume, and whether playing media there still
+// waits for a click on the page before the level can be applied.
+function tabVolumeView(state, tabId) {
+  const entry = state.tabVolumes[tabId];
+  if (!entry || !settings.boostEnabled || entry.generation !== settings.generation) return null;
+  return { value: entry.value,
+    pending: Object.values(state.media).some(item => item.tabId === tabId && item.volumePending === true) };
+}
+
+// Every document in a tab this worker knows about (observed or with media).
+function tabDocuments(state, tabId) {
+  return new Map([...Object.values(state.observations), ...Object.values(state.media)]
+    .filter(item => item.tabId === tabId && typeof item.documentId === "string")
+    .map(item => [item.documentId, { tabId, documentId: item.documentId, frameId: item.frameId }]));
+}
+
+async function sendTabVolume(context, entry, milliseconds = 8000) {
+  try {
+    const reply = await withTimeout(chrome.tabs.sendMessage(context.tabId,
+      { type: "TAB_VOLUME", value: entry.value, revision: entry.revision, generation: entry.generation },
+      { documentId: context.documentId }), milliseconds);
+    return reply && Array.isArray(reply.media) ? reply : null;
+  } catch {
+    return null;
+  }
 }
 
 function updateBadge(view) {
@@ -372,6 +404,8 @@ async function withTimeout(operation, milliseconds) {
 async function refreshMediaState(state) {
   const tabs = await chrome.tabs.query({ url: ["http://*/*", "https://*/*"] });
   const presentTabs = new Set(tabs.filter((tab) => !tab.discarded).map((tab) => tab.id));
+  const existingTabs = new Set(tabs.map((tab) => String(tab.id)));
+  for (const tabId of Object.keys(state.tabVolumes)) if (!existingTabs.has(tabId)) delete state.tabVolumes[tabId];
   for (const [key, record] of Object.entries(state.media)) {
     if (!presentTabs.has(record.tabId)) {
       diagnose(state, "invalidate", record, { reason: "tab-unavailable" });
@@ -488,6 +522,8 @@ async function resetBoostInDocument(context, generation = settings.generation) {
         registry.minGeneration = Math.max(registry.minGeneration || 0, resetGeneration + 1);
         if (resetGeneration < (registry.appliedGeneration || 0)) return registry.graphs.size;
         for (const graph of registry.graphs.values()) graph.gain.gain.value = 1;
+        registry.tabLevel = null;
+        registry.pending = false;
         clearInterval(registry.watchdog);
         registry.watchdog = 0;
         return registry.graphs.size;
@@ -665,16 +701,20 @@ function osdText(kind, levels) {
 
 // adjust = { kind: "volume" | "rate", mode: "delta" | "set", value }.
 // expectedKey (popup only) pins the tab and documents the popup was showing.
-async function performAdjust(adjust, input = "popup", expectedKey = "") {
+// live (popup slider drag): skips the full page scan and diagnostics; the final
+// value on release is sent without it.
+async function performAdjust(adjust, input = "popup", expectedKey = "", live = false) {
   await settingsReady;
   const startedAt = Date.now();
   const state = await loadState();
   const commandId = startedAt.toString(36) + "-" + Math.random().toString(36).slice(2);
   const reason = "adjust-" + adjust.kind + "-" + adjust.mode;
-  diagnose(state, "command-start", state.latestTarget || {}, { commandId, input, reason });
-  await saveState(state);
+  if (!live) {
+    diagnose(state, "command-start", state.latestTarget || {}, { commandId, input, reason });
+    await saveState(state);
+  }
   state.error = "";
-  const failedTabs = await refreshMediaState(state);
+  const failedTabs = live ? new Set() : await refreshMediaState(state);
   const target = state.latestTarget;
   let applied = null;
   let partial = null;
@@ -683,7 +723,7 @@ async function performAdjust(adjust, input = "popup", expectedKey = "") {
   else {
     const selection = adjustSelection(state, target.tabId);
     const key = selection.items.length ? selectionKey(target.tabId, selection.items) : "";
-    diagnose(state, "adjust-selection", target, { commandId, reason: selection.reason, adjustCount: selection.items.length });
+    if (!live) diagnose(state, "adjust-selection", target, { commandId, reason: selection.reason, adjustCount: selection.items.length });
     if (!selection.items.length) state.error = "errorAdjustNothing";
     else if (expectedKey && expectedKey !== key) state.error = "errorTargetChanged";
     else if (adjust.kind === "volume" && !settings.boostEnabled) {
@@ -692,6 +732,52 @@ async function performAdjust(adjust, input = "popup", expectedKey = "") {
       if (input === "keyboard") {
         try { await withTimeout(chrome.tabs.sendMessage(target.tabId, { type: "OSD", text: t("osdExtVolumeOff") }, { frameId: 0 }), 1500); }
         catch { /* Optional feedback. */ }
+      }
+    }
+    else if (adjust.kind === "volume") {
+      // One level per tab. +/-10% moves from the remembered level (100% when none).
+      const previous = state.tabVolumes[target.tabId];
+      const base = previous && previous.generation === settings.generation ? previous.value : 1;
+      const value = Math.round(Math.min(5, Math.max(0, adjust.mode === "set" ? adjust.value : base + adjust.value)) * 100) / 100;
+      const entry = { value, revision: ++state.volumeRevision, generation: settings.generation };
+      state.tabVolumes[target.tabId] = entry;
+      const selected = new Set(selection.items.map(item => item.documentId));
+      // TAB_VOLUME is absolute and carries its revision, so a lost reply is safely resent once.
+      const results = await Promise.all([...tabDocuments(state, target.tabId).values()].map(async (context) => {
+        let result = await sendTabVolume(context, entry);
+        if (!result) {
+          result = await sendTabVolume(context, entry, 3000);
+          if (result && !live) diagnose(state, "control", context, { code: "tab-volume-retried", commandId });
+        }
+        return { context, result };
+      }));
+      const adjusted = [];
+      const failureCodes = [];
+      for (const { context, result } of results) {
+        if (!result) continue;
+        applyDocumentSnapshot(state, context, result, target.title);
+        adjusted.push(...(result.adjusted || []));
+        for (const failure of result.failures || []) {
+          failureCodes.push(failure.code);
+          if (!live) diagnose(state, "control", { ...context, mediaId: failure.mediaId }, { code: failure.code, action: "tab-volume", commandId });
+        }
+      }
+      applied = { ...levelsFor(adjusted), total: adjusted.length + failureCodes.length, tabVolume: value };
+      const waiting = failureCodes.filter(code => code === "boost-refused-activation").length;
+      const refused = failureCodes.length - waiting;
+      if (results.some(({ context, result }) => !result && selected.has(context.documentId))) state.error = "errorPageConnection";
+      else if (refused && !adjusted.length) state.error = failureCodes.every(code => String(code).startsWith("boost-refused")) ? "errorBoostRefused" : "errorControl";
+      else if (refused) {
+        state.error = "errorAdjustSome";
+        partial = [String(adjusted.length), String(adjusted.length + failureCodes.length)];
+      }
+      if (input === "keyboard") {
+        const osd = state.error === "errorBoostRefused" ? t("osdBoostRefused") :
+          waiting ? t("osdVolumePending", String(Math.round(value * 100))) :
+          t(value > 1 ? "osdVolumeBoosted" : "osdVolume", String(Math.round(value * 100)));
+        try {
+          await withTimeout(chrome.tabs.sendMessage(target.tabId, { type: "OSD", text: osd }, { frameId: 0 }), 1500);
+        } catch { /* The on-page indicator is optional feedback. */ }
       }
     }
     else {
@@ -733,7 +819,7 @@ async function performAdjust(adjust, input = "popup", expectedKey = "") {
       }
     }
   }
-  diagnose(state, "command", target || {}, { commandId, code: state.error || "success", reason, input,
+  if (!live) diagnose(state, "command", target || {}, { commandId, code: state.error || "success", reason, input,
     adjustCount: applied?.count || 0, durationMs: Date.now() - startedAt });
   await saveState(state);
   const view = publicState(state);
@@ -748,8 +834,8 @@ function validAdjust(value) {
     Number.isFinite(value.value) && Math.abs(value.value) <= 16;
 }
 
-function runAdjust(adjust, input, expectedKey) {
-  return enqueue(() => performAdjust(adjust, input, expectedKey));
+function runAdjust(adjust, input, expectedKey, live = false) {
+  return enqueue(() => performAdjust(adjust, input, expectedKey, live));
 }
 
 // Turning the experiment off sets every gain back to 1 in all reachable frames
@@ -759,6 +845,7 @@ async function setBoostEnabled(enabled) {
   settings = { boostEnabled: enabled, generation: (settings.generation || 0) + 1 };
   await chrome.storage.local.set({ [SETTINGS_KEY]: settings });
   const state = await loadState();
+  state.tabVolumes = {};
   let reset = 0;
   let unreached = 0;
   if (!enabled) {
@@ -855,7 +942,8 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       return false;
     }
     const { kind, mode, value } = message.adjust;
-    runAdjust({ kind, mode, value }, "popup", typeof message.expectedKey === "string" ? message.expectedKey : "")
+    runAdjust({ kind, mode, value }, "popup", typeof message.expectedKey === "string" ? message.expectedKey : "",
+      message.live === true && kind === "volume" && mode === "set")
       .then(sendResponse).catch(() => sendResponse({ status: "idle", error: t("errorControl") }));
     return true;
   }
@@ -874,6 +962,14 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     setConnection(state, context, "connected");
     upsertMedia(state, context, message, sender.tab.title || message.title);
     if (state.boostResetPending[documentKey(context)]) await retryPendingBoostResets(state);
+    const entry = state.tabVolumes[context.tabId];
+    if (message.playing && settings.boostEnabled && entry && entry.generation === settings.generation &&
+        Number.isInteger(message.tabLevelRevision) && message.tabLevelRevision < entry.revision) {
+      const reply = await sendTabVolume(context, entry, 3000);
+      if (reply) applyDocumentSnapshot(state, context, reply, sender.tab.title || message.title);
+      diagnose(state, "control", context, { action: "tab-volume", adjustCount: reply?.adjusted?.length || 0,
+        code: !reply ? "tab-volume-unconfirmed" : reply.failures?.[0]?.code || "tab-volume-delivered" });
+    }
     diagnose(state, "media-event", { ...context, mediaId: message.mediaId }, { playing: Boolean(message.playing), transitioned: Boolean(message.transitioned),
       playbackVersion: message.playbackVersion, sourceVersion: message.sourceVersion, ended: Boolean(message.ended), hasError: Boolean(message.hasError),
       sequence: message.sequence, origin: message.origin });
@@ -896,6 +992,7 @@ chrome.tabs.onRemoved.addListener((tabId) => {
     }
     for (const [key, connection] of Object.entries(state.connections)) if (connection.tabId === tabId) delete state.connections[key];
     state.pausedBatches = state.pausedBatches.filter((batch) => batch.tabId !== tabId);
+    delete state.tabVolumes[tabId];
     if (state.latestTarget?.tabId === tabId) state.latestTarget = null;
     await saveState(state);
     updateBadge(publicState(state));

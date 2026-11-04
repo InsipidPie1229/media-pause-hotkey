@@ -238,5 +238,11 @@
   },
   "osdExtVolumeOff": {
     "message": "Extension volume is off"
+  },
+  "osdVolumePending": {
+    "message": "Extension volume $1% · click the page to apply"
+  },
+  "volumePendingNote": {
+    "message": "This tab's extension volume is $1%. Click the page once to apply it to new media."
   }
 }

@@ -238,5 +238,11 @@
   },
   "osdExtVolumeOff": {
     "message": "확장 볼륨 꺼짐"
+  },
+  "osdVolumePending": {
+    "message": "확장 볼륨 $1% · 페이지를 클릭하면 적용"
+  },
+  "volumePendingNote": {
+    "message": "이 탭의 확장 볼륨은 $1%입니다. 새 미디어에 적용하려면 페이지를 한 번 클릭하세요."
   }
 }

@@ -238,5 +238,11 @@
   },
   "osdExtVolumeOff": {
     "message": "Volumen de la extensión desactivado"
+  },
+  "osdVolumePending": {
+    "message": "Volumen de la extensión $1% · haz clic en la página para aplicarlo"
+  },
+  "volumePendingNote": {
+    "message": "El volumen de la extensión de esta pestaña es $1%. Haz clic una vez en la página para aplicarlo al nuevo contenido."
   }
 }

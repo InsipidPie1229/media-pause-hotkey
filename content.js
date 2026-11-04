@@ -1,5 +1,5 @@
 (() => {
-  const CONTROLLER_VERSION = "1.3.2";
+  const CONTROLLER_VERSION = "1.4.0";
   const oldController = globalThis.__mediaShortcutController;
   if (oldController?.version === CONTROLLER_VERSION) return oldController.snapshot();
   oldController?.dispose();
@@ -16,6 +16,10 @@
   const boost = globalThis.__mediaShortcutBoost || (globalThis.__mediaShortcutBoost = {
     context: null, graphs: new Map(), watchdog: 0, minGeneration: 0, appliedGeneration: 0,
   });
+  // 1.4.0: the tab's remembered extension volume ({ value, revision, generation }) and
+  // whether playing media still waits for a page click before it can be connected.
+  if (!("tabLevel" in boost)) boost.tabLevel = null;
+  boost.pending = Boolean(boost.pending);
   let controlReceipt = null;
   let controlQueue = Promise.resolve();
 
@@ -77,6 +81,8 @@
       boosted: gainOf(media) > 1,
       boostConnected: boost.graphs.has(media),
       boostLimited: boost.graphs.has(media) && !sourceAllowsBoost(media).ok,
+      tabLevelRevision: boost.tabLevel?.revision || 0,
+      volumePending: boost.pending,
       transitioned,
       origin,
     };
@@ -140,6 +146,7 @@
     }
     report(media, event.type, event.type === "play");
     meta.lastReported = JSON.stringify([!media.paused && !media.ended && !media.error, meta.sourceVersion, meta.playbackVersion]);
+    if (event.type === "play" || event.type === "playing") queueTabLevel(media);
   }
 
   function removeDetachedMedia(emit = true) {
@@ -190,6 +197,8 @@
       version: CONTROLLER_VERSION,
       title: document.title,
       media: [...mediaById.values()].map((media) => stateFor(media)),
+      tabLevelRevision: boost.tabLevel?.revision || 0,
+      volumePending: boost.pending,
       controlReceipt,
       ...observation(),
     };
@@ -310,6 +319,8 @@
       if (generation < (boost.appliedGeneration || 0)) return false;
     }
     for (const graph of boost.graphs.values()) graph.gain.gain.value = 1;
+    boost.tabLevel = null;
+    boost.pending = false;
     clearInterval(boost.watchdog);
     boost.watchdog = 0;
     return true;
@@ -384,7 +395,8 @@
   // Sets the extension volume (gain 0..5). media.volume and muted are never
   // touched, so the site's own slider stays independent. 100% on an element
   // that was never connected succeeds without Web Audio.
-  async function setExtensionVolume(media, item, next, enabled, generation) {
+  // revision (tab level only) must still be the document's current tab level after every await.
+  async function setExtensionVolume(media, item, next, enabled, generation, revision = null) {
     if (!enabled) return "extension-volume-off";
     const target = Math.round(clamp(next, 0, EXTENSION_VOLUME_MAX) * 100) / 100;
     if (target === 1 && !boost.graphs.has(media)) return "";
@@ -398,11 +410,96 @@
     // A refused request keeps the current level untouched.
     if (!connected.ok) return connected.code;
     if (!boostAuthorized(generation)) return "boost-reset-superseded";
+    if (revision !== null && boost.tabLevel?.revision !== revision) return "volume-revision-superseded";
     if (!matches(media, item)) return "media-invalid";
     boost.graphs.get(media).gain.gain.value = target;
     boost.appliedGeneration = Math.max(boost.appliedGeneration || 0, generation);
     armWatchdog();
     return "";
+  }
+
+  function levelResult(media) {
+    return { mediaId: metadata.get(media).id, volume: extensionVolume(media), siteVolume: Math.round(media.volume * 100) / 100,
+      playbackRate: media.playbackRate, muted: media.muted, boosted: gainOf(media) > 1 };
+  }
+
+  // The tab level is valid only under a generation the latest switch-off has not revoked.
+  function currentTabLevel() {
+    const level = boost.tabLevel;
+    if (level && !boostAuthorized(level.generation)) {
+      boost.tabLevel = null;
+      boost.pending = false;
+      return null;
+    }
+    return level;
+  }
+
+  // Applies the tab level to connected media (any level) and to playing media
+  // (connected only when the level is not 100%). Paused, unconnected media waits
+  // for its next play. Never calls play()/pause() and never touches media.volume.
+  async function applyTabLevel(only = null) {
+    const level = currentTabLevel();
+    const adjusted = [];
+    const failures = [];
+    if (!level) return { adjusted, failures };
+    let needsActivation = false;
+    for (const media of only ? [only] : [...mediaById.values()]) {
+      if (!media.isConnected) continue;
+      const connected = boost.graphs.has(media);
+      if (!connected && (level.value === 1 || media.paused || media.ended)) continue;
+      if (connected && gainOf(media) === level.value) {
+        adjusted.push(levelResult(media));
+        continue;
+      }
+      const meta = sourceFor(media);
+      let code;
+      try {
+        code = await setExtensionVolume(media, { mediaId: meta.id, signature: meta.signature, sourceVersion: meta.sourceVersion },
+          level.value, true, level.generation, level.revision);
+      } catch { code = "adjust-rejected"; }
+      if (code === "volume-revision-superseded" || code === "boost-reset-superseded") {
+        failures.push({ mediaId: meta.id, code });
+        return { adjusted, failures, superseded: true };
+      }
+      if (code) {
+        failures.push({ mediaId: meta.id, code });
+        if (code === "boost-refused-activation") needsActivation = true;
+      } else adjusted.push(levelResult(media));
+    }
+    if (boost.tabLevel === level) {
+      if (needsActivation) boost.pending = true;
+      else if (!only) boost.pending = false;
+    }
+    return { adjusted, failures };
+  }
+
+  function queueTabLevel(media = null) {
+    const level = currentTabLevel();
+    if (!level) return;
+    if (media && (boost.graphs.has(media) ? gainOf(media) === level.value : level.value === 1)) return;
+    const run = async () => {
+      const result = await applyTabLevel(media);
+      if (result.adjusted.length || result.failures.length) for (const item of mediaById.values()) report(item, "tab-level");
+    };
+    controlQueue = controlQueue.then(run, run);
+  }
+
+  // A pending level is retried once the page has received a click or key press.
+  function onActivation() {
+    if (boost.pending) queueTabLevel();
+  }
+
+  // TAB_VOLUME carries the level the service worker remembers for this tab.
+  // An older revision never replaces a newer one; the same revision is re-applied.
+  async function receiveTabLevel(message) {
+    const value = Math.round(clamp(Number(message.value), 0, EXTENSION_VOLUME_MAX) * 100) / 100;
+    if (!Number.isFinite(value) || !Number.isInteger(message.revision) || !boostAuthorized(message.generation))
+      return { adjusted: [], failures: [], code: "boost-reset-superseded", ...snapshot() };
+    if (message.revision < (boost.tabLevel?.revision || 0))
+      return { adjusted: [], failures: [], code: "volume-revision-superseded", ...snapshot() };
+    boost.tabLevel = { value, revision: message.revision, generation: message.generation };
+    const result = await applyTabLevel();
+    return { ...result, failed: result.failures.length, ...snapshot() };
   }
 
   function clamp(value, low, high) {
@@ -497,6 +594,12 @@
       sendResponse({ reset: boost.graphs.size, stale: !applied });
       return false;
     }
+    if (message?.type === "TAB_VOLUME") {
+      const run = () => receiveTabLevel(message);
+      controlQueue = controlQueue.then(run, run);
+      controlQueue.then(sendResponse).catch(() => sendResponse(null));
+      return true;
+    }
     if (message?.type !== "CONTROL") return false;
     if (!["pause", "resume", "adjust"].includes(message.action)) return false;
     const run = async () => {
@@ -526,6 +629,7 @@
   });
 
   chrome.runtime.onMessage.addListener(onMessage);
+  for (const name of ["pointerdown", "keydown"]) window.addEventListener(name, onActivation, true);
   observeRoot(document);
   collect(document);
   globalThis.__mediaShortcutController = {
@@ -536,6 +640,7 @@
       for (const [root, events] of rootListeners) for (const name of events) root.removeEventListener(name, handleEvent, true);
       rootListeners.clear();
       chrome.runtime.onMessage.removeListener(onMessage);
+      for (const name of ["pointerdown", "keydown"]) window.removeEventListener(name, onActivation, true);
       for (const [mediaId, media] of mediaById) {
         for (const [event, listener] of listeners.get(mediaId) || []) media.removeEventListener(event, listener);
       }

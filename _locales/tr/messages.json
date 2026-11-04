@@ -238,5 +238,11 @@
   },
   "osdExtVolumeOff": {
     "message": "Uzantı ses düzeyi kapalı"
+  },
+  "osdVolumePending": {
+    "message": "Uzantı ses düzeyi %$1 · uygulamak için sayfaya tıklayın"
+  },
+  "volumePendingNote": {
+    "message": "Bu sekmenin uzantı ses düzeyi %$1. Yeni medyaya uygulamak için sayfaya bir kez tıklayın."
   }
 }

@@ -238,5 +238,11 @@
   },
   "osdExtVolumeOff": {
     "message": "Volume da extensão desligado"
+  },
+  "osdVolumePending": {
+    "message": "Volume da extensão $1% · clique na página para aplicar"
+  },
+  "volumePendingNote": {
+    "message": "O volume da extensão desta guia é $1%. Clique uma vez na página para aplicá-lo à nova mídia."
   }
 }

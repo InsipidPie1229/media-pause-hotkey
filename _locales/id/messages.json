@@ -238,5 +238,11 @@
   },
   "osdExtVolumeOff": {
     "message": "Volume ekstensi mati"
+  },
+  "osdVolumePending": {
+    "message": "Volume ekstensi $1% · klik halaman untuk menerapkan"
+  },
+  "volumePendingNote": {
+    "message": "Volume ekstensi tab ini $1%. Klik halaman sekali untuk menerapkannya ke media baru."
   }
 }

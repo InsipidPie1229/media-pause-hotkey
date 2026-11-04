@@ -238,5 +238,11 @@
   },
   "osdExtVolumeOff": {
     "message": "Âm lượng tiện ích đã tắt"
+  },
+  "osdVolumePending": {
+    "message": "Âm lượng tiện ích $1% · nhấp vào trang để áp dụng"
+  },
+  "volumePendingNote": {
+    "message": "Âm lượng tiện ích của thẻ này là $1%. Nhấp vào trang một lần để áp dụng cho nội dung mới."
   }
 }

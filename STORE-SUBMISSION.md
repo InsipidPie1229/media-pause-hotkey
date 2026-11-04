@@ -21,9 +21,11 @@ The extension UI and listing assets are prepared for 17 Chrome locales. Add each
 
 ## Upload and review
 
-Upload `MediaPauseHotkey-WebStore-1.3.2.zip` through the item's Package section. The ZIP has `manifest.json` at its root. In the Store listing section, add the locales you plan to publish and copy the corresponding listing data and screenshot. Review Package, Store listing, Privacy, and Distribution before submission. Public release remains subject to Google review.
+Upload `MediaPauseHotkey-WebStore-1.4.0.zip` through the item's Package section. The ZIP has `manifest.json` at its root. In the Store listing section, add the locales you plan to publish and copy the corresponding listing data and screenshot. Review Package, Store listing, Privacy, and Distribution before submission. Public release remains subject to Google review.
 
 Version 1.0.4 adds local, user-copyable diagnostics (last 200 records, no titles or URLs). Update the hosted privacy policy from `privacy.html` before submitting. The package is prepared; Web Store submission has not been performed for this release. Normal-profile installation/duplicate checks and OS global-key testing remain manual.
+
+1.4.0 makes the extension volume per tab (remembered for new media, new pages and same-tab frames in that tab; session storage only, cleared on tab close or option change) and applies the popup slider while dragging. No new permissions; privacy text unchanged (no data leaves the browser).
 
 1.3.2 resumes a sole cold-start paused media (paused before install/browser start) with the shortcut; no new permissions. Reviewed by OpenClaw (b301904).
 

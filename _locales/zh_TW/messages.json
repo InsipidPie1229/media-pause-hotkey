@@ -238,5 +238,11 @@
   },
   "osdExtVolumeOff": {
     "message": "擴展音量已關閉"
+  },
+  "osdVolumePending": {
+    "message": "擴充功能音量 $1% · 點擊頁面後生效"
+  },
+  "volumePendingNote": {
+    "message": "此分頁的擴充功能音量為 $1%。點擊一次頁面即可套用到新媒體。"
   }
 }

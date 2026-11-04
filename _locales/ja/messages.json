@@ -238,5 +238,11 @@
   },
   "osdExtVolumeOff": {
     "message": "拡張機能の音量はオフ"
+  },
+  "osdVolumePending": {
+    "message": "拡張機能の音量 $1% · ページをクリックすると適用"
+  },
+  "volumePendingNote": {
+    "message": "このタブの拡張機能の音量は $1% です。新しいメディアに適用するには、ページを一度クリックしてください。"
   }
 }

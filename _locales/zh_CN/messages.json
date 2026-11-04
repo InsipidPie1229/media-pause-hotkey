@@ -238,5 +238,11 @@
   },
   "osdExtVolumeOff": {
     "message": "扩展音量已关闭"
+  },
+  "osdVolumePending": {
+    "message": "扩展音量 $1% · 点击页面后生效"
+  },
+  "volumePendingNote": {
+    "message": "此标签页的扩展音量为 $1%。点击一次页面即可应用到新媒体。"
   }
 }

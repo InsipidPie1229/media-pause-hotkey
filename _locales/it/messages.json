@@ -238,5 +238,11 @@
   },
   "osdExtVolumeOff": {
     "message": "Volume dell'estensione disattivato"
+  },
+  "osdVolumePending": {
+    "message": "Volume dell'estensione $1% · fai clic sulla pagina per applicarlo"
+  },
+  "volumePendingNote": {
+    "message": "Il volume dell'estensione di questa scheda è $1%. Fai clic una volta sulla pagina per applicarlo ai nuovi contenuti."
   }
 }

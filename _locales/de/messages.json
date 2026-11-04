@@ -238,5 +238,11 @@
   },
   "osdExtVolumeOff": {
     "message": "Erweiterungslautstärke aus"
+  },
+  "osdVolumePending": {
+    "message": "Erweiterungslautstärke $1 % · zum Anwenden auf die Seite klicken"
+  },
+  "volumePendingNote": {
+    "message": "Die Erweiterungslautstärke dieses Tabs ist $1 %. Klicke einmal auf die Seite, um sie auf neue Medien anzuwenden."
   }
 }
