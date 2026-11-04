@@ -255,8 +255,8 @@ function restrictedPage(url) {
   try {
     const { hostname, pathname } = new URL(url || "");
     return hostname === "chromewebstore.google.com" ||
-      hostname === "chrome.google.com" && pathname.startsWith("/webstore") ||
-      /^www\.google\.[a-z.]+$/.test(hostname) && pathname.startsWith("/_/chrome/newtab");
+      hostname === "chrome.google.com" && (pathname === "/webstore" || pathname.startsWith("/webstore/")) ||
+      hostname === "www.google.com" && pathname === "/_/chrome/newtab";
   } catch { return false; }
 }
 
