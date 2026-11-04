@@ -87,6 +87,12 @@ function showBoostNote(levels, tabVolume) {
     elements.boostNote.hidden = false;
     return;
   }
+  // The slider shows the remembered level; say so when items differ or were refused.
+  if (tabVolume && (levels?.volumeMixed || tabVolume.refused > 0)) {
+    elements.boostNote.textContent = t("tabVolumeMixedNote", String(Math.round(tabVolume.value * 100)));
+    elements.boostNote.hidden = false;
+    return;
+  }
   if (levels?.boostLimited) key = "boostLimitedNote";
   else if (levels?.boosted) key = "boostActiveNote";
   else if (!boostEnabled && boostOffPaths > 0) key = "boostOffNote";

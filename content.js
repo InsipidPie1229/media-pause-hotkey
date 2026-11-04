@@ -39,6 +39,7 @@
       meta.sourceVersion++;
       meta.lastStartedAt = 0;
       meta.observedPaused = null;
+      meta.volumeRefused = "";
     }
     return meta;
   }
@@ -83,6 +84,8 @@
       boostLimited: boost.graphs.has(media) && !sourceAllowsBoost(media).ok,
       tabLevelRevision: boost.tabLevel?.revision || 0,
       volumePending: boost.pending,
+      // The tab level could not be applied to this item (CORS, context, page-owned audio).
+      volumeRefused: Boolean(meta.volumeRefused),
       transitioned,
       origin,
     };
@@ -359,7 +362,11 @@
     return Number.isInteger(generation) && generation >= (boost.minGeneration || 0);
   }
 
-  async function connectGraph(media, item, generation) {
+  function revisionCurrent(revision) {
+    return revision === null || boost.tabLevel?.revision === revision;
+  }
+
+  async function connectGraph(media, item, generation, revision = null) {
     // Checked for new and already connected elements alike: the current source
     // may have changed since the graph was created.
     const allowed = sourceAllowsBoost(media);
@@ -367,6 +374,7 @@
     if (boost.graphs.has(media)) {
       if (!boost.context || !await ensureRunning()) return { ok: false, code: "boost-refused-context" };
       if (!boostAuthorized(generation)) return { ok: false, code: "boost-reset-superseded" };
+      if (!revisionCurrent(revision)) return { ok: false, code: "volume-revision-superseded" };
       if (!matches(media, item)) return { ok: false, code: "media-invalid" };
       if (!sourceAllowsBoost(media).ok) return { ok: false, code: "boost-refused-cors" };
       return { ok: true };
@@ -375,9 +383,10 @@
     try {
       if (!boost.context || boost.context.state === "closed") boost.context = new AudioContext();
       if (!await ensureRunning()) return { ok: false, code: "boost-refused-context" };
-      // Re-check after the await: boost may have been turned off or the page
-      // may have swapped the source meanwhile.
+      // Re-check after the await: boost may have been turned off, the tab level
+      // replaced, or the page may have swapped the source meanwhile.
       if (!boostAuthorized(generation)) return { ok: false, code: "boost-reset-superseded" };
+      if (!revisionCurrent(revision)) return { ok: false, code: "volume-revision-superseded" };
       if (!matches(media, item)) return { ok: false, code: "media-invalid" };
       if (!sourceAllowsBoost(media).ok) return { ok: false, code: "boost-refused-cors" };
       const source = boost.context.createMediaElementSource(media);
@@ -406,11 +415,11 @@
       boost.graphs.get(media).gain.gain.value = 1;
       return "";
     }
-    const connected = await connectGraph(media, item, generation);
+    const connected = await connectGraph(media, item, generation, revision);
     // A refused request keeps the current level untouched.
     if (!connected.ok) return connected.code;
     if (!boostAuthorized(generation)) return "boost-reset-superseded";
-    if (revision !== null && boost.tabLevel?.revision !== revision) return "volume-revision-superseded";
+    if (!revisionCurrent(revision)) return "volume-revision-superseded";
     if (!matches(media, item)) return "media-invalid";
     boost.graphs.get(media).gain.gain.value = target;
     boost.appliedGeneration = Math.max(boost.appliedGeneration || 0, generation);
@@ -443,7 +452,7 @@
     const failures = [];
     if (!level) return { adjusted, failures };
     let needsActivation = false;
-    for (const media of only ? [only] : [...mediaById.values()]) {
+    for (const media of only ? [only].flat() : [...mediaById.values()]) {
       if (!media.isConnected) continue;
       const connected = boost.graphs.has(media);
       if (!connected && (level.value === 1 || media.paused || media.ended)) continue;
@@ -464,7 +473,11 @@
       if (code) {
         failures.push({ mediaId: meta.id, code });
         if (code === "boost-refused-activation") needsActivation = true;
-      } else adjusted.push(levelResult(media));
+        else meta.volumeRefused = code;
+      } else {
+        meta.volumeRefused = "";
+        adjusted.push(levelResult(media));
+      }
     }
     if (boost.tabLevel === level) {
       if (needsActivation) boost.pending = true;
@@ -484,20 +497,53 @@
     controlQueue = controlQueue.then(run, run);
   }
 
-  // A pending level is retried once the page has received a click or key press.
-  function onActivation() {
-    if (boost.pending) queueTabLevel();
+  // A pending level is retried once per real click or key press: the pending flag
+  // is consumed first and the same tab level must still be current when it runs.
+  function onActivation(event) {
+    if (!event.isTrusted || !boost.pending || !currentTabLevel()) return;
+    const revision = boost.tabLevel.revision;
+    boost.pending = false;
+    const run = async () => {
+      if (boost.tabLevel?.revision !== revision) return;
+      const result = await applyTabLevel();
+      if (result.adjusted.length || result.failures.length) for (const item of mediaById.values()) report(item, "tab-level");
+    };
+    controlQueue = controlQueue.then(run, run);
   }
 
   // TAB_VOLUME carries the level the service worker remembers for this tab.
   // An older revision never replaces a newer one; the same revision is re-applied.
+  // A user command (message.user) pins the items the popup or shortcut acted on: if
+  // any of them was replaced or changed source, nothing is installed. If every item
+  // it tried was refused for good (not just waiting for a click), the previous level
+  // stays in place.
   async function receiveTabLevel(message) {
     const value = Math.round(clamp(Number(message.value), 0, EXTENSION_VOLUME_MAX) * 100) / 100;
     if (!Number.isFinite(value) || !Number.isInteger(message.revision) || !boostAuthorized(message.generation))
       return { adjusted: [], failures: [], code: "boost-reset-superseded", ...snapshot() };
     if (message.revision < (boost.tabLevel?.revision || 0))
       return { adjusted: [], failures: [], code: "volume-revision-superseded", ...snapshot() };
+    snapshot();
+    if (Array.isArray(message.pins) && message.pins.some((item) => !matches(mediaById.get(item?.mediaId), item)))
+      return { adjusted: [], failures: [], code: "media-invalid", ...snapshot() };
+    const previous = boost.tabLevel;
+    const previousPending = boost.pending;
     boost.tabLevel = { value, revision: message.revision, generation: message.generation };
+    // The pinned items decide first; other media in the document follows only if they accepted.
+    const pinned = message.user === true && Array.isArray(message.pins) ? message.pins.map((item) => mediaById.get(item.mediaId)) : [];
+    if (pinned.length) {
+      const first = await applyTabLevel(pinned);
+      if (first.superseded) return { ...first, failed: first.failures.length, ...snapshot() };
+      const lasting = first.failures.filter((item) => item.code !== "boost-refused-activation");
+      if (!first.adjusted.length && lasting.length && lasting.length === first.failures.length &&
+          boost.tabLevel?.revision === message.revision) {
+        boost.tabLevel = previous;
+        boost.pending = previousPending;
+        // A pinned item replaced while the context started counts as a changed target.
+        const code = first.failures.some((item) => item.code === "media-invalid") ? "media-invalid" : "tab-volume-refused";
+        return { ...first, failed: first.failures.length, code, ...snapshot() };
+      }
+    }
     const result = await applyTabLevel();
     return { ...result, failed: result.failures.length, ...snapshot() };
   }

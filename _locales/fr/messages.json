@@ -244,5 +244,8 @@
   },
   "volumePendingNote": {
     "message": "Le volume de l'extension pour cet onglet est de $1 %. Cliquez une fois sur la page pour l'appliquer au nouveau média."
+  },
+  "tabVolumeMixedNote": {
+    "message": "Cet onglet est réglé sur $1 %, mais certains médias sont à un autre niveau ou n'ont pas pu être ajustés."
   }
 }

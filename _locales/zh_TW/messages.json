@@ -244,5 +244,8 @@
   },
   "volumePendingNote": {
     "message": "此分頁的擴充功能音量為 $1%。點擊一次頁面即可套用到新媒體。"
+  },
+  "tabVolumeMixedNote": {
+    "message": "此分頁設定為 $1%，但部分媒體的音量不同或無法調整。"
   }
 }

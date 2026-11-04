@@ -244,5 +244,8 @@
   },
   "volumePendingNote": {
     "message": "此标签页的扩展音量为 $1%。点击一次页面即可应用到新媒体。"
+  },
+  "tabVolumeMixedNote": {
+    "message": "此标签页设置为 $1%，但部分媒体的音量不同或无法调整。"
   }
 }

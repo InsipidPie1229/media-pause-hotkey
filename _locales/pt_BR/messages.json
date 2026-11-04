@@ -244,5 +244,8 @@
   },
   "volumePendingNote": {
     "message": "O volume da extensão desta guia é $1%. Clique uma vez na página para aplicá-lo à nova mídia."
+  },
+  "tabVolumeMixedNote": {
+    "message": "Esta guia está em $1%, mas algumas mídias estão em outro nível ou não puderam ser ajustadas."
   }
 }

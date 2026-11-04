@@ -244,5 +244,8 @@
   },
   "volumePendingNote": {
     "message": "Il volume dell'estensione di questa scheda è $1%. Fai clic una volta sulla pagina per applicarlo ai nuovi contenuti."
+  },
+  "tabVolumeMixedNote": {
+    "message": "Questa scheda è impostata al $1%, ma alcuni contenuti sono a un livello diverso o non è stato possibile regolarli."
   }
 }

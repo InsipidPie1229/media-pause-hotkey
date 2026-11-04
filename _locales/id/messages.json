@@ -244,5 +244,8 @@
   },
   "volumePendingNote": {
     "message": "Volume ekstensi tab ini $1%. Klik halaman sekali untuk menerapkannya ke media baru."
+  },
+  "tabVolumeMixedNote": {
+    "message": "Tab ini diatur ke $1%, tetapi sebagian media berada di tingkat lain atau tidak dapat disesuaikan."
   }
 }

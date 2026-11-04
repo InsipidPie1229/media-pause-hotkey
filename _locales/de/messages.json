@@ -244,5 +244,8 @@
   },
   "volumePendingNote": {
     "message": "Die Erweiterungslautstärke dieses Tabs ist $1 %. Klicke einmal auf die Seite, um sie auf neue Medien anzuwenden."
+  },
+  "tabVolumeMixedNote": {
+    "message": "Dieser Tab ist auf $1 % eingestellt, aber einige Medien haben eine andere Lautstärke oder ließen sich nicht anpassen."
   }
 }

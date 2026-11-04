@@ -244,5 +244,8 @@
   },
   "volumePendingNote": {
     "message": "Bu sekmenin uzantı ses düzeyi %$1. Yeni medyaya uygulamak için sayfaya bir kez tıklayın."
+  },
+  "tabVolumeMixedNote": {
+    "message": "Bu sekme %$1 olarak ayarlı, ancak bazı medyalar farklı düzeyde veya ayarlanamadı."
   }
 }

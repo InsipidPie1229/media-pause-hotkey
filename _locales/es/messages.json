@@ -244,5 +244,8 @@
   },
   "volumePendingNote": {
     "message": "El volumen de la extensión de esta pestaña es $1%. Haz clic una vez en la página para aplicarlo al nuevo contenido."
+  },
+  "tabVolumeMixedNote": {
+    "message": "Esta pestaña está al $1%, pero algunos medios suenan a otro nivel o no se pudieron ajustar."
   }
 }

@@ -216,7 +216,7 @@ function upsertMedia(state, context, value, title) {
   else if (sameSource && Number.isFinite(previous.playbackRate)) record.playbackRate = previous.playbackRate;
   if (typeof value.muted === "boolean") record.muted = value.muted;
   else if (sameSource && typeof previous.muted === "boolean") record.muted = previous.muted;
-  for (const flag of ["boosted", "boostConnected", "boostLimited", "volumePending"]) {
+  for (const flag of ["boosted", "boostConnected", "boostLimited", "volumePending", "volumeRefused"]) {
     if (typeof value[flag] === "boolean") record[flag] = value[flag];
     else if (sameSource && typeof previous[flag] === "boolean") record[flag] = previous[flag];
   }
@@ -362,8 +362,9 @@ function publicState(state) {
 function tabVolumeView(state, tabId) {
   const entry = state.tabVolumes[tabId];
   if (!entry || !settings.boostEnabled || entry.generation !== settings.generation) return null;
-  return { value: entry.value,
-    pending: Object.values(state.media).some(item => item.tabId === tabId && item.volumePending === true) };
+  const items = Object.values(state.media).filter(item => item.tabId === tabId);
+  return { value: entry.value, pending: items.some(item => item.volumePending === true),
+    refused: items.filter(item => item.volumeRefused === true).length };
 }
 
 // Every document in a tab this worker knows about (observed or with media).
@@ -373,10 +374,11 @@ function tabDocuments(state, tabId) {
     .map(item => [item.documentId, { tabId, documentId: item.documentId, frameId: item.frameId }]));
 }
 
-async function sendTabVolume(context, entry, milliseconds = 8000) {
+// extra: { pins, user } for a user command (see receiveTabLevel in content.js).
+async function sendTabVolume(context, entry, milliseconds = 8000, extra = {}) {
   try {
     const reply = await withTimeout(chrome.tabs.sendMessage(context.tabId,
-      { type: "TAB_VOLUME", value: entry.value, revision: entry.revision, generation: entry.generation },
+      { type: "TAB_VOLUME", value: entry.value, revision: entry.revision, generation: entry.generation, ...extra },
       { documentId: context.documentId }), milliseconds);
     return reply && Array.isArray(reply.media) ? reply : null;
   } catch {
@@ -740,32 +742,54 @@ async function performAdjust(adjust, input = "popup", expectedKey = "", live = f
       const base = previous && previous.generation === settings.generation ? previous.value : 1;
       const value = Math.round(Math.min(5, Math.max(0, adjust.mode === "set" ? adjust.value : base + adjust.value)) * 100) / 100;
       const entry = { value, revision: ++state.volumeRevision, generation: settings.generation };
-      state.tabVolumes[target.tabId] = entry;
-      const selected = new Set(selection.items.map(item => item.documentId));
       // TAB_VOLUME is absolute and carries its revision, so a lost reply is safely resent once.
-      const results = await Promise.all([...tabDocuments(state, target.tabId).values()].map(async (context) => {
-        let result = await sendTabVolume(context, entry);
+      const deliver = async (context, extra = {}) => {
+        let result = await sendTabVolume(context, entry, 8000, extra);
         if (!result) {
-          result = await sendTabVolume(context, entry, 3000);
+          result = await sendTabVolume(context, entry, 3000, extra);
           if (result && !live) diagnose(state, "control", context, { code: "tab-volume-retried", commandId });
         }
         return { context, result };
-      }));
+      };
+      const codeOf = ({ result }) => typeof result?.code === "string" ? result.code : "";
+      const selected = new Set(selection.items.map(item => item.documentId));
+      const documents = [...tabDocuments(state, target.tabId).values()];
+      // Phase 1: the documents the user acted on, pinned to the items that were shown.
+      const first = await Promise.all(documents.filter(context => selected.has(context.documentId)).map(context =>
+        deliver(context, { user: true, pins: selection.items.filter(item => item.documentId === context.documentId)
+          .map(({ mediaId, signature, sourceVersion }) => ({ mediaId, signature, sourceVersion })) })));
+      let results = first;
+      let outcome = "";
+      if (first.some(item => codeOf(item) === "media-invalid")) {
+        // A pinned item was replaced: undo where the level was installed (newer revision).
+        outcome = "errorTargetChanged";
+        const undo = { value: previous ? previous.value : 1, revision: ++state.volumeRevision, generation: settings.generation };
+        await Promise.all(first.filter(item => item.result && !codeOf(item)).map(item => sendTabVolume(item.context, undo, 3000)));
+        if (previous) state.tabVolumes[target.tabId] = { ...previous, revision: undo.revision };
+      } else if (first.length && first.every(item => codeOf(item) === "tab-volume-refused")) {
+        // Every item was refused for good: the previous level stays (pages restored theirs).
+        outcome = "errorBoostRefused";
+      } else {
+        state.tabVolumes[target.tabId] = entry;
+        results = [...first, ...await Promise.all(documents.filter(context => !selected.has(context.documentId))
+          .map(context => deliver(context)))];
+      }
       const adjusted = [];
       const failureCodes = [];
       for (const { context, result } of results) {
         if (!result) continue;
         applyDocumentSnapshot(state, context, result, target.title);
-        adjusted.push(...(result.adjusted || []));
         for (const failure of result.failures || []) {
-          failureCodes.push(failure.code);
           if (!live) diagnose(state, "control", { ...context, mediaId: failure.mediaId }, { code: failure.code, action: "tab-volume", commandId });
+          if (outcome !== "errorTargetChanged") failureCodes.push(failure.code);
         }
+        if (outcome !== "errorTargetChanged") adjusted.push(...(result.adjusted || []));
       }
-      applied = { ...levelsFor(adjusted), total: adjusted.length + failureCodes.length, tabVolume: value };
+      applied = { ...levelsFor(adjusted), total: adjusted.length + failureCodes.length, tabVolume: outcome ? previous?.value ?? null : value };
       const waiting = failureCodes.filter(code => code === "boost-refused-activation").length;
       const refused = failureCodes.length - waiting;
       if (results.some(({ context, result }) => !result && selected.has(context.documentId))) state.error = "errorPageConnection";
+      else if (outcome) state.error = outcome;
       else if (refused && !adjusted.length) state.error = failureCodes.every(code => String(code).startsWith("boost-refused")) ? "errorBoostRefused" : "errorControl";
       else if (refused) {
         state.error = "errorAdjustSome";

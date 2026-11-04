@@ -244,5 +244,8 @@
   },
   "volumePendingNote": {
     "message": "This tab's extension volume is $1%. Click the page once to apply it to new media."
+  },
+  "tabVolumeMixedNote": {
+    "message": "This tab is set to $1%, but some media plays at a different level or could not be adjusted."
   }
 }
