@@ -21,11 +21,13 @@ The extension UI and listing assets are prepared for 17 Chrome locales. Add each
 
 ## Upload and review
 
-Upload `MediaPauseHotkey-WebStore-1.3.1.zip` through the item's Package section. The ZIP has `manifest.json` at its root. In the Store listing section, add the locales you plan to publish and copy the corresponding listing data and screenshot. Review Package, Store listing, Privacy, and Distribution before submission. Public release remains subject to Google review.
+Upload `MediaPauseHotkey-WebStore-1.3.2.zip` through the item's Package section. The ZIP has `manifest.json` at its root. In the Store listing section, add the locales you plan to publish and copy the corresponding listing data and screenshot. Review Package, Store listing, Privacy, and Distribution before submission. Public release remains subject to Google review.
 
 Version 1.0.4 adds local, user-copyable diagnostics (last 200 records, no titles or URLs). Update the hosted privacy policy from `privacy.html` before submitting. The package is prepared; Web Store submission has not been performed for this release. Normal-profile installation/duplicate checks and OS global-key testing remain manual.
 
-1.3.1 (local, not submitted) changes the suggested global pause/resume key to Ctrl+Shift+1 / Command+Shift+1.
+1.3.2 resumes a sole cold-start paused media (paused before install/browser start) with the shortcut; no new permissions. Reviewed by OpenClaw (b301904).
+
+1.3.1 (submitted 2026-11-03, reviewed) changes the suggested global pause/resume key to Ctrl+Shift+1 / Command+Shift+1.
 
 1.3.0 (local, not submitted) replaces the boost with an opt-in extension volume (0–500% gain layer; the site's own volume is never changed). Same `storage.local` preference, no new permissions.
 

@@ -29,6 +29,7 @@ The same page also lists five optional shortcuts (extension volume up/down 10%, 
 
 - A tab becomes the control target when its video or audio actually starts playing. Starting media in another tab changes the target.
 - The shortcut pauses all standard `<audio>` and `<video>` elements playing in that tab, including accessible frames. Resume restores the media paused by this extension. If no such media remains, it resumes the most recently played eligible element in that tab, even if paused using the site or a media key. Unplayed elements and older manually paused siblings remain stopped.
+- Since 1.3.2, media that was already paused before the extension was installed or Chrome started can also be resumed, but only when nothing in any tab has been seen playing and exactly one paused element is currently unmuted, has volume above 0 and has played ranges (seeking alone does not count). If an ordinary page could not be scanned, nothing is resumed this way. This rule cannot tell whether that element is the one you meant (for example, a single unmuted preview).
 - Web Audio-only players, Chrome internal pages, and inaccessible frames are outside the supported scope.
 - A website may reject resuming under its autoplay policy; the popup reports failures.
 - The page title and media state are stored only in Chrome's session storage. No data is sent to an external server.
