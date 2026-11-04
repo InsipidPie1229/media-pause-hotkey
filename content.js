@@ -1,5 +1,5 @@
 (() => {
-  const CONTROLLER_VERSION = "1.3.0";
+  const CONTROLLER_VERSION = "1.3.2";
   const oldController = globalThis.__mediaShortcutController;
   if (oldController?.version === CONTROLLER_VERSION) return oldController.snapshot();
   oldController?.dispose();
@@ -63,6 +63,9 @@
       playing: media.isConnected && !media.paused && !media.ended && !media.error,
       ended: media.ended,
       hasError: Boolean(media.error),
+      // A paused element with playback progress (e.g. a video restored or
+      // paused before the extension started). Only used for a sole candidate.
+      progressed: media.currentTime > 0 && !media.ended && !media.error,
       lastStartedAt: meta.lastStartedAt,
       playbackVersion: meta.playbackVersion,
       // Extension volume is a gain layer on top of the site's own volume.

@@ -195,7 +195,7 @@ function upsertMedia(state, context, value, title) {
     forgetPause(state, context, value.mediaId, !sameSource ? "source-change" : "playback-change");
   state.media[key] = {
     ...context, mediaId: value.mediaId, signature, sourceVersion, playing,
-    ended: Boolean(value.ended), hasError: Boolean(value.hasError),
+    ended: Boolean(value.ended), hasError: Boolean(value.hasError), progressed: Boolean(value.progressed),
     observedPlaying: playing || Boolean(sameSource && (previous.observedPlaying || previous.playing || previous.playingAt > 0)),
     title: String(title || t("targetEmpty")).slice(0, 160),
     playingAt, playbackVersion, lastSeen: now,
@@ -241,6 +241,11 @@ function applyDocumentSnapshot(state, context, snapshot, title) {
   for (const value of snapshot.media) upsertMedia(state, context, value, title || snapshot.title);
 }
 
+function unseenPausedCandidates(state) {
+  return Object.values(state.media).filter(item => !item.playing && !item.ended && !item.hasError &&
+    item.progressed && !item.observedPlaying);
+}
+
 function playingInTab(state, tabId) {
   return Object.values(state.media).filter((item) => item.tabId === tabId && item.playing);
 }
@@ -257,7 +262,15 @@ function resumeSelection(state, tabId) {
   const candidates = Object.values(state.media).filter(item => item.tabId === tabId &&
     !item.playing && !item.ended && !item.hasError && item.observedPlaying &&
     item.playingAt >= (state.latestTarget?.playedAt || 0)).sort((a, b) => b.playingAt - a.playingAt);
-  if (!candidates.length) return { items: [], reason: "no-confirmed-resume-target" };
+  if (!candidates.length) {
+    // Nothing was seen playing (e.g. the video was paused before install or
+    // browser start): resume only when exactly one progressed media is paused.
+    const sole = unseenPausedCandidates(state).filter(item => item.tabId === tabId);
+    if (sole.length === 1 && unseenPausedCandidates(state).length === 1 &&
+        !Object.values(state.media).some(item => item.tabId === tabId && item.observedPlaying))
+      return { items: [sole[0]], reason: "single-paused-media" };
+    return { items: [], reason: "no-confirmed-resume-target" };
+  }
   if (candidates.length > 1 && candidates[0].playingAt === candidates[1].playingAt)
     return { items: [], reason: "ambiguous-resume-target" };
   return { items: [candidates[0]], reason: "recent-media-paused" };
@@ -418,6 +431,13 @@ async function refreshMediaState(state) {
       diagnose(state, "target", item, { reason: confirmed ? "confirmed-history" : "single-playing-tab" });
     } else if (tabCount > 1) {
       state.error = "errorAmbiguousTarget";
+    } else if (!playing.length && !Object.values(state.media).some(item => item.observedPlaying)) {
+      const paused = unseenPausedCandidates(state).filter(item => !failedTabs.has(item.tabId));
+      if (paused.length === 1) {
+        const item = paused[0];
+        state.latestTarget = { tabId: item.tabId, title: item.title, playedAt: 0, touchedAt: Date.now() };
+        diagnose(state, "target", item, { reason: "single-paused-media" });
+      }
     }
   }
   if (state.latestTarget && !failedTabs.has(state.latestTarget.tabId) && state.error === "errorPageConnection") state.error = "";
