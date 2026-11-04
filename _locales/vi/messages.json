@@ -247,5 +247,8 @@
   },
   "tabVolumeMixedNote": {
     "message": "Thẻ này được đặt ở $1%, nhưng một số nội dung ở mức khác hoặc không thể điều chỉnh."
+  },
+  "volumeUndoUnconfirmedNote": {
+    "message": "Không thể xác nhận việc đưa thẻ này về $1% ở một số khung trang. Sẽ thử lại khi chúng phản hồi."
   }
 }

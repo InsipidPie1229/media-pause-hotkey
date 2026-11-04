@@ -247,5 +247,8 @@
   },
   "tabVolumeMixedNote": {
     "message": "此标签页设置为 $1%，但部分媒体的音量不同或无法调整。"
+  },
+  "volumeUndoUnconfirmedNote": {
+    "message": "部分页面框架未能确认此标签页已恢复为 $1%。它们响应后会重试。"
   }
 }

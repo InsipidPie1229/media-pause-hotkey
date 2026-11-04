@@ -247,5 +247,8 @@
   },
   "tabVolumeMixedNote": {
     "message": "Tab ini diatur ke $1%, tetapi sebagian media berada di tingkat lain atau tidak dapat disesuaikan."
+  },
+  "volumeUndoUnconfirmedNote": {
+    "message": "Pengembalian tab ini ke $1% tidak dapat dikonfirmasi di beberapa bingkai halaman. Akan dicoba lagi saat merespons."
   }
 }

@@ -247,5 +247,8 @@
   },
   "tabVolumeMixedNote": {
     "message": "Dieser Tab ist auf $1 % eingestellt, aber einige Medien haben eine andere Lautstärke oder ließen sich nicht anpassen."
+  },
+  "volumeUndoUnconfirmedNote": {
+    "message": "Die Rückkehr dieses Tabs zu $1 % konnte in einigen Seitenframes nicht bestätigt werden. Es wird erneut versucht, sobald sie antworten."
   }
 }

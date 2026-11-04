@@ -247,5 +247,8 @@
   },
   "tabVolumeMixedNote": {
     "message": "이 탭은 $1%로 설정되어 있지만, 일부 미디어는 다른 볼륨이거나 조절하지 못했습니다."
+  },
+  "volumeUndoUnconfirmedNote": {
+    "message": "일부 페이지에서 이 탭 볼륨을 $1%로 되돌린 것을 확인하지 못했습니다. 페이지가 응답하면 다시 시도합니다."
   }
 }

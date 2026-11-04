@@ -247,5 +247,8 @@
   },
   "tabVolumeMixedNote": {
     "message": "Cet onglet est réglé sur $1 %, mais certains médias sont à un autre niveau ou n'ont pas pu être ajustés."
+  },
+  "volumeUndoUnconfirmedNote": {
+    "message": "Le retour de cet onglet à $1 % n'a pas pu être confirmé dans certains cadres de la page. Nouvel essai lorsqu'ils répondront."
   }
 }

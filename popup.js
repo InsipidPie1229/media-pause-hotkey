@@ -82,6 +82,11 @@ function setBoostRange(enabled) {
 
 function showBoostNote(levels, tabVolume) {
   let key = "";
+  if (tabVolume?.unconfirmed > 0) {
+    elements.boostNote.textContent = t("volumeUndoUnconfirmedNote", String(Math.round(tabVolume.value * 100)));
+    elements.boostNote.hidden = false;
+    return;
+  }
   if (tabVolume?.pending) {
     elements.boostNote.textContent = t("volumePendingNote", String(Math.round(tabVolume.value * 100)));
     elements.boostNote.hidden = false;

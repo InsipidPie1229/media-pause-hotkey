@@ -247,5 +247,8 @@
   },
   "tabVolumeMixedNote": {
     "message": "Bu sekme %$1 olarak ayarlı, ancak bazı medyalar farklı düzeyde veya ayarlanamadı."
+  },
+  "volumeUndoUnconfirmedNote": {
+    "message": "Bu sekmenin %$1 düzeyine döndüğü bazı sayfa çerçevelerinde doğrulanamadı. Yanıt verdiklerinde yeniden denenecek."
   }
 }

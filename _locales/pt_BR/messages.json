@@ -247,5 +247,8 @@
   },
   "tabVolumeMixedNote": {
     "message": "Esta guia está em $1%, mas algumas mídias estão em outro nível ou não puderam ser ajustadas."
+  },
+  "volumeUndoUnconfirmedNote": {
+    "message": "Não foi possível confirmar em alguns quadros da página que esta guia voltou a $1%. Será tentado de novo quando responderem."
   }
 }

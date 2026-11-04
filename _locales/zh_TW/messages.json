@@ -247,5 +247,8 @@
   },
   "tabVolumeMixedNote": {
     "message": "此分頁設定為 $1%，但部分媒體的音量不同或無法調整。"
+  },
+  "volumeUndoUnconfirmedNote": {
+    "message": "部分頁面框架未能確認此分頁已恢復為 $1%。它們回應後會重試。"
   }
 }

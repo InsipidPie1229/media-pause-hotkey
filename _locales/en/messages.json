@@ -247,5 +247,8 @@
   },
   "tabVolumeMixedNote": {
     "message": "This tab is set to $1%, but some media plays at a different level or could not be adjusted."
+  },
+  "volumeUndoUnconfirmedNote": {
+    "message": "Returning this tab to $1% could not be confirmed in some page frames. It is retried when they respond."
   }
 }

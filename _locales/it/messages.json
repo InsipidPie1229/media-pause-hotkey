@@ -247,5 +247,8 @@
   },
   "tabVolumeMixedNote": {
     "message": "Questa scheda è impostata al $1%, ma alcuni contenuti sono a un livello diverso o non è stato possibile regolarli."
+  },
+  "volumeUndoUnconfirmedNote": {
+    "message": "Non è stato possibile confermare in alcuni frame della pagina il ritorno di questa scheda al $1%. Verrà ritentato quando risponderanno."
   }
 }

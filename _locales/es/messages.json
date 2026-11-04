@@ -247,5 +247,8 @@
   },
   "tabVolumeMixedNote": {
     "message": "Esta pestaña está al $1%, pero algunos medios suenan a otro nivel o no se pudieron ajustar."
+  },
+  "volumeUndoUnconfirmedNote": {
+    "message": "No se pudo confirmar en algunos marcos de la página que esta pestaña volviera al $1%. Se reintentará cuando respondan."
   }
 }
