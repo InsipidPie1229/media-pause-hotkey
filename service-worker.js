@@ -373,10 +373,19 @@ function tabVolumeView(state, tabId) {
 // An undo that did not reach a document is kept until a reply shows the document at
 // that revision or newer. It is dropped when the document goes away (navigation,
 // tab close), when the option changes, or when a newer level replaced it.
-function settleVolumeUndo(state, context, reply) {
+// Settled only by a full TAB_VOLUME reply: the document holds that revision or newer,
+// nothing failed, and every connected item actually plays at the target level.
+// Receiving the policy (revision) alone is not enough.
+function volumeSettled(reply, revision, value) {
+  return Boolean(reply) && Array.isArray(reply.media) && Number.isInteger(reply.tabLevelRevision) &&
+    reply.tabLevelRevision >= revision && !(reply.failures || []).length &&
+    reply.media.every(item => !item.boostConnected || item.volume === value);
+}
+
+function settleVolumeUndo(state, context, reply, value) {
   const key = documentKey(context);
   const pending = state.volumeUndoPending[key];
-  if (pending && reply && Number.isInteger(reply.tabLevelRevision) && reply.tabLevelRevision >= pending.revision) {
+  if (pending && volumeSettled(reply, pending.revision, value)) {
     delete state.volumeUndoPending[key];
     return true;
   }
@@ -397,7 +406,7 @@ async function retryVolumeUndos(state, onlyKey = "") {
     const reply = await sendTabVolume(pending, entry, 3000);
     if (!reply) continue;
     applyDocumentSnapshot(state, pending, reply);
-    if (settleVolumeUndo(state, pending, reply)) diagnose(state, "control", pending, { code: "tab-volume-undo-retried" });
+    if (settleVolumeUndo(state, pending, reply, entry.value)) diagnose(state, "control", pending, { code: "tab-volume-undo-retried" });
   }
 }
 
@@ -808,17 +817,15 @@ async function performAdjust(adjust, input = "popup", expectedKey = "", live = f
           // that revision, so a document that missed the undo gets it when it next plays.
           const undo = { value: previous ? previous.value : 1, revision: ++state.volumeRevision, generation: settings.generation };
           state.tabVolumes[target.tabId] = previous ? { ...previous, revision: undo.revision } : undo;
+          // Registered before sending; cleared only when the reply proves the gains are back.
+          for (const item of [...accepted, ...lost]) state.volumeUndoPending[documentKey(item.context)] =
+            { ...item.context, revision: undo.revision, generation: undo.generation };
           const undone = await Promise.all([...accepted, ...lost].map(async (item) =>
             ({ context: item.context, result: await sendTabVolume(item.context, undo, 3000) })));
           for (const { context, result } of undone) {
-            const key = documentKey(context);
-            if (result) {
-              applyDocumentSnapshot(state, context, result, target.title);
-              if (result.tabLevelRevision >= undo.revision) delete state.volumeUndoPending[key];
-            } else {
-              state.volumeUndoPending[key] = { ...context, revision: undo.revision, generation: undo.generation };
+            if (result) applyDocumentSnapshot(state, context, result, target.title);
+            if (!settleVolumeUndo(state, context, result, undo.value))
               diagnose(state, "control", context, { code: "tab-volume-undo-unconfirmed", commandId });
-            }
           }
         }
       } else {
@@ -831,7 +838,7 @@ async function performAdjust(adjust, input = "popup", expectedKey = "", live = f
       for (const { context, result } of results) {
         if (!result) continue;
         applyDocumentSnapshot(state, context, result, target.title);
-        settleVolumeUndo(state, context, result);
+        if (!outcome) settleVolumeUndo(state, context, result, entry.value);
         for (const failure of result.failures || []) {
           if (!live) diagnose(state, "control", { ...context, mediaId: failure.mediaId }, { code: failure.code, action: "tab-volume", commandId });
           if (outcome !== "errorTargetChanged") failureCodes.push(failure.code);
@@ -1044,9 +1051,8 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     setConnection(state, context, "connected");
     upsertMedia(state, context, message, sender.tab.title || message.title);
     if (state.boostResetPending[documentKey(context)]) await retryPendingBoostResets(state);
-    if (state.volumeUndoPending[documentKey(context)]) {
-      if (!settleVolumeUndo(state, context, message)) await retryVolumeUndos(state, documentKey(context));
-    }
+    // Any report from a document with an unconfirmed undo retries it (paused too).
+    if (state.volumeUndoPending[documentKey(context)]) await retryVolumeUndos(state, documentKey(context));
     const entry = state.tabVolumes[context.tabId];
     if (message.playing && settings.boostEnabled && entry && entry.generation === settings.generation &&
         Number.isInteger(message.tabLevelRevision) && message.tabLevelRevision < entry.revision) {
