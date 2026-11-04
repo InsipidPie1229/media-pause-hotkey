@@ -63,9 +63,9 @@
       playing: media.isConnected && !media.paused && !media.ended && !media.error,
       ended: media.ended,
       hasError: Boolean(media.error),
-      // A paused element with playback progress (e.g. a video restored or
-      // paused before the extension started). Only used for a sole candidate.
-      progressed: media.currentTime > 0 && !media.ended && !media.error,
+      // Paused, audible media with real played ranges (seeking alone does not
+      // count; played resets on a new source). Only used for a sole candidate.
+      progressed: media.played.length > 0 && !media.ended && !media.error && !media.muted && media.volume > 0,
       lastStartedAt: meta.lastStartedAt,
       playbackVersion: meta.playbackVersion,
       // Extension volume is a gain layer on top of the site's own volume.

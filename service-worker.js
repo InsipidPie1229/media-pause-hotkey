@@ -56,6 +56,8 @@ function normalizeState(value) {
     } : null,
     lastActivityAt: state.lastActivityAt || Math.max(0, ...Object.values(media).map((item) => item.playingAt || 0)),
     error: state.version >= 2 && typeof state.error === "string" ? state.error : "",
+    // Key of the single cold-start resume candidate chosen by the last full scan.
+    coldCandidate: typeof state.coldCandidate === "string" ? state.coldCandidate : "",
   };
 }
 
@@ -241,9 +243,17 @@ function applyDocumentSnapshot(state, context, snapshot, title) {
   for (const value of snapshot.media) upsertMedia(state, context, value, title || snapshot.title);
 }
 
-function unseenPausedCandidates(state) {
-  return Object.values(state.media).filter(item => !item.playing && !item.ended && !item.hasError &&
-    item.progressed && !item.observedPlaying);
+function coldEligible(item) {
+  return item && !item.playing && !item.ended && !item.hasError && item.progressed && !item.observedPlaying;
+}
+
+// Global rule shared by discovery and resume: nothing anywhere was seen playing,
+// no tab holding known media is unreachable, and exactly one media qualifies.
+function chooseColdCandidate(state, failedTabs) {
+  const records = Object.entries(state.media);
+  if (records.some(([, item]) => item.observedPlaying || item.playing || failedTabs.has(item.tabId))) return "";
+  const eligible = records.filter(([, item]) => coldEligible(item));
+  return eligible.length === 1 ? eligible[0][0] : "";
 }
 
 function playingInTab(state, tabId) {
@@ -263,12 +273,13 @@ function resumeSelection(state, tabId) {
     !item.playing && !item.ended && !item.hasError && item.observedPlaying &&
     item.playingAt >= (state.latestTarget?.playedAt || 0)).sort((a, b) => b.playingAt - a.playingAt);
   if (!candidates.length) {
-    // Nothing was seen playing (e.g. the video was paused before install or
-    // browser start): resume only when exactly one progressed media is paused.
-    const sole = unseenPausedCandidates(state).filter(item => item.tabId === tabId);
-    if (sole.length === 1 && unseenPausedCandidates(state).length === 1 &&
-        !Object.values(state.media).some(item => item.tabId === tabId && item.observedPlaying))
-      return { items: [sole[0]], reason: "single-paused-media" };
+    // Cold start (paused before install or browser start): only the candidate
+    // picked by the last full scan, re-checked against the same global rule.
+    const cold = state.media[state.coldCandidate];
+    if (cold && cold.tabId === tabId && coldEligible(cold) &&
+        !Object.values(state.media).some(item => item.observedPlaying || item.playing) &&
+        Object.values(state.media).filter(coldEligible).length === 1)
+      return { items: [cold], reason: "single-paused-media" };
     return { items: [], reason: "no-confirmed-resume-target" };
   }
   if (candidates.length > 1 && candidates[0].playingAt === candidates[1].playingAt)
@@ -416,6 +427,7 @@ async function refreshMediaState(state) {
       frame.result, tab.title || frame.result.title);
   }
   pruneState(state);
+  state.coldCandidate = chooseColdCandidate(state, failedTabs);
   if (state.latestTarget && !failedTabs.has(state.latestTarget.tabId) &&
       !Object.values(state.media).some((item) => item.tabId === state.latestTarget.tabId)) {
     state.latestTarget = null;
@@ -431,13 +443,10 @@ async function refreshMediaState(state) {
       diagnose(state, "target", item, { reason: confirmed ? "confirmed-history" : "single-playing-tab" });
     } else if (tabCount > 1) {
       state.error = "errorAmbiguousTarget";
-    } else if (!playing.length && !Object.values(state.media).some(item => item.observedPlaying)) {
-      const paused = unseenPausedCandidates(state).filter(item => !failedTabs.has(item.tabId));
-      if (paused.length === 1) {
-        const item = paused[0];
-        state.latestTarget = { tabId: item.tabId, title: item.title, playedAt: 0, touchedAt: Date.now() };
-        diagnose(state, "target", item, { reason: "single-paused-media" });
-      }
+    } else if (state.coldCandidate) {
+      const item = state.media[state.coldCandidate];
+      state.latestTarget = { tabId: item.tabId, title: item.title, playedAt: 0, touchedAt: Date.now() };
+      diagnose(state, "target", item, { reason: "single-paused-media" });
     }
   }
   if (state.latestTarget && !failedTabs.has(state.latestTarget.tabId) && state.error === "errorPageConnection") state.error = "";
