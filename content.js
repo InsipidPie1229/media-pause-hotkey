@@ -446,13 +446,20 @@
   // Applies the tab level to connected media (any level) and to playing media
   // (connected only when the level is not 100%). Paused, unconnected media waits
   // for its next play. Never calls play()/pause() and never touches media.volume.
-  async function applyTabLevel(only = null) {
+  // pins (user commands): Map media -> { mediaId, signature, sourceVersion }; each pinned
+  // item must still be that element and source before and after every await.
+  async function applyTabLevel(only = null, pins = null) {
     const level = currentTabLevel();
     const adjusted = [];
     const failures = [];
     if (!level) return { adjusted, failures };
     let needsActivation = false;
     for (const media of only ? [only].flat() : [...mediaById.values()]) {
+      const pin = pins?.get(media);
+      if (pin && !matches(media, pin)) {
+        failures.push({ mediaId: pin.mediaId, code: "media-invalid" });
+        continue;
+      }
       if (!media.isConnected) continue;
       const connected = boost.graphs.has(media);
       if (!connected && (level.value === 1 || media.paused || media.ended)) continue;
@@ -463,8 +470,8 @@
       const meta = sourceFor(media);
       let code;
       try {
-        code = await setExtensionVolume(media, { mediaId: meta.id, signature: meta.signature, sourceVersion: meta.sourceVersion },
-          level.value, true, level.generation, level.revision);
+        code = await setExtensionVolume(media, pin || { mediaId: meta.id, signature: meta.signature, sourceVersion: meta.sourceVersion },
+            level.value, true, level.generation, level.revision);
       } catch { code = "adjust-rejected"; }
       if (code === "volume-revision-superseded" || code === "boost-reset-superseded") {
         failures.push({ mediaId: meta.id, code });
@@ -530,18 +537,27 @@
     const previousPending = boost.pending;
     boost.tabLevel = { value, revision: message.revision, generation: message.generation };
     // The pinned items decide first; other media in the document follows only if they accepted.
-    const pinned = message.user === true && Array.isArray(message.pins) ? message.pins.map((item) => mediaById.get(item.mediaId)) : [];
+    const pinMap = new Map(message.user === true && Array.isArray(message.pins) ?
+      message.pins.map((item) => [mediaById.get(item.mediaId), item]).filter(([media]) => media) : []);
+    const pinned = [...pinMap.keys()];
     if (pinned.length) {
-      const first = await applyTabLevel(pinned);
+      // Gains before this command, so a failed command can be undone exactly.
+      const before = new Map(pinned.filter(Boolean).map((media) => [media, boost.graphs.has(media) ? gainOf(media) : 1]));
+      const first = await applyTabLevel(pinned, pinMap);
       if (first.superseded) return { ...first, failed: first.failures.length, ...snapshot() };
+      const invalid = first.failures.some((item) => item.code === "media-invalid");
       const lasting = first.failures.filter((item) => item.code !== "boost-refused-activation");
-      if (!first.adjusted.length && lasting.length && lasting.length === first.failures.length &&
-          boost.tabLevel?.revision === message.revision) {
-        boost.tabLevel = previous;
-        boost.pending = previousPending;
-        // A pinned item replaced while the context started counts as a changed target.
-        const code = first.failures.some((item) => item.code === "media-invalid") ? "media-invalid" : "tab-volume-refused";
-        return { ...first, failed: first.failures.length, code, ...snapshot() };
+      // Any pinned item replaced: the whole command ends as a changed target. Every
+      // pinned item refused for good: the command ends as refused. Either way the
+      // previous level and the gains it had are restored here.
+      if (invalid || (!first.adjusted.length && lasting.length && lasting.length === first.failures.length)) {
+        if (boost.tabLevel?.revision === message.revision) {
+          boost.tabLevel = previous;
+          boost.pending = previousPending;
+        }
+        for (const [media, gain] of before) if (boost.graphs.has(media)) boost.graphs.get(media).gain.gain.value = gain;
+        return { adjusted: [], failures: first.failures, failed: first.failures.length,
+          code: invalid ? "media-invalid" : "tab-volume-refused", ...snapshot() };
       }
     }
     const result = await applyTabLevel();

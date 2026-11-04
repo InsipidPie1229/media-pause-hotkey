@@ -760,15 +760,26 @@ async function performAdjust(adjust, input = "popup", expectedKey = "", live = f
           .map(({ mediaId, signature, sourceVersion }) => ({ mediaId, signature, sourceVersion })) })));
       let results = first;
       let outcome = "";
-      if (first.some(item => codeOf(item) === "media-invalid")) {
-        // A pinned item was replaced: undo where the level was installed (newer revision).
-        outcome = "errorTargetChanged";
-        const undo = { value: previous ? previous.value : 1, revision: ++state.volumeRevision, generation: settings.generation };
-        await Promise.all(first.filter(item => item.result && !codeOf(item)).map(item => sendTabVolume(item.context, undo, 3000)));
-        if (previous) state.tabVolumes[target.tabId] = { ...previous, revision: undo.revision };
-      } else if (first.length && first.every(item => codeOf(item) === "tab-volume-refused")) {
-        // Every item was refused for good: the previous level stays (pages restored theirs).
-        outcome = "errorBoostRefused";
+      const accepted = first.filter(item => item.result && !codeOf(item));
+      const lost = first.filter(item => !item.result);
+      const invalid = first.some(item => codeOf(item) === "media-invalid");
+      if (invalid || !accepted.length) {
+        // A pinned item was replaced, or no document confirmed the level: the command
+        // ends here and nothing spreads to other documents.
+        outcome = invalid ? "errorTargetChanged" : lost.length ? "errorPageConnection" : "errorBoostRefused";
+        if (accepted.length || lost.length) {
+          // Undo under a newer revision in every document that may hold the level,
+          // including those whose reply was lost. The worker keeps the previous level at
+          // that revision, so a document that missed the undo gets it when it next plays.
+          const undo = { value: previous ? previous.value : 1, revision: ++state.volumeRevision, generation: settings.generation };
+          state.tabVolumes[target.tabId] = previous ? { ...previous, revision: undo.revision } : undo;
+          const undone = await Promise.all([...accepted, ...lost].map(async (item) =>
+            ({ context: item.context, result: await sendTabVolume(item.context, undo, 3000) })));
+          for (const { context, result } of undone) {
+            if (result) applyDocumentSnapshot(state, context, result, target.title);
+            else diagnose(state, "control", context, { code: "tab-volume-undo-unconfirmed", commandId });
+          }
+        }
       } else {
         state.tabVolumes[target.tabId] = entry;
         results = [...first, ...await Promise.all(documents.filter(context => !selected.has(context.documentId))
@@ -788,8 +799,8 @@ async function performAdjust(adjust, input = "popup", expectedKey = "", live = f
       applied = { ...levelsFor(adjusted), total: adjusted.length + failureCodes.length, tabVolume: outcome ? previous?.value ?? null : value };
       const waiting = failureCodes.filter(code => code === "boost-refused-activation").length;
       const refused = failureCodes.length - waiting;
-      if (results.some(({ context, result }) => !result && selected.has(context.documentId))) state.error = "errorPageConnection";
-      else if (outcome) state.error = outcome;
+      if (outcome) state.error = outcome;
+      else if (results.some(({ context, result }) => !result && selected.has(context.documentId))) state.error = "errorPageConnection";
       else if (refused && !adjusted.length) state.error = failureCodes.every(code => String(code).startsWith("boost-refused")) ? "errorBoostRefused" : "errorControl";
       else if (refused) {
         state.error = "errorAdjustSome";
